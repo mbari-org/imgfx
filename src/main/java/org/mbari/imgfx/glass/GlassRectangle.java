@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
 public class GlassRectangle implements GlassItem {
 
   private final Rectangle r;
-  private final List<Node> shapes;
+  private final List<Node> nodes;
   private final double x;
   private final double y;
   private final double width;
@@ -31,7 +31,7 @@ public class GlassRectangle implements GlassItem {
     r.setStrokeWidth(0);
     r.getStyleClass().add("mbari-bounding-box");
     r.setFill(Paint.valueOf("#FFA50080"));
-    shapes = List.of(r);
+    nodes = List.of(r);
   }
 
 
@@ -42,7 +42,7 @@ public class GlassRectangle implements GlassItem {
 
   @Override
   public List<Node> getNodes() {
-    return shapes;
+    return nodes;
   }
 
   @Override

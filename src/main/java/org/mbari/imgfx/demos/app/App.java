@@ -3,6 +3,7 @@ package org.mbari.imgfx.demos.app;
 import org.mbari.imgfx.GlassImagePaneController;
 import org.mbari.imgfx.glass.GlassRectangle;
 import org.mbari.imgfx.glass.GlassCircle;
+import org.mbari.imgfx.glass.MutableGlassPolygon;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -26,8 +27,6 @@ public class App extends Application {
         var image = new Image(imageUrl.toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
-
-
 
         GlassImagePaneController rip = new GlassImagePaneController(imageView);
         var root = rip.getRoot();
@@ -60,7 +59,8 @@ public class App extends Application {
         var box = new GlassRectangle(20, 20, 20, 20);
         var box1 = new GlassRectangle(30, 30, 40, 20);
         var circle1 = new GlassCircle(50, 100, 8);
-        rip.glassItems().addAll(box, box1, circle1);
+        var polygon1 = new MutableGlassPolygon(new double[]{10d, 10d, 20d, 23d, 17d, 25d, 8d, 8d});
+        rip.glassItems().addAll(box, box1, circle1, polygon1);
         
 
         var scene = new Scene(root, 640, 480);

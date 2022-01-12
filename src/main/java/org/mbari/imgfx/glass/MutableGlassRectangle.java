@@ -51,6 +51,11 @@ public class MutableGlassRectangle implements GlassItem {
     yProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
     widthProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
     heightProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
+    new RectangleDragHandler(this);
+  }
+
+  public ImageViewExt getImageViewExt() {
+    return imageViewExt;
   }
 
 
