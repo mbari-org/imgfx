@@ -29,7 +29,6 @@ public class App extends Application {
         imageView.setPreserveRatio(true);
 
 
-
         GlassImagePaneController rip = new GlassImagePaneController(imageView);
         var root = rip.getRoot();
 
@@ -58,14 +57,14 @@ public class App extends Application {
         });
         rip.getRoot().getChildren().add(text);
 
-        var box = new GlassBoundingBox(20, 20, 20, 20, rip.getImageViewExt());
+        var box = new GlassBoundingBox(20, 20, 20, 20, rip);
         box.setColor(Color.ORANGE);
-        var box1 = new GlassBoundingBox(30, 30, 40, 20, rip.getImageViewExt());
+        var box1 = new GlassBoundingBox(30, 30, 40, 20, rip);
         box1.setColor(Color.BLUE);
         rip.glassItems().addAll(box);
 
         rip.getRoot().getChildren().addAll(box1.getNodes());
-        // box1.toFront();
+        
 
 
         var scene = new Scene(root, 640, 480);

@@ -1,12 +1,20 @@
 package org.mbari.imgfx.glass;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import org.mbari.imgfx.GlassImagePaneController;
 import org.mbari.imgfx.ImageViewExt;
 import org.mbari.imgfx.controls.BoundingBox;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -26,69 +34,54 @@ import javafx.scene.paint.Color;
 
 public class GlassBoundingBox implements GlassItem {
 
+  // x, y, width and height are in image coordinates
+  private DoubleProperty xProperty = new SimpleDoubleProperty(0);
+  private DoubleProperty yProperty = new SimpleDoubleProperty(0);
+  private DoubleProperty widthProperty = new SimpleDoubleProperty(0);
+  private DoubleProperty heightProperty = new SimpleDoubleProperty(0);
+  private BooleanProperty editProperty = new SimpleBooleanProperty(false);
   private UUID uuid = UUID.randomUUID();
-
-  // In image coordinates
-  private double x;
-  private double y;
-  private double width;
-  private double height;
-
-  private final ImageViewExt imageViewExt;
 
   // In parent coordinates
   private final BoundingBox boundingBox;
-  private final MutableGlassRectangle glassRectangle;
 
-  private EventHandler<MouseEvent> enteredEvent = (event) -> handleMouseEnter(event);
+  private final GlassImagePaneController pane;
 
-  private EventHandler<MouseEvent> exitedEvent = (event) -> handleMouseExit(event);;
-
-
-
-  public GlassBoundingBox(ImageViewExt imageViewExt) {
-    this(0, 0, 10, 10, imageViewExt);
+  public GlassBoundingBox(GlassImagePaneController pane) {
+    this(0, 0, 10, 10, pane);
   }
 
-  public GlassBoundingBox(double x, double y, double width, double height, ImageViewExt imageViewExt) {
-    this.imageViewExt = imageViewExt;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    boundingBox = new BoundingBox(x, y, width, height);
-    glassRectangle =  new MutableGlassRectangle(x, y, width, height, imageViewExt);
+  public GlassBoundingBox(double x, double y, double width, double height, GlassImagePaneController pane) {
+    xProperty.set(x);
+    yProperty.set(y);
+    widthProperty.set(width);
+    heightProperty.set(height);
+    this.pane = pane;
+    boundingBox = new BoundingBox(0, 0, width, height);
+
     init();
     
-    
-    
-    // r.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> r.toFront());
   }
 
   private void init() {
-    var r = glassRectangle.getRectangle();
-    r.addEventHandler(MouseEvent.MOUSE_ENTERED, enteredEvent);
-    r.addEventHandler(MouseEvent.MOUSE_EXITED, exitedEvent);
+    var imageViewExt = pane.getImageViewExt();
+    xProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
+    yProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
+    widthProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
+    heightProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
   }
 
-  private void handleMouseEnter(MouseEvent event) {
-    glassRectangle.getRectangle().setVisible(false);
-    // 
-  }
 
-  private void handleMouseExit(MouseEvent event) {
-
-  }
-
-  private void recalculateImageCoords() {
-    System.out.println("" + boundingBox.getBoundingBoxRectangle());
-    var r = boundingBox.getBoundingBoxRectangle();
-
-  }
 
   @Override
   public void doLayout(ImageViewExt ext) {
+    var layout = ext.imageToParent(new Point2D(xProperty.get(), yProperty.get()));
     var r = boundingBox.getBoundingBoxRectangle();
+    r.setWidth(widthProperty.get() * ext.getScaleX());
+    r.setHeight(heightProperty.get() * ext.getScaleY());
+    r.setLayoutX(layout.getX());
+    r.setLayoutY(layout.getY());
+
   }
 
   @Override
@@ -117,6 +110,107 @@ public class GlassBoundingBox implements GlassItem {
   }
 
   
+  public static Optional<GlassBoundingBox> clip(double x, double y, double width, double height, GlassImagePaneController pane) {
+    var imageViewExt = pane.getImageViewExt();
+    var image = imageViewExt.getImageView().getImage();
+    var w = image.getWidth();
+    var h = image.getHeight();
+    
+    if (x >= w || y >= h) {
+      return Optional.empty();
+    }
+
+    if (x < 0) {
+      width = width + x;
+    }
+
+    if (y < 0) {
+      height = height + y;
+    }
+    
+    var xx = Math.min(Math.max(0D, x), w - 1);
+    var yy = Math.min(Math.max(0D, y), h - 1);
+
+
+    var ww = Math.min(Math.max(1, width), w - xx);
+    var hh = Math.min(Math.max(1, height), h - yy);
+
+    var msg = String.format("Before: [%.1f %.1f %.1f %.1f], After: [%.1f %.1f %.1f %.1f]", x, y, width, height, xx, yy, ww, hh);
+    System.out.println(msg);
+    var gr = new GlassBoundingBox(xx, yy, ww, hh, pane);
+    return Optional.of(gr);
+
+  }
+
+  public double getX() {
+    return xProperty.get();
+  }
+
+
+  public void setX(double x) {
+    xProperty.set(x);
+  }
+
+
+  public DoubleProperty xProperty() {
+    return xProperty;
+  }
+
+
+  public double getY() {
+    return yProperty.get();
+  }
+
+
+  public void setY(double y) {
+    yProperty.set(y);
+  }
+
+  public DoubleProperty yProperty() {
+    return yProperty;
+  }
+
+  public double getWidth() {
+    return widthProperty.get();
+  }
+
+
+  public void setWidth(double width) {
+    widthProperty.set(width);
+  }
+
+  public DoubleProperty widthProperty() {
+    return widthProperty;
+  }
+
+
+  public double getHeight() {
+    return heightProperty.get();
+  }
+
+
+  public void setHeight(double height) {
+    heightProperty.set(height);
+  }
+
+  public DoubleProperty heightProperty() {
+    return heightProperty;
+  }
+
+  public boolean getEdit() {
+    return editProperty.get();
+  }
+
+  public void setEdit(boolean edit) {
+    editProperty.set(edit);
+  }
+
+  public BooleanProperty editProperty() {
+    return editProperty;
+  }
+
+  
+
   
 
 

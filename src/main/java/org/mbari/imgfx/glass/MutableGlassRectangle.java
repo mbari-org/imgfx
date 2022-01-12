@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.mbari.imgfx.ImageViewExt;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -15,10 +17,11 @@ public class MutableGlassRectangle implements GlassItem {
 
   private final Rectangle r;
   private final List<Node> shapes;
-  private double x;
-  private double y;
-  private double width;
-  private double height;
+  private DoubleProperty xProperty = new SimpleDoubleProperty(0);
+  private DoubleProperty yProperty = new SimpleDoubleProperty(0);
+  private DoubleProperty widthProperty = new SimpleDoubleProperty(0);
+  private DoubleProperty heightProperty = new SimpleDoubleProperty(0);
+
   private final ImageViewExt imageViewExt;
   private UUID uuid = UUID.randomUUID();
 
@@ -29,16 +32,25 @@ public class MutableGlassRectangle implements GlassItem {
 
 
   public MutableGlassRectangle(double x, double y, double width, double height, ImageViewExt imageViewExt) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+    xProperty.set(x);
+    yProperty.set(y);
+    widthProperty.set(width);
+    heightProperty.set(height);
     this.imageViewExt = imageViewExt;
     r = new Rectangle(0, 0, width, height);
     r.setStrokeWidth(0);
     r.getStyleClass().add("mbari-bounding-box");
     r.setFill(Paint.valueOf("#FFA50080"));
     shapes = List.of(r);
+    init();
+    doLayout(imageViewExt);
+  }
+
+  private void init() {
+    xProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
+    yProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
+    widthProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
+    heightProperty.addListener((obs, oldv, newv) -> doLayout(imageViewExt));
   }
 
 
@@ -54,16 +66,10 @@ public class MutableGlassRectangle implements GlassItem {
 
   @Override
   public void doLayout(ImageViewExt ext) {
-    var imageBounds = ext.getImageView().getBoundsInParent();
-    // var layoutX = imageBounds.getMinX() + (x * ext.getScaleX());
-    // var layoutY = imageBounds.getMinY() + (y * ext.getScaleY());
-    var layout = ext.imageToParent(new Point2D(x, y));
-    r.setWidth(width * ext.getScaleX());
-    r.setHeight(height * ext.getScaleY());
+    var layout = ext.imageToParent(new Point2D(xProperty.get(), yProperty.get()));
 
-    // DO NOT use scale! The resulting transform moves the image!
-    // r.setScaleX(ext.getScaleX());
-    // r.setScaleY(ext.getScaleY());
+    r.setWidth(widthProperty.get() * ext.getScaleX());
+    r.setHeight(heightProperty.get() * ext.getScaleY());
     r.setLayoutX(layout.getX());
     r.setLayoutY(layout.getY());
 
@@ -88,48 +94,59 @@ public class MutableGlassRectangle implements GlassItem {
   }
 
 
-
   public double getX() {
-    return x;
+    return xProperty.get();
   }
 
 
   public void setX(double x) {
-    this.x = x;
-    doLayout(imageViewExt);
+    xProperty.set(x);
+  }
+
+
+  public DoubleProperty xProperty() {
+    return xProperty;
   }
 
 
   public double getY() {
-    return y;
+    return yProperty.get();
   }
 
 
   public void setY(double y) {
-    this.y = y;
-    doLayout(imageViewExt);
+    yProperty.set(y);
   }
 
+  public DoubleProperty yProperty() {
+    return yProperty;
+  }
 
   public double getWidth() {
-    return width;
+    return widthProperty.get();
   }
 
 
   public void setWidth(double width) {
-    this.width = width;
-    doLayout(imageViewExt);
+    widthProperty.set(width);
+  }
+
+  public DoubleProperty widthProperty() {
+    return widthProperty;
   }
 
 
   public double getHeight() {
-    return height;
+    return heightProperty.get();
   }
 
 
   public void setHeight(double height) {
-    this.height = height;
-    doLayout(imageViewExt);
+    heightProperty.set(height);
+  }
+
+  public DoubleProperty heightProperty() {
+    return heightProperty;
   }
 
 

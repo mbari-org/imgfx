@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BoundingBox {
@@ -18,6 +17,10 @@ public class BoundingBox {
 
     private final Rectangle boundingBoxRectangle;
     private List<Rectangle> controlPoints;
+    private final Rectangle upperLeft;
+    private final Rectangle upperRight;
+    private final Rectangle lowerLeft;
+    private final Rectangle lowerRight;
 
 
     // Drag variables
@@ -52,6 +55,15 @@ public class BoundingBox {
         boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
         boundingBoxRectangle.getStyleClass().add("mbari-bounding-box");
         boundingBoxRectangle.setStrokeWidth(2);
+        upperLeft = buildUpperLeftControlPoint(boundingBoxRectangle);
+        upperRight = buildUpperRightControlPoint(boundingBoxRectangle);
+        lowerLeft = buildLowerLeftControlPoint(boundingBoxRectangle);
+        lowerRight = buildLowerRightControlPoint(boundingBoxRectangle);
+        controlPoints = List.of(upperLeft, upperRight, lowerLeft, lowerRight);
+    }
+
+    private void init() {
+
     }
 
     public void setColor(Color color) {
@@ -75,15 +87,6 @@ public class BoundingBox {
     }
 
     public List<Rectangle> getControlPoints() {
-        if (controlPoints == null) {
-            List<Rectangle> points = new ArrayList<>();
-            Rectangle b = getBoundingBoxRectangle();
-            points.add(buildUpperLeftControlPoint(b));
-            points.add(buildUpperRightControlPoint(b));
-            points.add(buildLowerLeftControlPoint(b));
-            points.add(buildLowerRightControlPoint(b));
-            controlPoints = Collections.unmodifiableList(points);
-         }
         return controlPoints;
     }
 

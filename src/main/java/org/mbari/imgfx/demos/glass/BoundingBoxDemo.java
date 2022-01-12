@@ -1,9 +1,10 @@
-package org.mbari.imgfx.demos.app;
+package org.mbari.imgfx.demos.glass;
 
 import org.mbari.imgfx.GlassImagePaneController;
 import org.mbari.imgfx.controls.CrossHairs;
 import org.mbari.imgfx.controls.SelectionRectangle;
-import org.mbari.imgfx.glass.GlassRectangle;
+import org.mbari.imgfx.glass.GlassBoundingBox;
+import org.mbari.imgfx.glass.MutableGlassRectangle;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -13,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class RectangleDemo extends Application {
+public class BoundingBoxDemo extends Application {
 
 
   @Override
@@ -50,7 +51,7 @@ public class RectangleDemo extends Application {
       var height = r.getHeight() / ext.getScaleX();
 
       System.out.println(imageXY + "");
-      var box = GlassRectangle.clip(imageXY.getX(), imageXY.getY(), width, height, rip.getImageView().getImage());
+      var box = GlassBoundingBox.clip(imageXY.getX(), imageXY.getY(), width, height, rip);
       box.ifPresent(b  -> rip.glassItems().add(b));
 
       

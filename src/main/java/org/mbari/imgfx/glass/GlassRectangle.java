@@ -48,8 +48,6 @@ public class GlassRectangle implements GlassItem {
   @Override
   public void doLayout(ImageViewExt ext) {
     var imageBounds = ext.getImageView().getBoundsInParent();
-    // var layoutX = imageBounds.getMinX() + (x * ext.getScaleX());
-    // var layoutY = imageBounds.getMinY() + (y * ext.getScaleY());
     var layout = ext.imageToParent(new Point2D(x, y));
     r.setWidth(width * ext.getScaleX());
     r.setHeight(height * ext.getScaleY());
