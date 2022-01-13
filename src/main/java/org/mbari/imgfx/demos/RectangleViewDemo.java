@@ -10,11 +10,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.annotation.RectangleViewEditor;
 import org.mbari.imgfx.controls.CrossHairs;
 import org.mbari.imgfx.controls.SelectionRectangle;
-import org.mbari.imgfx.data.RectangleData;
-import org.mbari.imgfx.data.RectangleView;
-import org.mbari.imgfx.old.glass.GlassRectangle;
+import org.mbari.imgfx.annotation.RectangleData;
+import org.mbari.imgfx.annotation.RectangleView;
 
 public class RectangleViewDemo extends Application {
 
@@ -53,9 +53,12 @@ public class RectangleViewDemo extends Application {
             opt.ifPresent(data -> {
                 var view = new RectangleView(data, decorator);
                 var shape = view.getView();
-                shape.setFill(Paint.valueOf("#FFA50080"));
+                shape.setFill(Paint.valueOf("#4FC3F730"));
                 pane.getChildren().add(view.getView());
                 shape.toFront();
+
+                var editor = new RectangleViewEditor(view, pane);
+                view.setEditing(true);
             });
 
 

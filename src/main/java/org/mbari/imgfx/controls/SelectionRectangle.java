@@ -74,10 +74,6 @@ public class SelectionRectangle {
     return rectangle;
   }
 
-  public void setRectangle(Rectangle rectangle) {
-    this.rectangle = rectangle;
-  }
-
   public EventHandler<MouseEvent> getOnCompleteHandler() {
     return onCompleteHandler;
   }

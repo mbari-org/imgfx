@@ -13,4 +13,5 @@ module imgfx {
   exports org.mbari.imgfx.old.bb;
   exports org.mbari.imgfx.old.glass;
   exports org.mbari.imgfx.old;
+    exports org.mbari.imgfx.annotation;
 }

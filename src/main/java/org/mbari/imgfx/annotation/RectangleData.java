@@ -1,16 +1,15 @@
-package org.mbari.imgfx.data;
+package org.mbari.imgfx.annotation;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
-import org.mbari.imgfx.old.glass.GlassRectangle;
 
 import java.util.Optional;
 
 /**
  * Rectangle in image pixel coordinates
  */
-public class RectangleData {
+public class RectangleData implements Data {
 
     private final DoubleProperty x = new SimpleDoubleProperty();
     private final DoubleProperty y = new SimpleDoubleProperty();
@@ -76,6 +75,15 @@ public class RectangleData {
         this.height.set(height);
     }
 
+    /**
+     * Clip image coordinates to be within image bounds
+     * @param x in pixels
+     * @param y in pixels
+     * @param width in pixels
+     * @param height in pixels
+     * @param image THe image
+     * @return A Optional of a rectangle that falls within the bounds of the image. Empty otherwise.
+     */
     public static Optional<RectangleData> clip(double x, double y, double width, double height, Image image) {
         var w = image.getWidth();
         var h = image.getHeight();
