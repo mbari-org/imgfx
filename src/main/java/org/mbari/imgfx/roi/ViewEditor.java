@@ -1,4 +1,4 @@
-package org.mbari.imgfx.annotation;
+package org.mbari.imgfx.roi;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Color;

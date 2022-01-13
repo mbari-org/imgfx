@@ -2,6 +2,7 @@ package org.mbari.imgfx.annotation;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.mbari.imgfx.roi.Data;
 
 import java.util.UUID;
 

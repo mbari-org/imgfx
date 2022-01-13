@@ -1,4 +1,4 @@
-package org.mbari.imgfx.annotation;
+package org.mbari.imgfx.roi;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -7,7 +7,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.ImageViewDecorator;
 
-public class RectangleView {
+public class RectangleView implements DataView<RectangleData, Rectangle> {
 
     private final RectangleData data;
     private final Rectangle view;
@@ -23,13 +23,7 @@ public class RectangleView {
 
     private void init() {
         updateView();
-        // Dont' edit while resizing. It mucks things up
-        decorator.getImageView()
-                .boundsInParentProperty()
-                .addListener((obs, oldv, newv) -> {
-                    editing.set(false);
-                    updateView();
-                });
+        EditingDecorator.decorate(this);
 
         ChangeListener<? super Number> dataChangeListener = (obs, oldv, newv) -> {
             if (!editing.get()) {
@@ -52,17 +46,9 @@ public class RectangleView {
         view.heightProperty().addListener(viewChangeListener);
         view.parentProperty().addListener((obs, oldv, newv) -> updateView());
 
-        editing.addListener((obs, oldv, newv) -> {
-            if (newv) {
-                updateView();
-            }
-            else {
-                updateData();
-            }
-        });
     }
 
-    private void updateData() {
+    public void updateData() {
         var imageXY = decorator.parentToImage(new Point2D(view.getX(), view.getY()));
         var imageWidth = view.getWidth() / decorator.getScaleX();
         var imageHeight = view.getHeight() / decorator.getScaleY();
@@ -90,7 +76,7 @@ public class RectangleView {
      * Called when image is resized. It will never be in editing mode so we don't have to worry
      * about view changes modifying the data
      */
-    private void updateView() {
+    public void updateView() {
         var layoutXY = decorator.imageToParent(new Point2D(data.getX(), data.getY()));
         var layoutWidth = data.getWidth() * decorator.getScaleX();
         var layoutHeight = data.getHeight() * decorator.getScaleY();
@@ -100,23 +86,33 @@ public class RectangleView {
         view.setHeight(layoutHeight);
     }
 
+    @Override
     public RectangleData getData() {
         return data;
     }
 
+    @Override
     public Rectangle getView() {
         return view;
     }
 
+    @Override
     public boolean isEditing() {
         return editing.get();
     }
 
+    @Override
     public BooleanProperty editingProperty() {
         return editing;
     }
 
+    @Override
     public void setEditing(boolean editing) {
         this.editing.set(editing);
+    }
+
+    @Override
+    public ImageViewDecorator getImageViewDecorator() {
+        return decorator;
     }
 }
