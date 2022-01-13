@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import org.mbari.imgfx.ImageViewExt;
+import org.mbari.imgfx.ImageViewDecorator;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -28,7 +28,7 @@ public class MutableGlassPolygon implements GlassItem {
   }
 
   @Override
-  public void doLayout(ImageViewExt ext) {
+  public void doLayout(ImageViewDecorator ext) {
     var layoutPoints = points.stream()
       .map(ext::imageToParent)
       .collect(Collectors.toList());

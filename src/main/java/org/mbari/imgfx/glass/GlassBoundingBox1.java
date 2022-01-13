@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.mbari.imgfx.ImageViewExt;
+import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.controls.BoundingBox;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -32,7 +32,7 @@ public class GlassBoundingBox1 implements GlassItem {
 
   private final List<Node> nodes;
 
-  private final ImageViewExt imageViewExt;
+  private final ImageViewDecorator imageViewExt;
 
   // In parent coordinates
   private final BoundingBox boundingBox;
@@ -43,11 +43,11 @@ public class GlassBoundingBox1 implements GlassItem {
   private EventHandler<MouseEvent> exitedEvent = (event) -> handleMouseExit(event);;
 
 
-  public GlassBoundingBox1(ImageViewExt imageViewExt) {
+  public GlassBoundingBox1(ImageViewDecorator imageViewExt) {
     this(0, 0, 10, 10, imageViewExt);
   }
 
-  public GlassBoundingBox1(double x, double y, double width, double height, ImageViewExt imageViewExt) {
+  public GlassBoundingBox1(double x, double y, double width, double height, ImageViewDecorator imageViewExt) {
     this.imageViewExt = imageViewExt;
     boundingBox = new BoundingBox(x, y, width, height);
     glassRectangle =  new MutableGlassRectangle(x, y, width, height, imageViewExt);
@@ -101,7 +101,7 @@ public class GlassBoundingBox1 implements GlassItem {
 
 
   @Override
-  public void doLayout(ImageViewExt ext) {
+  public void doLayout(ImageViewDecorator ext) {
     // var r = boundingBox.getBoundingBoxRectangle();
     glassRectangle.doLayout(ext);
   }
@@ -133,7 +133,7 @@ public class GlassBoundingBox1 implements GlassItem {
   }
 
   
-  public static Optional<GlassBoundingBox1> clip(double x, double y, double width, double height, ImageViewExt imageViewExt) {
+  public static Optional<GlassBoundingBox1> clip(double x, double y, double width, double height, ImageViewDecorator imageViewExt) {
     var image = imageViewExt.getImageView().getImage();
     var w = image.getWidth();
     var h = image.getHeight();

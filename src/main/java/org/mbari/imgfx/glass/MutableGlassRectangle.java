@@ -4,7 +4,7 @@ package org.mbari.imgfx.glass;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.mbari.imgfx.ImageViewExt;
+import org.mbari.imgfx.ImageViewDecorator;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
@@ -22,16 +22,16 @@ public class MutableGlassRectangle implements GlassItem {
   private DoubleProperty widthProperty = new SimpleDoubleProperty(0);
   private DoubleProperty heightProperty = new SimpleDoubleProperty(0);
 
-  private final ImageViewExt imageViewExt;
+  private final ImageViewDecorator imageViewExt;
   private UUID uuid = UUID.randomUUID();
 
 
-  public MutableGlassRectangle(ImageViewExt imageViewExt) {
+  public MutableGlassRectangle(ImageViewDecorator imageViewExt) {
     this(0, 0, 0, 0, imageViewExt);
   }
 
 
-  public MutableGlassRectangle(double x, double y, double width, double height, ImageViewExt imageViewExt) {
+  public MutableGlassRectangle(double x, double y, double width, double height, ImageViewDecorator imageViewExt) {
     xProperty.set(x);
     yProperty.set(y);
     widthProperty.set(width);
@@ -54,7 +54,7 @@ public class MutableGlassRectangle implements GlassItem {
     new RectangleDragHandler(this);
   }
 
-  public ImageViewExt getImageViewExt() {
+  public ImageViewDecorator getImageViewExt() {
     return imageViewExt;
   }
 
@@ -70,7 +70,7 @@ public class MutableGlassRectangle implements GlassItem {
   }
 
   @Override
-  public void doLayout(ImageViewExt ext) {
+  public void doLayout(ImageViewDecorator ext) {
     var layout = ext.imageToParent(new Point2D(xProperty.get(), yProperty.get()));
 
     r.setWidth(widthProperty.get() * ext.getScaleX());
@@ -155,7 +155,7 @@ public class MutableGlassRectangle implements GlassItem {
   }
 
 
-  public static Optional<MutableGlassRectangle> clip(double x, double y, double width, double height, ImageViewExt imageViewExt) {
+  public static Optional<MutableGlassRectangle> clip(double x, double y, double width, double height, ImageViewDecorator imageViewExt) {
     var image = imageViewExt.getImageView().getImage();
     var w = image.getWidth();
     var h = image.getHeight();

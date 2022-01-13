@@ -19,14 +19,14 @@ public class GlassImagePaneController {
 
   private final Pane root; // For addign nodes to 
   private final ImageView imageView;
-  private final ImageViewExt imageViewExt;
+  private final ImageViewDecorator imageViewExt;
   private ObservableList<GlassItem> glassItems = FXCollections.observableArrayList(); 
 
   public GlassImagePaneController(ImageView imageView) {
     this.imageView = imageView;
     imageView.setPreserveRatio(true);
 
-    this.imageViewExt = new ImageViewExt(imageView);
+    this.imageViewExt = new ImageViewDecorator(imageView);
 
     this.root = new Pane() {
       @Override
@@ -84,7 +84,7 @@ public class GlassImagePaneController {
     return imageView;
   }
 
-  public ImageViewExt getImageViewExt() {
+  public ImageViewDecorator getImageViewExt() {
     return imageViewExt;
   }
   

@@ -2,7 +2,7 @@ package org.mbari.imgfx.glass;
 
 import java.util.List;
 import java.util.UUID;
-import org.mbari.imgfx.ImageViewExt;
+import org.mbari.imgfx.ImageViewDecorator;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -30,7 +30,7 @@ public class GlassCircle implements GlassItem {
 
 
   @Override
-  public void doLayout(ImageViewExt ext) {
+  public void doLayout(ImageViewDecorator ext) {
     var layout = ext.imageToParent(new Point2D(x, y));
     circle.setRadius(radius * ext.getScaleX());
     circle.setLayoutX(layout.getX());

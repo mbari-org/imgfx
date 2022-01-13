@@ -1,17 +1,5 @@
 package org.mbari.imgfx.glass;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import org.mbari.imgfx.ImageViewExt;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point2D;
-import javafx.scene.Node;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-
 public class GlassBoundingBox2 {}
 
 // implements GlassItem {

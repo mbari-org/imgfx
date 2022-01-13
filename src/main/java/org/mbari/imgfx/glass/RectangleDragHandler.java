@@ -1,6 +1,6 @@
 package org.mbari.imgfx.glass;
 
-import org.mbari.imgfx.ImageViewExt;
+import org.mbari.imgfx.ImageViewDecorator;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
@@ -12,7 +12,7 @@ public class RectangleDragHandler {
   // Drag variables
   private final MutableGlassRectangle glassRectangle;
   private final Rectangle rectangle;
-  private final ImageViewExt imageViewExt;
+  private final ImageViewDecorator imageViewExt;
   private double origMouseX;
   private double origMouseY;
   private double origX;

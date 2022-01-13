@@ -1,6 +1,9 @@
 package org.mbari.imgfx;
 
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
@@ -10,14 +13,17 @@ import javafx.scene.image.ImageView;
  * @author Brian Schlining
  * @since 2014-12-02T12:06:00
  */
-public class ImageViewExt {
+public class ImageViewDecorator {
 
   private final ImageView imageView;
-  private double scaleX = Double.NaN;
-  private double scaleY = Double.NaN;
 
+  private final DoubleProperty scaleX = new SimpleDoubleProperty(Double.NaN);
+  private final DoubleProperty scaleY = new SimpleDoubleProperty(Double.NaN);
 
-  public ImageViewExt(ImageView imageView) {
+  private final ReadOnlyDoubleProperty scaleXReadOnly = ReadOnlyDoubleProperty.readOnlyDoubleProperty(scaleX);
+  private final ReadOnlyDoubleProperty scaleYReadOnly = ReadOnlyDoubleProperty.readOnlyDoubleProperty(scaleY);
+
+  public ImageViewDecorator(ImageView imageView) {
     this.imageView = imageView;
     imageView.imageProperty().addListener(i -> recomputeScale());
     imageView.fitHeightProperty().addListener(i -> recomputeScale());
@@ -30,8 +36,10 @@ public class ImageViewExt {
   }
 
   protected final void recomputeScale() {
-      scaleX = imageView.getBoundsInParent().getWidth() / imageView.getImage().getWidth();
-      scaleY = imageView.getBoundsInParent().getHeight() / imageView.getImage().getHeight();
+      var sx = imageView.getBoundsInParent().getWidth() / imageView.getImage().getWidth();
+      var sy = imageView.getBoundsInParent().getHeight() / imageView.getImage().getHeight();
+      scaleX.set(sx);
+      scaleY.set(sy);
   }
 
   /**
@@ -39,28 +47,36 @@ public class ImageViewExt {
    * this will be the same as scaleY.
    */
   public double getScaleX() {
-    return scaleX;
+    return scaleX.get();
   }
 
-  /**
-   * The scale factor of the image in the Y direction. If preserveRatio is true,
-   * this will be the same as scaleX.
-   */
+  public ReadOnlyDoubleProperty scaleXProperty() {
+    return scaleXReadOnly;
+  }
+
+  public void setScaleX(double scaleX) {
+    this.scaleX.set(scaleX);
+  }
+
   public double getScaleY() {
-    return scaleY;
+    return scaleY.get();
+  }
+
+  public ReadOnlyDoubleProperty scaleYProperty() {
+    return scaleYReadOnly;
   }
 
   /**
    * Converts a point in the scene to a point into the unscaled image.
    * 
-   * @param scenePoint new Point2D(event.getSceneX(), event.getSceneY())
+   * @param scene new Point2D(event.getSceneX(), event.getSceneY())
    * @return The point in the image that corresponds to the scene point,
    *        unscaled. (basically pixel coordinates into the original image)
    */
   public Point2D sceneToImage(Point2D scene) {
     var p = imageView.sceneToLocal(scene.getX(), scene.getY());
-    var x = p.getX() / scaleX;
-    var y = p.getY() / scaleY;
+    var x = p.getX() / getScaleX();
+    var y = p.getY() / getScaleY();
     return new Point2D(x, y);
   }
 
@@ -71,7 +87,7 @@ public class ImageViewExt {
    * @return
    */
   public Point2D imageToScene(Point2D image) {
-    var p = new Point2D(image.getX() * scaleX, image.getY() * scaleY);
+    var p = new Point2D(image.getX() * getScaleX(), image.getY() * getScaleY());
     var p2 = imageView.localToScene(p);
     return new Point2D(p2.getX(), p2.getY());
   }

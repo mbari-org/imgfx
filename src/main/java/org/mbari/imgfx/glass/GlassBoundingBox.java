@@ -1,22 +1,17 @@
 package org.mbari.imgfx.glass;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.mbari.imgfx.GlassImagePaneController;
-import org.mbari.imgfx.ImageViewExt;
+import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.controls.BoundingBox;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 /**
@@ -74,7 +69,7 @@ public class GlassBoundingBox implements GlassItem {
 
 
   @Override
-  public void doLayout(ImageViewExt ext) {
+  public void doLayout(ImageViewDecorator ext) {
     var layout = ext.imageToParent(new Point2D(xProperty.get(), yProperty.get()));
     var r = boundingBox.getBoundingBoxRectangle();
     r.setWidth(widthProperty.get() * ext.getScaleX());
