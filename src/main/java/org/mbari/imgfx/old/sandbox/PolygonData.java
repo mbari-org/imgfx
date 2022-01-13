@@ -1,4 +1,4 @@
-package org.mbari.imgfx.sandbox;
+package org.mbari.imgfx.old.sandbox;
 
 import java.util.List;
 import java.util.stream.Collectors;

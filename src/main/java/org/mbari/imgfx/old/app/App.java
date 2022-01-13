@@ -1,9 +1,9 @@
-package org.mbari.imgfx.demos.app;
+package org.mbari.imgfx.old.app;
 
-import org.mbari.imgfx.GlassImagePaneController;
-import org.mbari.imgfx.glass.GlassRectangle;
-import org.mbari.imgfx.glass.GlassCircle;
-import org.mbari.imgfx.glass.MutableGlassPolygon;
+import org.mbari.imgfx.old.ImagePaneController;
+import org.mbari.imgfx.old.glass.GlassRectangle;
+import org.mbari.imgfx.old.glass.GlassCircle;
+import org.mbari.imgfx.old.glass.MutableGlassPolygon;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -28,7 +28,7 @@ public class App extends Application {
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
 
-        GlassImagePaneController rip = new GlassImagePaneController(imageView);
+        ImagePaneController rip = new ImagePaneController(imageView);
         var root = rip.getRoot();
 
         Text text = new Text("100, 100");

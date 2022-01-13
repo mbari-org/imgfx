@@ -2,6 +2,10 @@ package org.mbari.imgfx.data;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.image.Image;
+import org.mbari.imgfx.old.glass.GlassRectangle;
+
+import java.util.Optional;
 
 /**
  * Rectangle in image pixel coordinates
@@ -70,5 +74,34 @@ public class RectangleData {
 
     public void setHeight(double height) {
         this.height.set(height);
+    }
+
+    public static Optional<RectangleData> clip(double x, double y, double width, double height, Image image) {
+        var w = image.getWidth();
+        var h = image.getHeight();
+
+        if (x >= w || y >= h) {
+            return Optional.empty();
+        }
+
+        if (x < 0) {
+            width = width + x;
+        }
+
+        if (y < 0) {
+            height = height + y;
+        }
+
+        var xx = Math.min(Math.max(0D, x), w - 1);
+        var yy = Math.min(Math.max(0D, y), h - 1);
+
+
+        var ww = Math.min(Math.max(1, width), w - xx);
+        var hh = Math.min(Math.max(1, height), h - yy);
+
+        var msg = String.format("Before: [%.1f %.1f %.1f %.1f], After: [%.1f %.1f %.1f %.1f]", x, y, width, height, xx, yy, ww, hh);
+        System.out.println(msg);
+        var data = new RectangleData(xx, yy, ww, hh);
+        return Optional.of(data);
     }
 }

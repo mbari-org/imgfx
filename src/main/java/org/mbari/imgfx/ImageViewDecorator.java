@@ -35,7 +35,7 @@ public class ImageViewDecorator {
     return imageView;
   }
 
-  protected final void recomputeScale() {
+  public final void recomputeScale() {
       var sx = imageView.getBoundsInParent().getWidth() / imageView.getImage().getWidth();
       var sy = imageView.getBoundsInParent().getHeight() / imageView.getImage().getHeight();
       scaleX.set(sx);

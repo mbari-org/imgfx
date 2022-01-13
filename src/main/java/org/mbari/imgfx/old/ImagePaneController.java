@@ -1,6 +1,7 @@
-package org.mbari.imgfx;
+package org.mbari.imgfx.old;
 
-import org.mbari.imgfx.glass.GlassItem;
+import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.old.glass.GlassItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -15,14 +16,14 @@ import javafx.scene.layout.Pane;
  * A resizeable image pane with a a "glass" layer allowing objects to be drawn 
  * on top of the image.
  */
-public class GlassImagePaneController {
+public class ImagePaneController {
 
   private final Pane root; // For addign nodes to 
   private final ImageView imageView;
   private final ImageViewDecorator imageViewExt;
   private ObservableList<GlassItem> glassItems = FXCollections.observableArrayList(); 
 
-  public GlassImagePaneController(ImageView imageView) {
+  public ImagePaneController(ImageView imageView) {
     this.imageView = imageView;
     imageView.setPreserveRatio(true);
 

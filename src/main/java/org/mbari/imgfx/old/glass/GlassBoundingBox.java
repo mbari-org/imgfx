@@ -1,9 +1,9 @@
-package org.mbari.imgfx.glass;
+package org.mbari.imgfx.old.glass;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.mbari.imgfx.GlassImagePaneController;
+import org.mbari.imgfx.old.ImagePaneController;
 import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.controls.BoundingBox;
 import javafx.beans.property.BooleanProperty;
@@ -40,13 +40,13 @@ public class GlassBoundingBox implements GlassItem {
   // In parent coordinates
   private final BoundingBox boundingBox;
 
-  private final GlassImagePaneController pane;
+  private final ImagePaneController pane;
 
-  public GlassBoundingBox(GlassImagePaneController pane) {
+  public GlassBoundingBox(ImagePaneController pane) {
     this(0, 0, 10, 10, pane);
   }
 
-  public GlassBoundingBox(double x, double y, double width, double height, GlassImagePaneController pane) {
+  public GlassBoundingBox(double x, double y, double width, double height, ImagePaneController pane) {
     xProperty.set(x);
     yProperty.set(y);
     widthProperty.set(width);
@@ -105,7 +105,7 @@ public class GlassBoundingBox implements GlassItem {
   }
 
   
-  public static Optional<GlassBoundingBox> clip(double x, double y, double width, double height, GlassImagePaneController pane) {
+  public static Optional<GlassBoundingBox> clip(double x, double y, double width, double height, ImagePaneController pane) {
     var imageViewExt = pane.getImageViewExt();
     var image = imageViewExt.getImageView().getImage();
     var w = image.getWidth();

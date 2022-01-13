@@ -1,9 +1,8 @@
-package org.mbari.imgfx.demos.glass;
+package org.mbari.imgfx.old.bb;
 
-import org.mbari.imgfx.GlassImagePaneController;
+import org.mbari.imgfx.old.ImagePaneController;
 import org.mbari.imgfx.controls.CrossHairs;
 import org.mbari.imgfx.controls.SelectionRectangle;
-import org.mbari.imgfx.glass.GlassRectangle;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -12,8 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.mbari.imgfx.old.glass.GlassRectangle;
 
-public class RectangleDemo extends Application {
+public class PolygonDemo extends Application {
 
 
   @Override
@@ -24,7 +24,7 @@ public class RectangleDemo extends Application {
     ImageView imageView = new ImageView(image);
     imageView.setPreserveRatio(true);
 
-    GlassImagePaneController rip = new GlassImagePaneController(imageView);
+    ImagePaneController rip = new ImagePaneController(imageView);
     var root = rip.getRoot();
 
     var crossHairs = new CrossHairs();

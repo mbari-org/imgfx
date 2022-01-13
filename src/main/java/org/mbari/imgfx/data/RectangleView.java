@@ -12,12 +12,13 @@ public class RectangleView {
     private final RectangleData data;
     private final Rectangle view;
     private final ImageViewDecorator decorator;
-    private final BooleanProperty edit = new SimpleBooleanProperty();
+    private final BooleanProperty editing = new SimpleBooleanProperty();
 
     public RectangleView(RectangleData data, ImageViewDecorator decorator) {
         this.data = data;
         this.decorator = decorator;
         this.view = new Rectangle();
+        init();
     }
 
     private void init() {
@@ -26,12 +27,12 @@ public class RectangleView {
         decorator.getImageView()
                 .boundsInParentProperty()
                 .addListener((obs, oldv, newv) -> {
-                    edit.set(false);
+                    editing.set(false);
                     updateView();
                 });
 
         ChangeListener<? super Number> dataChangeListener = (obs, oldv, newv) -> {
-            if (!edit.get()) {
+            if (!editing.get()) {
                 updateView();
             }
         };
@@ -41,7 +42,7 @@ public class RectangleView {
         data.heightProperty().addListener(dataChangeListener);
 
         ChangeListener<? super Number> viewChangeListener = (obs, oldv, newv) -> {
-            if (edit.get()) {
+            if (editing.get()) {
                 updateData();
             }
         };
@@ -49,6 +50,7 @@ public class RectangleView {
         view.xProperty().addListener(viewChangeListener);
         view.widthProperty().addListener(viewChangeListener);
         view.heightProperty().addListener(viewChangeListener);
+        view.parentProperty().addListener((obs, oldv, newv) -> updateView());
     }
 
     private void updateData() {
@@ -83,15 +85,15 @@ public class RectangleView {
         return view;
     }
 
-    public boolean isEdit() {
-        return edit.get();
+    public boolean isEditing() {
+        return editing.get();
     }
 
-    public BooleanProperty editProperty() {
-        return edit;
+    public BooleanProperty editingProperty() {
+        return editing;
     }
 
-    public void setEdit(boolean edit) {
-        this.edit.set(edit);
+    public void setEditing(boolean editing) {
+        this.editing.set(editing);
     }
 }

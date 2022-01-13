@@ -1,10 +1,8 @@
-package org.mbari.imgfx.demos.glass;
+package org.mbari.imgfx.old.bb;
 
-import org.mbari.imgfx.GlassImagePaneController;
+import org.mbari.imgfx.old.ImagePaneController;
 import org.mbari.imgfx.controls.CrossHairs;
 import org.mbari.imgfx.controls.SelectionRectangle;
-import org.mbari.imgfx.glass.GlassBoundingBox;
-import org.mbari.imgfx.glass.MutableGlassRectangle;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -13,8 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.mbari.imgfx.old.glass.MutableGlassRectangle;
 
-public class BoundingBoxDemo extends Application {
+public class MutableRectangleDemo extends Application {
 
 
   @Override
@@ -25,7 +24,7 @@ public class BoundingBoxDemo extends Application {
     ImageView imageView = new ImageView(image);
     imageView.setPreserveRatio(true);
 
-    GlassImagePaneController rip = new GlassImagePaneController(imageView);
+    ImagePaneController rip = new ImagePaneController(imageView);
     var root = rip.getRoot();
 
     var crossHairs = new CrossHairs();
@@ -51,7 +50,7 @@ public class BoundingBoxDemo extends Application {
       var height = r.getHeight() / ext.getScaleX();
 
       System.out.println(imageXY + "");
-      var box = GlassBoundingBox.clip(imageXY.getX(), imageXY.getY(), width, height, rip);
+      var box = MutableGlassRectangle.clip(imageXY.getX(), imageXY.getY(), width, height, rip.getImageViewExt());
       box.ifPresent(b  -> rip.glassItems().add(b));
 
       

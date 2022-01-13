@@ -1,14 +1,14 @@
-package org.mbari.imgfx.demos.glass;
+package org.mbari.imgfx.old.bb;
 
-import org.mbari.imgfx.GlassImagePaneController;
+import org.mbari.imgfx.old.ImagePaneController;
 import org.mbari.imgfx.controls.CrossHairs;
-import org.mbari.imgfx.glass.GlassCircle;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.mbari.imgfx.old.glass.GlassCircle;
 
 public class CircleDemo extends Application {
 
@@ -21,7 +21,7 @@ public class CircleDemo extends Application {
     ImageView imageView = new ImageView(image);
     imageView.setPreserveRatio(true);
 
-    GlassImagePaneController rip = new GlassImagePaneController(imageView);
+    ImagePaneController rip = new ImagePaneController(imageView);
     var root = rip.getRoot();
 
     var crossHairs = new CrossHairs();

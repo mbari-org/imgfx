@@ -1,16 +1,12 @@
-package org.mbari.imgfx.demos.bb;
+package org.mbari.imgfx.old.bb;
 
-import org.mbari.imgfx.GlassImagePaneController;
-import org.mbari.imgfx.controls.BoundingBox;
-import org.mbari.imgfx.glass.GlassBoundingBox;
+import org.mbari.imgfx.old.ImagePaneController;
+import org.mbari.imgfx.old.glass.GlassBoundingBox;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -28,7 +24,7 @@ public class BoundingBoxDemo2 extends Application {
 
 
 
-      GlassImagePaneController rip = new GlassImagePaneController(imageView);
+      ImagePaneController rip = new ImagePaneController(imageView);
       var root = rip.getRoot();
 
       Text text = new Text("100, 100");

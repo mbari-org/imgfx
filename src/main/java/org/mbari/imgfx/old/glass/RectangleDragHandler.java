@@ -1,4 +1,4 @@
-package org.mbari.imgfx.glass;
+package org.mbari.imgfx.old.glass;
 
 import org.mbari.imgfx.ImageViewDecorator;
 import javafx.event.EventHandler;

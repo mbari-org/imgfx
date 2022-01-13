@@ -1,7 +1,7 @@
-package org.mbari.imgfx.demos.bb;
+package org.mbari.imgfx.old.bb;
 
-import org.mbari.imgfx.GlassImagePaneController;
-import org.mbari.imgfx.glass.GlassBoundingBox;
+import org.mbari.imgfx.old.ImagePaneController;
+import org.mbari.imgfx.old.glass.GlassBoundingBox;
 
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -29,7 +29,7 @@ public class App extends Application {
         imageView.setPreserveRatio(true);
 
 
-        GlassImagePaneController rip = new GlassImagePaneController(imageView);
+        ImagePaneController rip = new ImagePaneController(imageView);
         var root = rip.getRoot();
 
         Text text = new Text("100, 100");
