@@ -1,10 +1,11 @@
 package org.mbari.imgfx.roi;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.scene.Node;
+import javafx.scene.shape.Shape;
 import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.ext.jfx.MutablePoint;
 
-public interface DataView<A extends Data, B extends Node> {
+public interface DataView<A extends Data, B extends Shape> {
 
     A getData();
     B getView();
@@ -16,6 +17,8 @@ public interface DataView<A extends Data, B extends Node> {
 
     void updateView();
     void updateData();
+
+    MutablePoint getLabelLocationHint();
 
 
 }

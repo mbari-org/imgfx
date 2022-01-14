@@ -1,4 +1,4 @@
-package org.mbari.imgfx.util;
+package org.mbari.imgfx.ext.jfx;
 
 import javafx.geometry.Point2D;
 

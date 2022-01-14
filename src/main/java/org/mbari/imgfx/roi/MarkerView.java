@@ -5,9 +5,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
 import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.ext.jfx.JFXUtil;
+import org.mbari.imgfx.ext.jfx.MutablePoint;
 
 public class MarkerView implements DataView<CircleData, Polyline> {
 
@@ -15,6 +16,7 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     private final Polyline view;
     private final ImageViewDecorator decorator;
     private final BooleanProperty editing = new SimpleBooleanProperty();
+    private final MutablePoint labelLocationHint = new MutablePoint();
 
     public MarkerView(CircleData data, ImageViewDecorator decorator) {
         this.data = data;
@@ -40,6 +42,24 @@ public class MarkerView implements DataView<CircleData, Polyline> {
             if (editing.get()) {
                 updateData();
             }
+        });
+
+        // labelLocationHint is at center
+        view.getPoints().addListener((ListChangeListener<? super Double>) e -> {
+            // avg x
+            var points = JFXUtil.listToPoints(view.getPoints());
+            var avgX = points.stream()
+                    .mapToDouble(Point2D::getX)
+                    .average()
+                    .orElse(0D);
+
+            var avgY = points.stream()
+                    .mapToDouble(Point2D::getY)
+                    .average()
+                    .orElse(0D);
+            labelLocationHint.xProperty().set(avgX);
+            labelLocationHint.yProperty().set(avgY);
+
         });
     }
 
@@ -119,5 +139,10 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     @Override
     public ImageViewDecorator getImageViewDecorator() {
         return decorator;
+    }
+
+    @Override
+    public MutablePoint getLabelLocationHint() {
+        return labelLocationHint;
     }
 }

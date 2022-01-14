@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import org.mbari.imgfx.util.JFXUtil;
+import org.mbari.imgfx.ext.jfx.JFXUtil;
 
 import java.util.Collection;
 import java.util.List;

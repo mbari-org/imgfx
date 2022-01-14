@@ -6,10 +6,10 @@ import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
 import org.mbari.imgfx.ImageViewDecorator;
-import org.mbari.imgfx.util.JFXUtil;
+import org.mbari.imgfx.ext.jfx.JFXUtil;
+import org.mbari.imgfx.ext.jfx.MutablePoint;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.stream.Collectors;
 
 public class PolygonView implements DataView<PolygonData, Polygon> {
@@ -18,6 +18,7 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
     private final Polygon view;
     private final ImageViewDecorator decorator;
     private final BooleanProperty editing = new SimpleBooleanProperty();
+    private final MutablePoint labelLocationHint = new MutablePoint();
 
     public PolygonView(PolygonData data, ImageViewDecorator decorator) {
         this.data = data;
@@ -39,6 +40,24 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
             if (editing.get()) {
                 updateData();
             }
+        });
+
+        // labelLocationHint is top center (of mean of points)
+        view.getPoints().addListener((ListChangeListener<? super Double>) e -> {
+            // avg x
+            var points = JFXUtil.listToPoints(view.getPoints());
+            var avgX = points.stream()
+                    .mapToDouble(Point2D::getX)
+                    .average()
+                    .orElse(0D);
+
+            var minY = points.stream()
+                    .mapToDouble(Point2D::getY)
+                    .min()
+                    .orElse(0D);
+            labelLocationHint.xProperty().set(avgX);
+            labelLocationHint.yProperty().set(minY);
+
         });
     }
 
@@ -99,4 +118,8 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
         }
     }
 
+    @Override
+    public MutablePoint getLabelLocationHint() {
+        return labelLocationHint;
+    }
 }

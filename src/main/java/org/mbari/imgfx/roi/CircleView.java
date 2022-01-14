@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.ext.jfx.MutablePoint;
 
 public class CircleView implements DataView<CircleData, Circle> {
 
@@ -13,6 +14,7 @@ public class CircleView implements DataView<CircleData, Circle> {
     private final Circle view;
     private final ImageViewDecorator decorator;
     private final BooleanProperty editing = new SimpleBooleanProperty();
+    private final MutablePoint labelLocationHint = new MutablePoint();
 
     public CircleView(CircleData data, ImageViewDecorator decorator) {
         this.data = data;
@@ -42,6 +44,10 @@ public class CircleView implements DataView<CircleData, Circle> {
         view.centerXProperty().addListener(viewChangeListener);
         view.centerXProperty().addListener(viewChangeListener);
         view.radiusProperty().addListener(viewChangeListener);
+
+        // Label at top of circle
+        labelLocationHint.xProperty().bind(view.centerXProperty());
+        labelLocationHint.xProperty().bind(view.centerYProperty().subtract(view.radiusProperty()));
 
     }
 
@@ -103,4 +109,8 @@ public class CircleView implements DataView<CircleData, Circle> {
         return decorator;
     }
 
+    @Override
+    public MutablePoint getLabelLocationHint() {
+        return labelLocationHint;
+    }
 }

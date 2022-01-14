@@ -10,13 +10,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.RectanglePublisher;
+import org.mbari.imgfx.ext.rx.EventBus;
 import org.mbari.imgfx.roi.RectangleViewEditor;
 import org.mbari.imgfx.controls.CrossHairs;
 import org.mbari.imgfx.controls.SelectionRectangle;
 import org.mbari.imgfx.roi.RectangleData;
 import org.mbari.imgfx.roi.RectangleView;
 
-public class RectangleViewDemo extends Application {
+public class RectangleViewDemo2 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -28,45 +30,14 @@ public class RectangleViewDemo extends Application {
 
         ImagePaneController paneController = new ImagePaneController(imageView);
         var pane = paneController.getPane();
+        var eventBus = new EventBus();
+        var rp = new RectanglePublisher(paneController, eventBus);
+        rp.setDisable(false);
 
         var crossHairs = new CrossHairs();
         pane.getChildren().addAll(crossHairs.getNodes());
 
-        var selectionRectangle = new SelectionRectangle();
 
-        // Add to parent before setting the onCompleteController! THis makes sure its
-        // gets added to the parent when you change the onCompleteController.
-
-        EventHandler<MouseEvent> onCompleteHandler = (e) -> {
-            var decorator = paneController.getImageViewDecorator();
-
-            var r = selectionRectangle.getRectangle();
-            var sceneXY = new Point2D(r.getX(), r.getY());
-            var imageXY = decorator.sceneToImage(sceneXY);
-            var width = r.getWidth() / decorator.getScaleX();
-            var height = r.getHeight() / decorator.getScaleX();
-
-            System.out.println(imageXY + "");
-            var opt = RectangleData.clip(imageXY.getX(), imageXY.getY(), width, height, paneController.getImageView().getImage());
-            opt.ifPresent(data -> {
-                var view = new RectangleView(data, decorator);
-                var shape = view.getView();
-                shape.setFill(Paint.valueOf("#4FC3F730"));
-                pane.getChildren().add(view.getView());
-                shape.toFront();
-
-                var editor = new RectangleViewEditor(view, pane);
-                view.setEditing(true);
-            });
-
-
-        };
-
-
-
-        selectionRectangle.setOnCompleteHandler(onCompleteHandler);
-
-        pane.getChildren().add(selectionRectangle.getRectangle());
 
         var scene = new Scene(pane, 640, 480);
         scene.widthProperty()

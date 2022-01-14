@@ -1,11 +1,13 @@
 package org.mbari.imgfx.roi;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
 import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.ext.jfx.MutablePoint;
 
 public class LineView implements DataView<LineData, Line> {
 
@@ -13,6 +15,7 @@ public class LineView implements DataView<LineData, Line> {
     private final Line view;
     private final ImageViewDecorator decorator;
     private final BooleanProperty editing = new SimpleBooleanProperty();
+    private final MutablePoint labelLocationHint = new MutablePoint();
 
     public LineView(LineData data, ImageViewDecorator decorator) {
         this.data = data;
@@ -44,6 +47,37 @@ public class LineView implements DataView<LineData, Line> {
         view.endYProperty().addListener(viewChangeListener);
         view.startXProperty().addListener(viewChangeListener);
         view.startYProperty().addListener(viewChangeListener);
+
+        // labelLocationHint is mid-point of the line
+        var xBinding = new DoubleBinding() {
+            {
+                super.bind(view.startXProperty(), view.endXProperty());
+            }
+
+            @Override
+            protected double computeValue() {
+                var x0 = view.getStartX();
+                var x1 = view.getEndX();
+                return Math.min(x0, x1) + Math.abs(x0 - x1) ;
+            }
+        };
+
+        var yBinding = new DoubleBinding() {
+            {
+                super.bind(view.startYProperty(), view.endYProperty());
+            }
+
+            @Override
+            protected double computeValue() {
+                var y0 = view.getStartY();
+                var y1 = view.getEndY();
+                return Math.min(y0, y1) + Math.abs(y0 - y1) ;
+            }
+        };
+
+
+        labelLocationHint.xProperty().bind(xBinding);
+        labelLocationHint.yProperty().bind(yBinding);
     }
 
     @Override
@@ -108,5 +142,10 @@ public class LineView implements DataView<LineData, Line> {
             data.setEndX(0);
             data.setEndY(0);
         }
+    }
+
+    @Override
+    public MutablePoint getLabelLocationHint() {
+        return null;
     }
 }

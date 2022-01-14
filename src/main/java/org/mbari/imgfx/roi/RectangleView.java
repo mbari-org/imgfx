@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.ext.jfx.MutablePoint;
 
 public class RectangleView implements DataView<RectangleData, Rectangle> {
 
@@ -13,6 +14,7 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
     private final Rectangle view;
     private final ImageViewDecorator decorator;
     private final BooleanProperty editing = new SimpleBooleanProperty();
+    private final MutablePoint labelLocationHint = new MutablePoint();
 
     public RectangleView(RectangleData data, ImageViewDecorator decorator) {
         this.data = data;
@@ -45,6 +47,9 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
         view.widthProperty().addListener(viewChangeListener);
         view.heightProperty().addListener(viewChangeListener);
         view.parentProperty().addListener((obs, oldv, newv) -> updateView());
+
+        labelLocationHint.xProperty().bind(view.xProperty());
+        labelLocationHint.yProperty().bind(view.yProperty());
 
     }
 
@@ -114,5 +119,10 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
     @Override
     public ImageViewDecorator getImageViewDecorator() {
         return decorator;
+    }
+
+    @Override
+    public MutablePoint getLabelLocationHint() {
+        return labelLocationHint;
     }
 }
