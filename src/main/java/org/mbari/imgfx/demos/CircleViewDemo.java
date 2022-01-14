@@ -32,13 +32,13 @@ public class CircleViewDemo extends Application {
 
         var scene = new Scene(pane, 640, 480);
         scene.setOnMouseClicked(event -> {
-            var p = new Point2D(event.getSceneX(), event.getSceneY());
-            var imagePoint = rip.getImageViewDecorator().sceneToImage(p);
-            var data = new CircleData(imagePoint.getX(), imagePoint.getY(), 6);
-            var view = new CircleView(data, rip.getImageViewDecorator());
-            var shape = view.getView();
-            shape.setFill(Color.valueOf("#FF980090"));
-            pane.getChildren().add(view.getView());
+            CircleView.fromSceneCoords(event.getSceneX(), event.getSceneY(), 6D, rip.getImageViewDecorator())
+                            .ifPresent(view -> {
+                                view.getData().setRadius(6D); // set circle radius in image coordinates
+                                var shape = view.getView();
+                                shape.setFill(Color.valueOf("#FF980090"));
+                                pane.getChildren().add(view.getView());
+                            });
 
         });
 

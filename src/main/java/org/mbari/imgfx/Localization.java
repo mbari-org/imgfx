@@ -46,6 +46,7 @@ public class Localization<A extends Data, B extends Shape> {
         this.uuid = uuid;
         this.imageUuid = imageUuid;
         label.set(labelText);
+        init();
     }
 
     private void init() {
@@ -68,7 +69,6 @@ public class Localization<A extends Data, B extends Shape> {
         };
 
         labelView.textFillProperty().bind(colorBinding);
-        paneController.getPane().getChildren().add(dataView.getView());
 
     }
 

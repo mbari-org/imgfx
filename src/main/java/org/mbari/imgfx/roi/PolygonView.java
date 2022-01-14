@@ -10,6 +10,9 @@ import org.mbari.imgfx.ext.jfx.JFXUtil;
 import org.mbari.imgfx.ext.jfx.MutablePoint;
 
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PolygonView implements DataView<PolygonData, Polygon> {
@@ -121,5 +124,17 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
     @Override
     public MutablePoint getLabelLocationHint() {
         return labelLocationHint;
+    }
+
+    public static Optional<PolygonView> fromImageCoords(List<Point2D> points, ImageViewDecorator decorator) {
+        return PolygonData.clip(points, decorator.getImageView().getImage())
+                .map(data -> new PolygonView(data, decorator));
+    }
+
+    public static Optional<PolygonView> fromSceneCoords(Collection<Point2D> points, ImageViewDecorator decorator) {
+        var imagePoints = points.stream()
+                .map(decorator::sceneToImage)
+                .collect(Collectors.toList());
+        return fromImageCoords(imagePoints, decorator);
     }
 }

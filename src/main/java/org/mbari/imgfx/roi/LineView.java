@@ -9,6 +9,8 @@ import javafx.scene.shape.Line;
 import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.ext.jfx.MutablePoint;
 
+import java.util.Optional;
+
 public class LineView implements DataView<LineData, Line> {
 
     private final LineData data;
@@ -112,8 +114,8 @@ public class LineView implements DataView<LineData, Line> {
 
     @Override
     public void updateView() {
-        var layoutStartXY = decorator.parentToImage(new Point2D(data.getStartX(), data.getStartY()));
-        var layoutEndXY = decorator.parentToImage(new Point2D(data.getEndX(), data.getEndY()));
+        var layoutStartXY = decorator.imageToParent(new Point2D(data.getStartX(), data.getStartY()));
+        var layoutEndXY = decorator.imageToParent(new Point2D(data.getEndX(), data.getEndY()));
         view.setStartX(layoutStartXY.getX());
         view.setStartY(layoutStartXY.getY());
         view.setEndX(layoutEndXY.getX());
@@ -147,5 +149,20 @@ public class LineView implements DataView<LineData, Line> {
     @Override
     public MutablePoint getLabelLocationHint() {
         return null;
+    }
+
+    public static Optional<LineView> fromImageCoords(double startX, double startY, double endX, double endY, ImageViewDecorator decorator) {
+        return LineData.clip(startX, startY, endX, endY, decorator.getImageView().getImage())
+                .map(data -> new LineView(data, decorator));
+    }
+
+    public static Optional<LineView> fromSceneCoords(double startX, double startY, double endX, double endY, ImageViewDecorator decorator) {
+        var sceneStart = new Point2D(startX, startY);
+        var sceneEnd = new Point2D(endX, endY);
+        var imageStart = decorator.sceneToImage(sceneStart);
+        var imageEnd = decorator.sceneToImage(sceneEnd);
+
+
+        return fromImageCoords(imageStart.getX(), imageStart.getY(), imageEnd.getX(), imageEnd.getY(), decorator);
     }
 }

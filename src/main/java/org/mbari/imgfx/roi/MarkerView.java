@@ -10,6 +10,8 @@ import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.ext.jfx.JFXUtil;
 import org.mbari.imgfx.ext.jfx.MutablePoint;
 
+import java.util.Optional;
+
 public class MarkerView implements DataView<CircleData, Polyline> {
 
     private final CircleData data;
@@ -98,7 +100,6 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     }
 
 
-
     private void updatePolyline(double x, double y, double radius) {
         var r = Math.cos(45 * Math.PI / 180) * radius;
         var points = new Double[]{
@@ -144,5 +145,17 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     @Override
     public MutablePoint getLabelLocationHint() {
         return labelLocationHint;
+    }
+
+    public static Optional<MarkerView> fromImageCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+        return CircleData.clip(centerX, centerY, radius, decorator.getImageView().getImage())
+                .map(data -> new MarkerView(data, decorator));
+    }
+
+    public static Optional<MarkerView> fromSceneCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+        var scenePoint = new Point2D(centerX, centerY);
+        var imagePoint = decorator.sceneToImage(scenePoint);
+        var imageRadius = radius / decorator.getScaleX();
+        return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, decorator);
     }
 }

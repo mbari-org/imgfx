@@ -2,6 +2,7 @@ module imgfx {
   requires transitive javafx.controls;
 
   // Required to interact with ScenicView
+  requires java.desktop;
   requires java.instrument;
   requires java.rmi;
   requires io.reactivex.rxjava3;

@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.ext.jfx.MutablePoint;
 
+import java.util.Optional;
+
 public class RectangleView implements DataView<RectangleData, Rectangle> {
 
     private final RectangleData data;
@@ -124,5 +126,18 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
     @Override
     public MutablePoint getLabelLocationHint() {
         return labelLocationHint;
+    }
+
+    public static Optional<RectangleView> fromImageCoords(Double x, Double y, Double width, Double height, ImageViewDecorator decorator) {
+        return RectangleData.clip(x, y, width, height, decorator.getImageView().getImage())
+                .map(data -> new RectangleView(data, decorator));
+    }
+
+    public static Optional<RectangleView> fromSceneCoords(Double x, Double y, Double width, Double height, ImageViewDecorator decorator) {
+        var sceneXY = new Point2D(x, y);
+        var imageXY = decorator.sceneToImage(sceneXY);
+        var imageWidth = width / decorator.getScaleX();
+        var imageHeight = height / decorator.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, decorator);
     }
 }

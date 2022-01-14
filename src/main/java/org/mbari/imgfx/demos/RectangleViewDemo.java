@@ -41,24 +41,18 @@ public class RectangleViewDemo extends Application {
             var decorator = paneController.getImageViewDecorator();
 
             var r = selectionRectangle.getRectangle();
-            var sceneXY = new Point2D(r.getX(), r.getY());
-            var imageXY = decorator.sceneToImage(sceneXY);
-            var width = r.getWidth() / decorator.getScaleX();
-            var height = r.getHeight() / decorator.getScaleX();
 
-            System.out.println(imageXY + "");
-            var opt = RectangleData.clip(imageXY.getX(), imageXY.getY(), width, height, paneController.getImageView().getImage());
-            opt.ifPresent(data -> {
-                var view = new RectangleView(data, decorator);
-                var shape = view.getView();
-                shape.setFill(Paint.valueOf("#4FC3F730"));
-                pane.getChildren().add(view.getView());
-                shape.toFront();
 
-                var editor = new RectangleViewEditor(view, pane);
-                view.setEditing(true);
-            });
+            RectangleView.fromSceneCoords(r.getX(), r.getY(), r.getWidth(), r.getHeight(), paneController.getImageViewDecorator())
+                            .ifPresent(view -> {
+                                var shape = view.getView();
+                                shape.setFill(Paint.valueOf("#4FC3F730"));
+                                pane.getChildren().add(view.getView());
+                                shape.toFront();
 
+                                var editor = new RectangleViewEditor(view, pane);
+                                view.setEditing(true);
+                            });
 
         };
 

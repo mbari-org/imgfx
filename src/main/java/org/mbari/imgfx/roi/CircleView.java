@@ -8,6 +8,8 @@ import javafx.scene.shape.Circle;
 import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.ext.jfx.MutablePoint;
 
+import java.util.Optional;
+
 public class CircleView implements DataView<CircleData, Circle> {
 
     private final CircleData data;
@@ -113,4 +115,17 @@ public class CircleView implements DataView<CircleData, Circle> {
     public MutablePoint getLabelLocationHint() {
         return labelLocationHint;
     }
+
+    public static Optional<CircleView> fromImageCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+        return CircleData.clip(centerX, centerY, radius, decorator.getImageView().getImage())
+                .map(data -> new CircleView(data, decorator));
+    }
+
+    public static Optional<CircleView> fromSceneCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+        var scenePoint = new Point2D(centerX, centerY);
+        var imagePoint = decorator.sceneToImage(scenePoint);
+        var imageRadius = radius / decorator.getScaleX();
+        return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, decorator);
+    }
+
 }

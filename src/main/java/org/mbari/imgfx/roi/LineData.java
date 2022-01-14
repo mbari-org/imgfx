@@ -2,9 +2,10 @@ package org.mbari.imgfx.roi;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.BoundingBox;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import org.mbari.imgfx.ext.jfx.CohenSutherland;
 
 import java.util.Optional;
 
@@ -76,10 +77,12 @@ public class LineData implements Data {
     }
 
     public static Optional<LineData> clip(double startX, double startY, double endX, double endY, Image image) {
-        var r = new Rectangle(image.getWidth(), image.getHeight());
+        var bounds = new BoundingBox(0, 0, image.getWidth(), image.getHeight());
         var line = new Line(startX, startY, endX, endY);
-        line.setClip(r);
-        var data = new LineData(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
-        return Optional.of(data);
+        return CohenSutherland.clip(line, bounds)
+                .map(clippedLine -> new LineData(clippedLine.getStartX(),
+                        clippedLine.getStartY(),
+                        clippedLine.getEndX(),
+                        clippedLine.getEndY()));
     }
 }
