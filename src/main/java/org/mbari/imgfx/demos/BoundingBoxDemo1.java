@@ -1,4 +1,4 @@
-package org.mbari.imgfx.old.bb;
+package org.mbari.imgfx.demos;
 
 import org.mbari.imgfx.controls.BoundingBox;
 import javafx.application.Application;

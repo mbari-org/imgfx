@@ -9,11 +9,8 @@ module imgfx {
   exports org.mbari.imgfx;
   exports org.mbari.imgfx.demos;
   exports org.mbari.imgfx.controls;
-  exports org.mbari.imgfx.old.app;
-  exports org.mbari.imgfx.old.bb;
-  exports org.mbari.imgfx.old.glass;
-  exports org.mbari.imgfx.old;
   exports org.mbari.imgfx.roi;
   exports org.mbari.imgfx.ext.rx;
   exports org.mbari.imgfx.ext.jfx;
+  exports org.mbari.imgfx.events;
 }

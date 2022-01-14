@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.controls.SelectionRectangle;
-import org.mbari.imgfx.ext.rx.NewLocalizationEvent;
+import org.mbari.imgfx.events.NewLocalizationEvent;
 import org.mbari.imgfx.roi.RectangleData;
 import org.mbari.imgfx.roi.RectangleView;
 import org.mbari.imgfx.roi.RectangleViewEditor;

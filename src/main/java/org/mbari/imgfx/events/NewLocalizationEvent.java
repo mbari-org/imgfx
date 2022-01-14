@@ -1,4 +1,4 @@
-package org.mbari.imgfx.ext.rx;
+package org.mbari.imgfx.events;
 
 import javafx.scene.shape.Shape;
 import org.mbari.imgfx.Localization;
