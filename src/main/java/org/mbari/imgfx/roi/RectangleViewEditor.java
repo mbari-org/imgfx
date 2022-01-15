@@ -1,8 +1,11 @@
 package org.mbari.imgfx.roi;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -28,6 +31,7 @@ public class RectangleViewEditor implements ViewEditor {
 
     /** When editing we can change the color of the component */
     private final ObjectProperty<Color> editColor = new SimpleObjectProperty<>(DEFAULT_EDIT_COLOR);
+    private final BooleanProperty disable = new SimpleBooleanProperty();
 
     /*  When editing is turned on it changes the look of the component to
        indicate that it's actively editing. Hang on to the original colors
@@ -50,6 +54,7 @@ public class RectangleViewEditor implements ViewEditor {
     private double origMouseY;
     private double origX;
     private double origY;
+
     private EventHandler<MouseEvent> mousePressedHandler = evt -> {
         dragSource = (Rectangle) evt.getSource();
         origMouseX = evt.getSceneX();
@@ -57,6 +62,7 @@ public class RectangleViewEditor implements ViewEditor {
         origX = ((Rectangle) evt.getSource()).getX();
         origY = ((Rectangle) evt.getSource()).getY();
     };
+
     private EventHandler<MouseEvent> mouseDraggedHandler = evt -> {
         if (dragSource == null || dragSource != evt.getSource()) {
             mousePressedHandler.handle(evt);
@@ -69,6 +75,14 @@ public class RectangleViewEditor implements ViewEditor {
         ((Rectangle) evt.getSource()).setY(newY);
     };
 
+    // If a user clicks outside the editor, turn off the editor
+    private EventHandler<MouseEvent> checkEditHandler = event -> {
+        var clickPoint = new Point2D(event.getSceneX(), event.getSceneY());
+        var doingEdits = getNodes()
+                .stream()
+                .anyMatch(n -> n.contains(clickPoint));
+        setEditing(doingEdits);
+    };
 
     public RectangleViewEditor(DataView<RectangleData, Rectangle> rectangleView, Pane parentPane) {
         this.rectangleView = rectangleView;
@@ -87,34 +101,49 @@ public class RectangleViewEditor implements ViewEditor {
                                 disableEditing();
                             }
                         });
+        rectangle.sceneProperty().addListener((obs, oldv, newv) -> {
+            if (oldv != null) {
+                oldv.removeEventHandler(MouseEvent.MOUSE_PRESSED, checkEditHandler);
+            }
+            if (newv != null) {
+                newv.addEventHandler(MouseEvent.MOUSE_PRESSED, checkEditHandler);
+            }
+        });
+        disableProperty().addListener((obs, oldv, newv) -> {
+            if (newv) {
+                setEditing(false);
+            }
+        });
     }
 
     private void enableEditing() {
-        rectangle.addEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedHandler);
-        rectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
+        if (!disable.get()) {
+            rectangle.addEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedHandler);
+            rectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
 
-        // Change look while editing. Store pre-edit look
-        lastColor = rectangle.getFill();
-        lastStrokeWidth = rectangle.getStrokeWidth();
-        lastStroke = rectangle.getStroke();
-        lastStrokeType = rectangle.getStrokeType();
+            // Change look while editing. Store pre-edit look
+            lastColor = rectangle.getFill();
+            lastStrokeWidth = rectangle.getStrokeWidth();
+            lastStroke = rectangle.getStroke();
+            lastStrokeType = rectangle.getStrokeType();
 
-        var c = editColor.get();
-        var darkerEditColor = Color.color(c.getRed(), c.getGreen(), c.getBlue(), 0.8).darker();
+            var c = editColor.get();
+            var darkerEditColor = Color.color(c.getRed(), c.getGreen(), c.getBlue(), 0.8).darker();
 
-        rectangle.setStrokeType(StrokeType.INSIDE);
-        rectangle.setStrokeWidth(2);
-        rectangle.setFill(c);
-        rectangle.setStroke(darkerEditColor);
+            rectangle.setStrokeType(StrokeType.INSIDE);
+            rectangle.setStrokeWidth(2);
+            rectangle.setFill(c);
+            rectangle.setStroke(darkerEditColor);
 
-        // Build control points and add them to the pane
-        var upperLeft = buildUpperLeftControlPoint(rectangle);
-        var upperRight = buildUpperRightControlPoint(rectangle);
-        var lowerLeft = buildLowerLeftControlPoint(rectangle);
-        var lowerRight = buildLowerRightControlPoint(rectangle);
-        controlPoints = List.of(upperLeft, upperRight, lowerLeft, lowerRight);
-        controlPoints.forEach(cp -> cp.setFill(darkerEditColor));
-        parentPane.getChildren().addAll(controlPoints);
+            // Build control points and add them to the pane
+            var upperLeft = buildUpperLeftControlPoint(rectangle);
+            var upperRight = buildUpperRightControlPoint(rectangle);
+            var lowerLeft = buildLowerLeftControlPoint(rectangle);
+            var lowerRight = buildLowerRightControlPoint(rectangle);
+            controlPoints = List.of(upperLeft, upperRight, lowerLeft, lowerRight);
+            controlPoints.forEach(cp -> cp.setFill(darkerEditColor));
+            parentPane.getChildren().addAll(controlPoints);
+        }
     }
 
     private void disableEditing() {
@@ -145,6 +174,11 @@ public class RectangleViewEditor implements ViewEditor {
     @Override
     public boolean isEditing() {
         return rectangleView.isEditing();
+    }
+
+    @Override
+    public BooleanProperty editingProperty() {
+        return rectangleView.editingProperty();
     }
 
     private Rectangle buildUpperLeftControlPoint(Rectangle b) {
@@ -296,5 +330,20 @@ public class RectangleViewEditor implements ViewEditor {
         var nodes = new ArrayList<Rectangle>(controlPoints);
         nodes.add(rectangle);
         return nodes;
+    }
+
+    @Override
+    public void setDisable(boolean disable) {
+        this.disable.set(disable);
+    }
+
+    @Override
+    public boolean isDisable() {
+        return disable.get();
+    }
+
+    @Override
+    public BooleanProperty disableProperty() {
+        return disable;
     }
 }

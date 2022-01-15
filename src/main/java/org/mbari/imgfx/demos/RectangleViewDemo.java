@@ -2,7 +2,6 @@ package org.mbari.imgfx.demos;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,9 +10,8 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.roi.RectangleViewEditor;
-import org.mbari.imgfx.controls.CrossHairs;
-import org.mbari.imgfx.controls.SelectionRectangle;
-import org.mbari.imgfx.roi.RectangleData;
+import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
+import org.mbari.imgfx.ext.jfx.controls.SelectionRectangle;
 import org.mbari.imgfx.roi.RectangleView;
 
 public class RectangleViewDemo extends Application {

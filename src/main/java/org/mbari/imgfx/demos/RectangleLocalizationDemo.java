@@ -3,25 +3,19 @@ package org.mbari.imgfx.demos;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.RectanglePublisher;
-import org.mbari.imgfx.events.NewLocalizationEvent;
+import org.mbari.imgfx.tools.RectangleBuilder;
 import org.mbari.imgfx.events.NewRectangleEvent;
 import org.mbari.imgfx.ext.rx.EventBus;
-import org.mbari.imgfx.controls.CrossHairs;
-import org.mbari.imgfx.roi.RectangleData;
+import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
 import org.mbari.imgfx.roi.RectangleView;
-import org.mbari.imgfx.roi.RectangleViewEditor;
 
 
 public class RectangleLocalizationDemo extends Application {
@@ -40,8 +34,8 @@ public class RectangleLocalizationDemo extends Application {
         ImagePaneController paneController = new ImagePaneController(imageView);
         var pane = paneController.getPane();
         var eventBus = new EventBus();
-        var rp = new RectanglePublisher(paneController, eventBus);
-        rp.setDisable(false);
+        var rp = new RectangleBuilder(paneController, eventBus);
+        rp.setDisabled(false);
 
         eventBus.toObserverable()
                 .ofType(NewRectangleEvent.class)
@@ -57,19 +51,6 @@ public class RectangleLocalizationDemo extends Application {
             // If one is being edited, disable all other.
             // if any are being edited disabpel rectablePublisher.
         };
-
-        rectangleViews.addListener((ListChangeListener<? super Localization<RectangleView>>) c ->{
-            while (c.next()) {
-                if (c.wasAdded()) {
-                    var added = c.getAddedSubList();
-                    added.forEach(a -> a.getDataView()
-                            .editingProperty()
-                            .addListener());
-                }
-            }
-        });
-
-
 
         var crossHairs = new CrossHairs();
         pane.getChildren().addAll(crossHairs.getNodes());

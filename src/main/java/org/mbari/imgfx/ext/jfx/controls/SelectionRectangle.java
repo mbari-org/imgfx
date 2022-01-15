@@ -1,4 +1,4 @@
-package org.mbari.imgfx.controls;
+package org.mbari.imgfx.ext.jfx.controls;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

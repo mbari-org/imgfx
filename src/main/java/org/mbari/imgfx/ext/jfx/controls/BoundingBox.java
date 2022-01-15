@@ -1,4 +1,4 @@
-package org.mbari.imgfx.controls;
+package org.mbari.imgfx.ext.jfx.controls;
 
 
 import javafx.event.EventHandler;

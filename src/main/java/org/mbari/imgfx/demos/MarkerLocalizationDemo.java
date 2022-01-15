@@ -4,14 +4,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.controls.CrossHairs;
+import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import org.mbari.imgfx.roi.CircleData;
 import org.mbari.imgfx.roi.MarkerView;
 
 import java.time.LocalTime;
@@ -42,7 +40,7 @@ public class MarkerLocalizationDemo extends Application {
                     .ifPresent(view -> {
                         view.getData().setRadius(6); // Set radius in image coords to keep the sizes consstent
 //                        view.getView().fillProperty().bind(fill);
-                        view.getView().strokeProperty().bind(fill);
+                        view.getView().setStroke(fill.get());
                         view.getView().setStrokeWidth(3);
                         new Localization<>(view, controller, LocalTime.now().toString());
                     });
