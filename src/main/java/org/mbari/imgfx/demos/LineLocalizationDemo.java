@@ -9,22 +9,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.BuilderCoordinator;
-import org.mbari.imgfx.tools.RectangleBuilder;
+import org.mbari.imgfx.events.NewLineEvent;
 import org.mbari.imgfx.events.NewRectangleEvent;
-import org.mbari.imgfx.ext.rx.EventBus;
 import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
+import org.mbari.imgfx.ext.rx.EventBus;
 import org.mbari.imgfx.roi.RectangleView;
+import org.mbari.imgfx.tools.LineBuilder;
+import org.mbari.imgfx.tools.RectangleBuilder;
 
 import java.time.LocalTime;
 
-
-public class RectangleLocalizationDemo extends Application {
+public class LineLocalizationDemo extends Application {
 
     // If any are being edited disable the publisher
-    private ObservableList<Localization<RectangleView>> rectangleViews = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -37,28 +37,21 @@ public class RectangleLocalizationDemo extends Application {
         ImagePaneController paneController = new ImagePaneController(imageView);
         var pane = paneController.getPane();
         var eventBus = new EventBus();
-        var rp = new RectangleBuilder(paneController, eventBus);
-        rp.setDisabled(false);
 
+        var builder = new LineBuilder(paneController, eventBus);
+        builder.setDisabled(false);
         var localizationController = new BuilderCoordinator(eventBus);
-        localizationController.addBuilder(rp);
-        localizationController.setCurrentBuilder(rp);
+        localizationController.addBuilder(builder);
+        localizationController.setCurrentBuilder(builder);
 
         eventBus.toObserverable()
-                .ofType(NewRectangleEvent.class)
+                .ofType(NewLineEvent.class)
                 .subscribe(loc -> {
                     loc.localization().setLabel(LocalTime.now().toString());
-                    loc.localization()
-                            .getDataView()
-                            .getView()
-                            .setFill(Paint.valueOf("#4FC3F730"));
-                    rectangleViews.add(loc.localization());
+                    var shape = loc.localization().getDataView().getView();
+                    shape.setStroke(Paint.valueOf("#4FC3F7"));
+                    shape.setStrokeWidth(3);
                 });
-
-        ChangeListener<? super Boolean> editChangeListener = (obs, oldv, newv) -> {
-            // If one is being edited, disable all other.
-            // if any are being edited disabpel rectablePublisher.
-        };
 
         var crossHairs = new CrossHairs();
         pane.getChildren().addAll(crossHairs.getNodes());

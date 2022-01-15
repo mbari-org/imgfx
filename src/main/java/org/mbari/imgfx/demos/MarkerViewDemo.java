@@ -32,13 +32,20 @@ public class MarkerViewDemo extends Application {
 
         var scene = new Scene(pane, 640, 480);
         scene.setOnMouseClicked(event -> {
-            var p = new Point2D(event.getSceneX(), event.getSceneY());
-            var imagePoint = rip.getImageViewDecorator().sceneToImage(p);
-            var data = new CircleData(imagePoint.getX(), imagePoint.getY(), 6);
-            var view = new MarkerView(data, rip.getImageViewDecorator());
-            var shape = view.getView();
-            shape.setStroke(Color.valueOf("#FF9800"));
-            pane.getChildren().add(view.getView());
+            MarkerView.fromSceneCoords(event.getSceneX(), event.getSceneY(), 6D, rip.getImageViewDecorator())
+                    .ifPresent(view -> {
+                        view.getData().setRadius(6D);
+                        var shape = view.getView();
+                        shape.setStroke(Color.valueOf("#FF9800"));
+                        pane.getChildren().add(view.getView());
+                    });
+//            var p = new Point2D(event.getSceneX(), event.getSceneY());
+//            var imagePoint = rip.getImageViewDecorator().sceneToImage(p);
+//            var data = new CircleData(imagePoint.getX(), imagePoint.getY(), 6);
+//            var view = new MarkerView(data, rip.getImageViewDecorator());
+//            var shape = view.getView();
+//            shape.setStroke(Color.valueOf("#FF9800"));
+//            pane.getChildren().add(view.getView());
 
         });
 

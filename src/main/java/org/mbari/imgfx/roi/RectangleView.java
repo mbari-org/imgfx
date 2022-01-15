@@ -142,4 +142,12 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
         var imageHeight = height / decorator.getScaleX();
         return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, decorator);
     }
+
+    public static Optional<RectangleView> fromParentCoords(Double x, Double y, Double width, Double height, ImageViewDecorator decorator) {
+        var parentXY = new Point2D(x, y);
+        var imageXY = decorator.parentToImage(parentXY);
+        var imageWidth = width / decorator.getScaleX();
+        var imageHeight = height / decorator.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, decorator);
+    }
 }

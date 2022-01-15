@@ -15,7 +15,6 @@ import org.mbari.imgfx.ext.rx.EventBus;
 
 import java.time.LocalTime;
 
-// TODO Think this trough.
 public class RectangleBuilder implements Builder {
 
     /*
@@ -51,17 +50,16 @@ public class RectangleBuilder implements Builder {
     }
 
     private EventHandler<MouseEvent> buildOnCompleteHandler() {
-        var pane = paneController.getPane();
         return (e) -> {
             if (!disabled.get()) {
                 var decorator = paneController.getImageViewDecorator();
 
                 var r = selectionRectangle.getRectangle();
-                RectangleView.fromSceneCoords(r.getX(), r.getY(), r.getWidth(), r.getHeight(), decorator)
+                RectangleView.fromParentCoords(r.getX(), r.getY(), r.getWidth(), r.getHeight(), decorator)
                         .ifPresent(view -> {
                             if (view.getData().getHeight() > 2 && view.getData().getWidth() > 2) {
                                 addEditor(view);
-                                var loc = new Localization<>(view, paneController, LocalTime.now().toString());
+                                var loc = new Localization<>(view, paneController);
                                 eventBus.publish(new NewRectangleEvent(loc));
                             }
                         });

@@ -139,4 +139,11 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
                 .collect(Collectors.toList());
         return fromImageCoords(imagePoints, decorator);
     }
+
+    public static Optional<PolygonView> fromParentCoords(Collection<Point2D> points, ImageViewDecorator decorator) {
+        var imagePoints = points.stream()
+                .map(decorator::parentToImage)
+                .collect(Collectors.toList());
+        return fromImageCoords(imagePoints, decorator);
+    }
 }

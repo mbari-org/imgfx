@@ -129,4 +129,11 @@ public class CircleView implements DataView<CircleData, Circle> {
         return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, decorator);
     }
 
+    public static Optional<CircleView> fromParentCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+        var parentXY = new Point2D(centerX, centerY);
+        var imageXY = decorator.parentToImage(parentXY);
+        var imageRadius = radius / decorator.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, decorator);
+    }
+
 }

@@ -2,7 +2,6 @@ package org.mbari.imgfx;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.shape.Shape;
 import org.mbari.imgfx.events.DeleteLocalizationEvent;
 import org.mbari.imgfx.events.NewLocalizationEvent;
@@ -14,15 +13,16 @@ import org.mbari.imgfx.tools.Builder;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class LocalizationController {
+public class BuilderCoordinator {
 
     private final EventBus eventBus;
     private final List<Localization<? extends DataView<? extends Data, ? extends Shape>>> localizations = new CopyOnWriteArrayList<>();
     private final List<Builder> builders = new CopyOnWriteArrayList<>();
     private final ObjectProperty<DataView<? extends Data, ? extends Shape>> currentlyEdited =
             new SimpleObjectProperty<>();
+    private final ObjectProperty<Builder> currentBuilder = new SimpleObjectProperty<>();
 
-    public LocalizationController(EventBus eventBus) {
+    public BuilderCoordinator(EventBus eventBus) {
         this.eventBus = eventBus;
         init();
     }
@@ -31,7 +31,7 @@ public class LocalizationController {
         eventBus.toObserverable()
                 .ofType(NewLocalizationEvent.class)
                 .map(NewLocalizationEvent::localization)
-                .subscribe(localizations::add);
+                .subscribe(this::addLocalization);
 
         eventBus.toObserverable()
                 .ofType(DeleteLocalizationEvent.class)
@@ -39,8 +39,21 @@ public class LocalizationController {
                 .subscribe(localizations::remove);
 
         currentlyEdited.addListener((obs, oldv, newv) -> {
+            if (newv == null) {
+                var builder = currentBuilder.get();
+                if (builder != null) {
+                    builder.setDisabled(false);
+                }
+            }
             if (newv != null) {
                 builders.forEach(b -> b.setDisabled(true));
+            }
+        });
+
+        // If the current builder isn't in the collection of builders add it.
+        currentBuilder.addListener((obs, oldv, newv) -> {
+            if (newv != null && !builders.contains(newv)) {
+                builders.add(newv);
             }
         });
     }
@@ -75,4 +88,27 @@ public class LocalizationController {
         builders.add(builder);
     }
 
+    public Builder getCurrentBuilder() {
+        return currentBuilder.get();
+    }
+
+    public ObjectProperty<Builder> currentBuilderProperty() {
+        return currentBuilder;
+    }
+
+    public void setCurrentBuilder(Builder currentBuilder) {
+        this.currentBuilder.set(currentBuilder);
+    }
+
+    public DataView<? extends Data, ? extends Shape> getCurrentlyEdited() {
+        return currentlyEdited.get();
+    }
+
+    public ObjectProperty<DataView<? extends Data, ? extends Shape>> currentlyEditedProperty() {
+        return currentlyEdited;
+    }
+
+    public void setCurrentlyEdited(DataView<? extends Data, ? extends Shape> currentlyEdited) {
+        this.currentlyEdited.set(currentlyEdited);
+    }
 }

@@ -2,6 +2,7 @@ package org.mbari.imgfx.ext.jfx;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,6 +68,12 @@ public class JFXUtil {
             node = node.getParent();
         }
         return false;
+    }
+
+    public static double lineLength(Line line) {
+        var dx = Math.abs(line.getStartX() - line.getEndX());
+        var dy = Math.abs(line.getStartY() - line.getEndY());
+        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     }
 
 

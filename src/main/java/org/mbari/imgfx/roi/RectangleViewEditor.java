@@ -143,6 +143,7 @@ public class RectangleViewEditor implements ViewEditor {
             controlPoints = List.of(upperLeft, upperRight, lowerLeft, lowerRight);
             controlPoints.forEach(cp -> cp.setFill(darkerEditColor));
             parentPane.getChildren().addAll(controlPoints);
+            toFront();
         }
     }
 
@@ -330,6 +331,10 @@ public class RectangleViewEditor implements ViewEditor {
         var nodes = new ArrayList<Rectangle>(controlPoints);
         nodes.add(rectangle);
         return nodes;
+    }
+
+    public List<Rectangle> getControlPoints() {
+        return controlPoints;
     }
 
     @Override

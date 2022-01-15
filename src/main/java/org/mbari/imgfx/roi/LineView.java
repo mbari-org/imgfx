@@ -162,8 +162,14 @@ public class LineView implements DataView<LineData, Line> {
         var sceneEnd = new Point2D(endX, endY);
         var imageStart = decorator.sceneToImage(sceneStart);
         var imageEnd = decorator.sceneToImage(sceneEnd);
+        return fromImageCoords(imageStart.getX(), imageStart.getY(), imageEnd.getX(), imageEnd.getY(), decorator);
+    }
 
-
+    public static Optional<LineView> fromParentCoords(double startX, double startY, double endX, double endY, ImageViewDecorator decorator) {
+        var sceneStart = new Point2D(startX, startY);
+        var sceneEnd = new Point2D(endX, endY);
+        var imageStart = decorator.parentToImage(sceneStart);
+        var imageEnd = decorator.parentToImage(sceneEnd);
         return fromImageCoords(imageStart.getX(), imageStart.getY(), imageEnd.getX(), imageEnd.getY(), decorator);
     }
 }

@@ -158,9 +158,16 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     }
 
     public static Optional<MarkerView> fromSceneCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
-        var scenePoint = new Point2D(centerX, centerY);
-        var imagePoint = decorator.sceneToImage(scenePoint);
+        var sceneXY = new Point2D(centerX, centerY);
+        var imagePoint = decorator.sceneToImage(sceneXY);
         var imageRadius = radius / decorator.getScaleX();
         return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, decorator);
+    }
+
+    public static Optional<MarkerView> fromParentCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+        var parentXY = new Point2D(centerX, centerY);
+        var imageXY = decorator.parentToImage(parentXY);
+        var imageRadius = radius / decorator.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, decorator);
     }
 }
