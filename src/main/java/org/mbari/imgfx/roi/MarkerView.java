@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import org.mbari.imgfx.ImageViewDecorator;
 import org.mbari.imgfx.ext.jfx.JFXUtil;
@@ -28,7 +29,9 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     }
 
     private void init() {
-        updateView();
+
+//        view.setFill(Color.TRANSPARENT);
+
         EditingDecorator.decorate(this);
 
         ChangeListener<? super Number> dataChangeListener = (obs, oldv, newv) -> {
@@ -63,6 +66,8 @@ public class MarkerView implements DataView<CircleData, Polyline> {
             labelLocationHint.yProperty().set(avgY);
 
         });
+
+        updateView();
     }
 
     public void updateData() {

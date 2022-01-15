@@ -26,7 +26,7 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
     }
 
     private void init() {
-        updateView();
+
         EditingDecorator.decorate(this);
 
         ChangeListener<? super Number> dataChangeListener = (obs, oldv, newv) -> {
@@ -52,6 +52,8 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
 
         labelLocationHint.xProperty().bind(view.xProperty());
         labelLocationHint.yProperty().bind(view.yProperty());
+
+        updateView();
 
     }
 

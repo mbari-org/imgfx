@@ -3,10 +3,14 @@ package org.mbari.imgfx;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Point2D;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
+import org.mbari.imgfx.ext.jfx.MutablePoint;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
 
@@ -19,7 +23,7 @@ public class Localization<A extends Data, B extends Shape> {
     private final DataView<A, B> dataView;
     private final StringProperty label = new SimpleStringProperty();
     private final ImagePaneController paneController;
-    private final Label labelView = new Label();
+    private final Text labelView = new Text();
 
     public Localization(DataView<A, B> dataView, ImagePaneController paneController) {
         this(dataView, paneController, UUID.randomUUID(), null);
@@ -47,10 +51,13 @@ public class Localization<A extends Data, B extends Shape> {
         this.imageUuid = imageUuid;
         label.set(labelText);
         init();
+
     }
 
     private void init() {
         var labelLocationHint = dataView.getLabelLocationHint();
+
+        labelView.setTextOrigin(VPos.BOTTOM);
         labelView.layoutXProperty().bind(labelLocationHint.xProperty());
         labelView.layoutYProperty().bind(labelLocationHint.yProperty());
         labelView.textProperty().bind(label);
@@ -58,17 +65,20 @@ public class Localization<A extends Data, B extends Shape> {
 
         var colorBinding = new ObjectBinding<Color>() {
             {
-                super.bind(dataView.getView().fillProperty());
+                super.bind(dataView.getView().fillProperty(), dataView.getView().strokeProperty());
             }
 
             @Override
             protected Color computeValue() {
                 var color = (Color) dataView.getView().getFill();
+                if (color == null) {
+                    color = (Color) dataView.getView().getStroke();
+                }
                 return Color.color(color.getRed(), color.getGreen(), color.getBlue());
             }
         };
 
-        labelView.textFillProperty().bind(colorBinding);
+        labelView.strokeProperty().bind(colorBinding);
 
     }
 

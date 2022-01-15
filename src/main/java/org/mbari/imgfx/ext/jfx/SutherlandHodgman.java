@@ -13,6 +13,12 @@ import java.util.stream.Collectors;
  */
 public class SutherlandHodgman {
 
+    /**
+     * Clip a polygon to be within the given bounds
+     * @param polygon The polygon
+     * @param bounds THe bounds to clip the polygon within
+     * @return A new polygon
+     */
     public static Optional<Polygon> clip(Polygon polygon, Bounds bounds) {
         var clipper = List.of(
                 new double[]{bounds.getMinX(), bounds.getMinY()},

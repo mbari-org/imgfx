@@ -26,7 +26,6 @@ public class CircleView implements DataView<CircleData, Circle> {
     }
 
     private void init() {
-        updateView();
         EditingDecorator.decorate(this);
 
         ChangeListener<? super Number> dataChangeListener = (obs, oldv, newv) -> {
@@ -49,7 +48,7 @@ public class CircleView implements DataView<CircleData, Circle> {
 
         // Label at top of circle
         labelLocationHint.xProperty().bind(view.centerXProperty());
-        labelLocationHint.xProperty().bind(view.centerYProperty().subtract(view.radiusProperty()));
+        labelLocationHint.yProperty().bind(view.centerYProperty().subtract(view.radiusProperty()));
 
     }
 
@@ -71,6 +70,8 @@ public class CircleView implements DataView<CircleData, Circle> {
             data.setCenterY(0);
             data.setRadius(0);
         }
+
+        updateView();
     }
 
     public void updateView() {

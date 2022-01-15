@@ -27,7 +27,7 @@ public class LineView implements DataView<LineData, Line> {
     }
 
     private void init() {
-        updateView();
+
         EditingDecorator.decorate(this);
 
         ChangeListener<? super Number> dataChangeListener = (obs, oldv, newv) -> {
@@ -60,7 +60,7 @@ public class LineView implements DataView<LineData, Line> {
             protected double computeValue() {
                 var x0 = view.getStartX();
                 var x1 = view.getEndX();
-                return Math.min(x0, x1) + Math.abs(x0 - x1) ;
+                return Math.min(x0, x1) + Math.abs(x0 - x1) / 2 ;
             }
         };
 
@@ -73,13 +73,14 @@ public class LineView implements DataView<LineData, Line> {
             protected double computeValue() {
                 var y0 = view.getStartY();
                 var y1 = view.getEndY();
-                return Math.min(y0, y1) + Math.abs(y0 - y1) ;
+                return Math.min(y0, y1) + Math.abs(y0 - y1) / 2;
             }
         };
 
 
         labelLocationHint.xProperty().bind(xBinding);
         labelLocationHint.yProperty().bind(yBinding);
+        updateView();
     }
 
     @Override
@@ -148,7 +149,7 @@ public class LineView implements DataView<LineData, Line> {
 
     @Override
     public MutablePoint getLabelLocationHint() {
-        return null;
+        return labelLocationHint;
     }
 
     public static Optional<LineView> fromImageCoords(double startX, double startY, double endX, double endY, ImageViewDecorator decorator) {

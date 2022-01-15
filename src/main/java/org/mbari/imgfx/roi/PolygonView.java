@@ -31,7 +31,7 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
     }
 
     private void init() {
-        updateView();
+
         EditingDecorator.decorate(this);
         data.getPoints().addListener((ListChangeListener<? super Point2D>) c -> {
             if (!editing.get()) {
@@ -62,6 +62,8 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
             labelLocationHint.yProperty().set(minY);
 
         });
+
+        updateView();
     }
 
     @Override
