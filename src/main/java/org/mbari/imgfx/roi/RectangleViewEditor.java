@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import org.mbari.imgfx.ext.jfx.ShapeColors;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,10 +38,11 @@ public class RectangleViewEditor implements ViewEditor {
        indicate that it's actively editing. Hang on to the original colors
        so we can set it back to its old look when editing id done
     */
-    private Paint lastColor;
-    private double lastStrokeWidth;
-    private Paint lastStroke;
-    private StrokeType lastStrokeType;
+//    private Paint lastColor;
+//    private double lastStrokeWidth;
+//    private Paint lastStroke;
+//    private StrokeType lastStrokeType;
+    private ShapeColors lastShapeColors;
 
     /* Some stuff to layout the control points */
     private int offset = 5;
@@ -122,10 +124,11 @@ public class RectangleViewEditor implements ViewEditor {
             rectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
 
             // Change look while editing. Store pre-edit look
-            lastColor = rectangle.getFill();
-            lastStrokeWidth = rectangle.getStrokeWidth();
-            lastStroke = rectangle.getStroke();
-            lastStrokeType = rectangle.getStrokeType();
+            lastShapeColors = ShapeColors.fromShape(rectangle);
+//            lastColor = rectangle.getFill();
+//            lastStrokeWidth = rectangle.getStrokeWidth();
+//            lastStroke = rectangle.getStroke();
+//            lastStrokeType = rectangle.getStrokeType();
 
             var c = editColor.get();
             var darkerEditColor = Color.color(c.getRed(), c.getGreen(), c.getBlue(), 0.8).darker();
@@ -152,10 +155,13 @@ public class RectangleViewEditor implements ViewEditor {
         rectangle.removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
 
         // return to original, pre-edit look
-        rectangle.setStroke(lastStroke);
-        rectangle.setStrokeWidth(lastStrokeWidth);
-        rectangle.setFill(lastColor);
-        rectangle.setStrokeType(lastStrokeType);
+        if (lastShapeColors != null) {
+            lastShapeColors.applyTo(rectangle);
+        }
+//        rectangle.setStroke(lastStroke);
+//        rectangle.setStrokeWidth(lastStrokeWidth);
+//        rectangle.setFill(lastColor);
+//        rectangle.setStrokeType(lastStrokeType);
 
         // remove and get rid of contol points
         parentPane.getChildren().removeAll(controlPoints);
