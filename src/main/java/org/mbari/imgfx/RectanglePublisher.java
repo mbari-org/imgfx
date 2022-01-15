@@ -1,20 +1,13 @@
 package org.mbari.imgfx;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.controls.SelectionRectangle;
-import org.mbari.imgfx.events.NewLocalizationEvent;
 import org.mbari.imgfx.events.NewRectangleEvent;
-import org.mbari.imgfx.roi.RectangleData;
 import org.mbari.imgfx.roi.RectangleView;
 import org.mbari.imgfx.roi.RectangleViewEditor;
 import org.mbari.imgfx.ext.rx.EventBus;
@@ -43,10 +36,14 @@ public class RectanglePublisher {
         selectionRectangle.setOnCompleteHandler(onCompleteHandler);
         disableProperty().addListener((obs, oldv, newv) -> {
             if (newv) {
-                paneController.getPane().getChildren().remove(selectionRectangle.getRectangle());
+                paneController.getPane()
+                        .getChildren()
+                        .remove(selectionRectangle.getRectangle());
             }
             else {
-                paneController.getPane().getChildren().add(selectionRectangle.getRectangle());
+                paneController.getPane()
+                        .getChildren()
+                        .add(selectionRectangle.getRectangle());
             }
         });
     }
@@ -81,10 +78,12 @@ public class RectanglePublisher {
                             .stream()
                             .anyMatch(n -> n.contains(clickPoint));
                     editor.setEditing(doingEdits);
-                    setDisable(doingEdits);
-                    if (!doingEdits) {
-                        selectionRectangle.setDragStart(clickPoint);
-                    }
+
+//                    // Enable/disable really needs to be handled outside of the publixher.
+//                    setDisable(doingEdits);
+//                    if (!doingEdits) {
+//                        selectionRectangle.setDragStart(clickPoint);
+//                    }
                 });
     }
 
