@@ -16,31 +16,31 @@ import org.mbari.imgfx.roi.DataView;
 
 import java.util.UUID;
 
-public class Localization<A extends Data, B extends Shape> {
+public class Localization<C extends DataView<? extends Data, ? extends Shape>> {
 
     private UUID uuid;
     private UUID imageUuid;
-    private final DataView<A, B> dataView;
+    private final C dataView;
     private final StringProperty label = new SimpleStringProperty();
     private final ImagePaneController paneController;
     private final Text labelView = new Text();
 
-    public Localization(DataView<A, B> dataView, ImagePaneController paneController) {
+    public Localization(C dataView, ImagePaneController paneController) {
         this(dataView, paneController, UUID.randomUUID(), null);
     }
 
-    public Localization(DataView<A, B> dataView, ImagePaneController paneController, String labelText) {
+    public Localization(C dataView, ImagePaneController paneController, String labelText) {
         this(dataView, paneController, UUID.randomUUID(), null, labelText);
     }
 
-    public Localization(DataView<A, B> dataView,
+    public Localization(C dataView,
                         ImagePaneController paneController,
                         UUID uuid,
                         UUID imageUuid) {
         this(dataView, paneController, uuid, imageUuid, null);
     }
 
-    public Localization(DataView<A, B> dataView,
+    public Localization(C dataView,
                         ImagePaneController paneController,
                         UUID uuid,
                         UUID imageUuid,
@@ -83,7 +83,7 @@ public class Localization<A extends Data, B extends Shape> {
     }
 
 
-    public DataView<A, B> getDataView() {
+    public C getDataView() {
         return dataView;
     }
 

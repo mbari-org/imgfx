@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -100,5 +101,10 @@ public class SelectionRectangle {
 
   public void setOnCompleteHandler(EventHandler<MouseEvent> onCompleteHandler) {
     this.onCompleteHandler.set(onCompleteHandler);
+  }
+
+  public void setDragStart(Point2D dragStart) {
+    startX = dragStart.getX();
+    startY = dragStart.getY();
   }
 }

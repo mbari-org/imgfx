@@ -13,6 +13,7 @@ public class EditingDecorator {
                     dataView.updateView();
                 });
 
+
         editingProperty.addListener((obs, oldv, newv) -> {
             if (newv) {
                 dataView.updateView();

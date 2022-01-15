@@ -18,7 +18,7 @@ import java.util.List;
 public class RectangleViewEditor implements ViewEditor {
 
     /** The rectableView to decorate with and editor */
-    private final RectangleView rectangleView;
+    private final DataView<RectangleData, Rectangle> rectangleView;
 
     /** The rectangle from the rectangleView. We hold a reference to make the code cleaner */
     private final Rectangle rectangle;
@@ -70,7 +70,7 @@ public class RectangleViewEditor implements ViewEditor {
     };
 
 
-    public RectangleViewEditor(RectangleView rectangleView, Pane parentPane) {
+    public RectangleViewEditor(DataView<RectangleData, Rectangle> rectangleView, Pane parentPane) {
         this.rectangleView = rectangleView;
         this.rectangle = rectangleView.getView();
         this.parentPane = parentPane;
@@ -290,5 +290,11 @@ public class RectangleViewEditor implements ViewEditor {
 
     public void setEditColor(Color editColor) {
         this.editColor.set(editColor);
+    }
+
+    public List<Rectangle> getNodes() {
+        var nodes = new ArrayList<Rectangle>(controlPoints);
+        nodes.add(rectangle);
+        return nodes;
     }
 }

@@ -107,8 +107,6 @@ public class RectangleData implements Data {
         var ww = Math.min(Math.max(1, width), w - xx);
         var hh = Math.min(Math.max(1, height), h - yy);
 
-        var msg = String.format("Before: [%.1f %.1f %.1f %.1f], After: [%.1f %.1f %.1f %.1f]", x, y, width, height, xx, yy, ww, hh);
-        System.out.println(msg);
         var data = new RectangleData(xx, yy, ww, hh);
         return Optional.of(data);
     }
