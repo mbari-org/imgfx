@@ -40,17 +40,19 @@ public class LineLocalizationDemo extends Application {
 
         var builder = new LineBuilder(paneController, eventBus);
         builder.setDisabled(false);
-        var localizationController = new BuilderCoordinator(eventBus);
+        var localizationController = new BuilderCoordinator();
         localizationController.addBuilder(builder);
         localizationController.setCurrentBuilder(builder);
 
         eventBus.toObserverable()
                 .ofType(NewLineEvent.class)
-                .subscribe(loc -> {
-                    loc.localization().setLabel(LocalTime.now().toString());
-                    var shape = loc.localization().getDataView().getView();
+                .subscribe(event -> {
+                    var loc = event.localization();
+                    loc.setLabel(LocalTime.now().toString());
+                    var shape = loc.getDataView().getView();
                     shape.setStroke(Paint.valueOf("#4FC3F7"));
                     shape.setStrokeWidth(3);
+                    localizationController.addLocalization(loc);
                 });
 
         var crossHairs = new CrossHairs();

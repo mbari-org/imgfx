@@ -24,8 +24,6 @@ import java.time.LocalTime;
 public class RectangleLocalizationDemo extends Application {
 
     // If any are being edited disable the publisher
-    private ObservableList<Localization<RectangleView>> rectangleViews = FXCollections.observableArrayList();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle(getClass().getSimpleName());
@@ -40,19 +38,19 @@ public class RectangleLocalizationDemo extends Application {
         var rp = new RectangleBuilder(paneController, eventBus);
         rp.setDisabled(false);
 
-        var localizationController = new BuilderCoordinator(eventBus);
-        localizationController.addBuilder(rp);
-        localizationController.setCurrentBuilder(rp);
+        var builderCoordinator = new BuilderCoordinator();
+        builderCoordinator.addBuilder(rp);
+        builderCoordinator.setCurrentBuilder(rp);
 
         eventBus.toObserverable()
                 .ofType(NewRectangleEvent.class)
-                .subscribe(loc -> {
-                    loc.localization().setLabel(LocalTime.now().toString());
-                    loc.localization()
-                            .getDataView()
+                .subscribe(event -> {
+                    var loc = event.localization();
+                    loc.setLabel(LocalTime.now().toString());
+                    loc.getDataView()
                             .getView()
                             .setFill(Paint.valueOf("#4FC3F730"));
-                    rectangleViews.add(loc.localization());
+                    builderCoordinator.addLocalization(loc);
                 });
 
         ChangeListener<? super Boolean> editChangeListener = (obs, oldv, newv) -> {

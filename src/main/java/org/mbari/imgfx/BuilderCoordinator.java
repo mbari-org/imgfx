@@ -15,28 +15,28 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BuilderCoordinator {
 
-    private final EventBus eventBus;
+//    private final EventBus eventBus;
     private final List<Localization<? extends DataView<? extends Data, ? extends Shape>>> localizations = new CopyOnWriteArrayList<>();
     private final List<Builder> builders = new CopyOnWriteArrayList<>();
     private final ObjectProperty<DataView<? extends Data, ? extends Shape>> currentlyEdited =
             new SimpleObjectProperty<>();
     private final ObjectProperty<Builder> currentBuilder = new SimpleObjectProperty<>();
 
-    public BuilderCoordinator(EventBus eventBus) {
-        this.eventBus = eventBus;
+    public BuilderCoordinator() {
+//        this.eventBus = eventBus;
         init();
     }
 
     private void init() {
-        eventBus.toObserverable()
-                .ofType(NewLocalizationEvent.class)
-                .map(NewLocalizationEvent::localization)
-                .subscribe(this::addLocalization);
-
-        eventBus.toObserverable()
-                .ofType(DeleteLocalizationEvent.class)
-                .map(DeleteLocalizationEvent::localization)
-                .subscribe(localizations::remove);
+//        eventBus.toObserverable()
+//                .ofType(NewLocalizationEvent.class)
+//                .map(NewLocalizationEvent::localization)
+//                .subscribe(this::addLocalization);
+//
+//        eventBus.toObserverable()
+//                .ofType(DeleteLocalizationEvent.class)
+//                .map(DeleteLocalizationEvent::localization)
+//                .subscribe(localizations::remove);
 
         currentlyEdited.addListener((obs, oldv, newv) -> {
             if (newv == null) {
