@@ -2,15 +2,22 @@ package org.mbari.imgfx.demos;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.Localization;
+import org.mbari.imgfx.events.NewCircleEvent;
+import org.mbari.imgfx.events.NewMarkerEvent;
 import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.mbari.imgfx.ext.rx.EventBus;
 import org.mbari.imgfx.roi.MarkerView;
+import org.mbari.imgfx.tools.CircleBuilder;
+import org.mbari.imgfx.tools.MarkerBuilder;
 
 import java.time.LocalTime;
 
@@ -25,28 +32,30 @@ public class MarkerLocalizationDemo extends Application {
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
 
-        ImagePaneController controller = new ImagePaneController(imageView);
-        var pane = controller.getPane();
+        ImagePaneController paneController = new ImagePaneController(imageView);
+        var pane = paneController.getPane();
+        var eventBus = new EventBus();
 
         var crossHairs = new CrossHairs();
         pane.getChildren().addAll(crossHairs.getNodes());
-        var decorator = controller.getImageViewDecorator();
-        var fill = new SimpleObjectProperty<>(Color.valueOf("#FF9800"));
+        var builderCoordinator = new BuilderCoordinator();
+        var builder = new MarkerBuilder(paneController, eventBus);
+        builderCoordinator.setCurrentBuilder(builder);
+        builder.setDisabled(false);
+
+        eventBus.toObserverable()
+                .ofType(NewMarkerEvent.class)
+                .subscribe(event -> {
+                    var loc = event.localization();
+                    loc.setLabel(LocalTime.now().toString());
+                    var shape = loc.getDataView().getView();
+                    shape.setStroke(Paint.valueOf("#FF9800"));
+                    shape.setStrokeWidth(3);
+                    builderCoordinator.addLocalization(loc);
+                });
 
 
         var scene = new Scene(pane, 640, 480);
-        scene.setOnMouseClicked(event -> {
-            MarkerView.fromSceneCoords(event.getSceneX(), event.getSceneY(), 10D, decorator)
-                    .ifPresent(view -> {
-                        view.getData().setRadius(6); // Set radius in image coords to keep the sizes consstent
-//                        view.getView().fillProperty().bind(fill);
-                        view.getView().setStroke(fill.get());
-                        view.getView().setStrokeWidth(3);
-                        new Localization<>(view, controller, LocalTime.now().toString());
-                    });
-        });
-
-
         scene.widthProperty()
                 .addListener((obs, oldv, newv) -> pane.setPrefWidth(newv.doubleValue()));
         scene.heightProperty()

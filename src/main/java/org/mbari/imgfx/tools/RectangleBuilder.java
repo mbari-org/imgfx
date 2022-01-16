@@ -69,7 +69,7 @@ public class RectangleBuilder implements Builder {
     }
 
     private void addEditor(RectangleView dataView) {
-        var editor = new RectangleViewEditor(dataView, paneController.getPane());
+        new RectangleViewEditor(dataView, paneController.getPane());
     }
 
     public boolean isDisabled() {
