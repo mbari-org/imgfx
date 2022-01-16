@@ -7,7 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
 import org.mbari.imgfx.ImageViewDecorator;
-import org.mbari.imgfx.ext.jfx.MutablePoint;
+import org.mbari.imgfx.etc.jfx.MutablePoint;
 
 import java.util.Optional;
 

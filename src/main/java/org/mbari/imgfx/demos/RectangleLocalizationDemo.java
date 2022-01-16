@@ -2,21 +2,17 @@ package org.mbari.imgfx.demos;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.ImagePaneController;
-import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.tools.RectangleBuilder;
-import org.mbari.imgfx.events.NewRectangleEvent;
-import org.mbari.imgfx.ext.rx.EventBus;
-import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
-import org.mbari.imgfx.roi.RectangleView;
+import org.mbari.imgfx.etc.rx.events.NewRectangleEvent;
+import org.mbari.imgfx.etc.rx.EventBus;
+import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 
 import java.time.LocalTime;
 

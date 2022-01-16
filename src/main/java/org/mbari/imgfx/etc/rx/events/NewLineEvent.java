@@ -1,7 +1,6 @@
-package org.mbari.imgfx.events;
+package org.mbari.imgfx.etc.rx.events;
 
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.roi.LineView;
 import org.mbari.imgfx.roi.LineView;
 
 public record NewLineEvent(Localization<LineView> localization)

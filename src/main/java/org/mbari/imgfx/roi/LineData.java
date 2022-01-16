@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.BoundingBox;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Line;
-import org.mbari.imgfx.ext.jfx.CohenSutherland;
+import org.mbari.imgfx.etc.jfx.CohenSutherland;
 
 import java.util.Optional;
 

@@ -2,14 +2,12 @@ package org.mbari.imgfx.demos;
 
 import javafx.scene.paint.Color;
 import org.mbari.imgfx.ImagePaneController;
-import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
+import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import org.mbari.imgfx.roi.CircleData;
 import org.mbari.imgfx.roi.MarkerView;
 
 public class MarkerViewDemo extends Application {

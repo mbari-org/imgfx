@@ -11,8 +11,8 @@ module imgfx {
   exports org.mbari.imgfx.demos;
   exports org.mbari.imgfx.tools;
   exports org.mbari.imgfx.roi;
-  exports org.mbari.imgfx.ext.rx;
-  exports org.mbari.imgfx.ext.jfx;
-  exports org.mbari.imgfx.events;
-  exports org.mbari.imgfx.ext.jfx.controls;
+  exports org.mbari.imgfx.etc.rx;
+  exports org.mbari.imgfx.etc.jfx;
+  exports org.mbari.imgfx.etc.rx.events;
+  exports org.mbari.imgfx.etc.jfx.controls;
 }

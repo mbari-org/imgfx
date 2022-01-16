@@ -6,9 +6,8 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import org.mbari.imgfx.ext.jfx.JFXUtil;
-import org.mbari.imgfx.ext.jfx.SutherlandHodgman;
+import org.mbari.imgfx.etc.jfx.JFXUtil;
+import org.mbari.imgfx.etc.jfx.SutherlandHodgman;
 
 import java.util.Collection;
 import java.util.List;

@@ -10,10 +10,9 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import org.mbari.imgfx.ext.jfx.ShapeColors;
+import org.mbari.imgfx.etc.jfx.ShapeColors;
 
 import java.util.ArrayList;
 import java.util.Collections;

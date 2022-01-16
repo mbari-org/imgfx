@@ -4,8 +4,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.events.NewMarkerEvent;
-import org.mbari.imgfx.ext.rx.EventBus;
+import org.mbari.imgfx.etc.rx.events.NewMarkerEvent;
+import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.roi.MarkerView;
 
 public class MarkerBuilder implements Builder {

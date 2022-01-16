@@ -7,13 +7,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.ext.jfx.controls.SelectionRectangle;
-import org.mbari.imgfx.events.NewRectangleEvent;
+import org.mbari.imgfx.etc.jfx.controls.SelectionRectangle;
+import org.mbari.imgfx.etc.rx.events.NewRectangleEvent;
 import org.mbari.imgfx.roi.RectangleView;
 import org.mbari.imgfx.roi.RectangleViewEditor;
-import org.mbari.imgfx.ext.rx.EventBus;
-
-import java.time.LocalTime;
+import org.mbari.imgfx.etc.rx.EventBus;
 
 public class RectangleBuilder implements Builder {
 

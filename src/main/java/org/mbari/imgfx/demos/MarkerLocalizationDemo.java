@@ -1,22 +1,16 @@
 package org.mbari.imgfx.demos;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.ImagePaneController;
-import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.events.NewCircleEvent;
-import org.mbari.imgfx.events.NewMarkerEvent;
-import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
+import org.mbari.imgfx.etc.rx.events.NewMarkerEvent;
+import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import org.mbari.imgfx.ext.rx.EventBus;
-import org.mbari.imgfx.roi.MarkerView;
-import org.mbari.imgfx.tools.CircleBuilder;
+import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.tools.MarkerBuilder;
 
 import java.time.LocalTime;

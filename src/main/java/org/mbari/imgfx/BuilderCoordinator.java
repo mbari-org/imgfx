@@ -3,9 +3,6 @@ package org.mbari.imgfx;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Shape;
-import org.mbari.imgfx.events.DeleteLocalizationEvent;
-import org.mbari.imgfx.events.NewLocalizationEvent;
-import org.mbari.imgfx.ext.rx.EventBus;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
 import org.mbari.imgfx.tools.Builder;
@@ -23,20 +20,10 @@ public class BuilderCoordinator {
     private final ObjectProperty<Builder> currentBuilder = new SimpleObjectProperty<>();
 
     public BuilderCoordinator() {
-//        this.eventBus = eventBus;
         init();
     }
 
     private void init() {
-//        eventBus.toObserverable()
-//                .ofType(NewLocalizationEvent.class)
-//                .map(NewLocalizationEvent::localization)
-//                .subscribe(this::addLocalization);
-//
-//        eventBus.toObserverable()
-//                .ofType(DeleteLocalizationEvent.class)
-//                .map(DeleteLocalizationEvent::localization)
-//                .subscribe(localizations::remove);
 
         currentlyEdited.addListener((obs, oldv, newv) -> {
             if (newv == null) {

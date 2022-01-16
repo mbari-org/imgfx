@@ -3,7 +3,7 @@ package org.mbari.imgfx.roi;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.shape.Shape;
 import org.mbari.imgfx.ImageViewDecorator;
-import org.mbari.imgfx.ext.jfx.MutablePoint;
+import org.mbari.imgfx.etc.jfx.MutablePoint;
 
 public interface DataView<A extends Data, B extends Shape> {
 

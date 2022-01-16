@@ -1,11 +1,10 @@
-package org.mbari.imgfx.ext.jfx;
+package org.mbari.imgfx.etc.jfx;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class JFXUtil {

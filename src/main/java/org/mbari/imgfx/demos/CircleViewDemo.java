@@ -2,7 +2,7 @@ package org.mbari.imgfx.demos;
 
 import javafx.scene.paint.Color;
 import org.mbari.imgfx.ImagePaneController;
-import org.mbari.imgfx.ext.jfx.controls.CrossHairs;
+import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

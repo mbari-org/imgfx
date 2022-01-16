@@ -5,11 +5,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import org.mbari.imgfx.ImageViewDecorator;
-import org.mbari.imgfx.ext.jfx.JFXUtil;
-import org.mbari.imgfx.ext.jfx.MutablePoint;
+import org.mbari.imgfx.etc.jfx.JFXUtil;
+import org.mbari.imgfx.etc.jfx.MutablePoint;
 
 import java.util.Optional;
 

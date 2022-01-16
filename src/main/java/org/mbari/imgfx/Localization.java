@@ -3,14 +3,10 @@ package org.mbari.imgfx;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
-import org.mbari.imgfx.ext.jfx.MutablePoint;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
 

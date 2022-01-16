@@ -6,8 +6,8 @@ import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
 import org.mbari.imgfx.ImageViewDecorator;
-import org.mbari.imgfx.ext.jfx.JFXUtil;
-import org.mbari.imgfx.ext.jfx.MutablePoint;
+import org.mbari.imgfx.etc.jfx.JFXUtil;
+import org.mbari.imgfx.etc.jfx.MutablePoint;
 
 
 import java.util.Collection;

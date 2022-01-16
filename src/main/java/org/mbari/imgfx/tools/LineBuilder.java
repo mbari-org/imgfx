@@ -8,9 +8,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import org.mbari.imgfx.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.events.NewLineEvent;
-import org.mbari.imgfx.ext.jfx.JFXUtil;
-import org.mbari.imgfx.ext.rx.EventBus;
+import org.mbari.imgfx.etc.rx.events.NewLineEvent;
+import org.mbari.imgfx.etc.jfx.JFXUtil;
+import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.roi.LineView;
 
 

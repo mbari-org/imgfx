@@ -1,4 +1,4 @@
-package org.mbari.imgfx.ext.jfx;
+package org.mbari.imgfx.etc.jfx;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

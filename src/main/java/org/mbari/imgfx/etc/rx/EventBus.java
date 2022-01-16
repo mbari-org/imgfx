@@ -1,4 +1,4 @@
-package org.mbari.imgfx.ext.rx;
+package org.mbari.imgfx.etc.rx;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;

@@ -1,11 +1,9 @@
-package org.mbari.imgfx.ext.jfx.controls;
+package org.mbari.imgfx.etc.jfx.controls;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Parent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;

@@ -1,4 +1,4 @@
-package org.mbari.imgfx.events;
+package org.mbari.imgfx.etc.rx.events;
 
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.roi.MarkerView;
