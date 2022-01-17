@@ -1,6 +1,9 @@
 package org.mbari.imgfx.etc.jfx.controls;
 
 import java.util.List;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -12,14 +15,15 @@ public class CrossHairs {
   private final Line verticalLine;
   private final Line horizontalLine;
   private final List<Node> nodes;
+  private final ObjectProperty<Color> color = new SimpleObjectProperty<>();
 
-  private double sceneX;
-  private double sceneY;
+  private double layoutX;
+  private double layoutY;
 
 
   private final EventHandler<MouseEvent> movedEvent = (event) -> {
-    sceneX = event.getSceneX();
-    sceneY = event.getSceneY();
+    layoutX = event.getX();
+    layoutY = event.getY();
     doLayout();
   };
 
@@ -28,6 +32,10 @@ public class CrossHairs {
     verticalLine = new Line();
     horizontalLine = new Line();
     nodes = List.of(verticalLine, horizontalLine);
+    init();
+  }
+
+  private void init() {
     verticalLine.parentProperty().addListener((obs, oldv, newv) -> {
       if (oldv != null) {
         oldv.removeEventHandler(MouseEvent.MOUSE_MOVED, movedEvent);
@@ -38,9 +46,14 @@ public class CrossHairs {
     });
     verticalLine.getStrokeDashArray().addAll(5.0, 5.0);
     horizontalLine.getStrokeDashArray().addAll(5.0, 5.0);
+    colorProperty().addListener((obs, oldv, newv) -> {
+        verticalLine.setStroke(newv);
+        verticalLine.setFill(newv);
+        horizontalLine.setStroke(newv);
+        horizontalLine.setFill(newv);
+    });
     setColor(Color.valueOf("#FF666680"));
   }
-
 
   private void doLayout() {
     var parent = verticalLine.getParent();
@@ -50,15 +63,15 @@ public class CrossHairs {
     else {
       var bounds = parent.getLayoutBounds();
       
-      verticalLine.setStartX(sceneX);
-      verticalLine.setEndX(sceneX);
+      verticalLine.setStartX(layoutX);
+      verticalLine.setEndX(layoutX);
       verticalLine.setStartY(bounds.getMinY());
       verticalLine.setEndY(bounds.getMaxY());
 
       horizontalLine.setStartX(bounds.getMinX());
       horizontalLine.setEndX(bounds.getMaxX());
-      horizontalLine.setStartY(sceneY);
-      horizontalLine.setEndY(sceneY);
+      horizontalLine.setStartY(layoutY);
+      horizontalLine.setEndY(layoutY);
 
     }
   }
@@ -69,20 +82,20 @@ public class CrossHairs {
   }
 
 
-  public void setColor(Color color) {
-    verticalLine.setStroke(color);
-    verticalLine.setFill(color);
-    horizontalLine.setStroke(color);
-    horizontalLine.setFill(color);
-  }
-
-
   public void toFront() {
     verticalLine.toFront();
     horizontalLine.toFront();
   }
 
-  
-  
-  
+  public Color getColor() {
+    return color.get();
+  }
+
+  public ObjectProperty<Color> colorProperty() {
+    return color;
+  }
+
+  public void setColor(Color color) {
+    this.color.set(color);
+  }
 }

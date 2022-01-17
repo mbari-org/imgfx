@@ -49,10 +49,6 @@ public class RectangleLocalizationDemo extends Application {
                     builderCoordinator.addLocalization(loc);
                 });
 
-        ChangeListener<? super Boolean> editChangeListener = (obs, oldv, newv) -> {
-            // If one is being edited, disable all other.
-            // if any are being edited disabpel rectablePublisher.
-        };
 
         var crossHairs = new CrossHairs();
         pane.getChildren().addAll(crossHairs.getNodes());
