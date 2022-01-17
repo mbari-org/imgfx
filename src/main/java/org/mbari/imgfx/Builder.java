@@ -1,4 +1,4 @@
-package org.mbari.imgfx.tools;
+package org.mbari.imgfx;
 
 public interface Builder extends Tool {
 }

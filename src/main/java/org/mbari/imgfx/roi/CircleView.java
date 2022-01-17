@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
-import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.MutablePoint;
 
 import java.util.Optional;
@@ -14,13 +14,13 @@ public class CircleView implements DataView<CircleData, Circle> {
 
     private final CircleData data;
     private final Circle view;
-    private final ImageViewDecorator decorator;
+    private final Autoscale<?> autoscale;
     private final BooleanProperty editing = new SimpleBooleanProperty();
     private final MutablePoint labelLocationHint = new MutablePoint();
 
-    public CircleView(CircleData data, ImageViewDecorator decorator) {
+    public CircleView(CircleData data, Autoscale<?> autoscale) {
         this.data = data;
-        this.decorator = decorator;
+        this.autoscale = autoscale;
         this.view = new Circle();
         init();
     }
@@ -53,12 +53,12 @@ public class CircleView implements DataView<CircleData, Circle> {
     }
 
     public void updateData() {
-        var imageXY = decorator.parentToImage(new Point2D(view.getCenterX(), view.getCenterY()));
-        var imageRadius = view.getRadius() / decorator.getScaleX();
+        var imageXY = autoscale.parentToUnscaled(new Point2D(view.getCenterX(), view.getCenterY()));
+        var imageRadius = view.getRadius() / autoscale.getScaleX();
         var opt = CircleData.clip(imageXY.getX(),
                 imageXY.getY(),
                 imageRadius,
-                decorator.getImageView().getImage());
+                autoscale);
         if (opt.isPresent()) {
             var c = opt.get();
             data.setCenterX(c.getCenterX());
@@ -75,8 +75,8 @@ public class CircleView implements DataView<CircleData, Circle> {
     }
 
     public void updateView() {
-        var layoutXY = decorator.imageToParent(new Point2D(data.getCenterX(), data.getCenterY()));
-        var layoutRadius = data.getRadius() * decorator.getScaleX();
+        var layoutXY = autoscale.unscaledToParent(new Point2D(data.getCenterX(), data.getCenterY()));
+        var layoutRadius = data.getRadius() * autoscale.getScaleX();
         view.setRadius(layoutRadius);
         view.setCenterX(layoutXY.getX());
         view.setCenterY(layoutXY.getY());
@@ -108,8 +108,8 @@ public class CircleView implements DataView<CircleData, Circle> {
     }
 
     @Override
-    public ImageViewDecorator getImageViewDecorator() {
-        return decorator;
+    public Autoscale<?> getAutoscale() {
+        return autoscale;
     }
 
     @Override
@@ -117,23 +117,23 @@ public class CircleView implements DataView<CircleData, Circle> {
         return labelLocationHint;
     }
 
-    public static Optional<CircleView> fromImageCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
-        return CircleData.clip(centerX, centerY, radius, decorator.getImageView().getImage())
-                .map(data -> new CircleView(data, decorator));
+    public static Optional<CircleView> fromImageCoords(Double centerX, Double centerY, Double radius, Autoscale<?> autoscale) {
+        return CircleData.clip(centerX, centerY, radius, autoscale)
+                .map(data -> new CircleView(data, autoscale));
     }
 
-    public static Optional<CircleView> fromSceneCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+    public static Optional<CircleView> fromSceneCoords(Double centerX, Double centerY, Double radius, Autoscale<?> autoscale) {
         var scenePoint = new Point2D(centerX, centerY);
-        var imagePoint = decorator.sceneToImage(scenePoint);
-        var imageRadius = radius / decorator.getScaleX();
-        return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, decorator);
+        var imagePoint = autoscale.sceneToUnscaled(scenePoint);
+        var imageRadius = radius / autoscale.getScaleX();
+        return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, autoscale);
     }
 
-    public static Optional<CircleView> fromParentCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+    public static Optional<CircleView> fromParentCoords(Double centerX, Double centerY, Double radius, Autoscale<?> autoscale) {
         var parentXY = new Point2D(centerX, centerY);
-        var imageXY = decorator.parentToImage(parentXY);
-        var imageRadius = radius / decorator.getScaleX();
-        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, decorator);
+        var imageXY = autoscale.parentToUnscaled(parentXY);
+        var imageRadius = radius / autoscale.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, autoscale);
     }
 
 }

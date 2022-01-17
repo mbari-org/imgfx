@@ -10,9 +10,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.Builder;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
 import org.mbari.imgfx.etc.rx.EventBus;
@@ -159,7 +159,7 @@ public class PolygonBuilder implements Builder {
     private void build(Polygon polygon) {
         if (polygon.getPoints().size() > 4) {
             var points = JFXUtil.listToPoints(polygon.getPoints());
-            PolygonView.fromParentCoords(points, paneController.getImageViewDecorator())
+            PolygonView.fromParentCoords(points, paneController.getAutoscale())
                     .ifPresent(view -> {
                         // TODO add editor
                         var loc = new Localization<>(view, paneController);

@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
-import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.MutablePoint;
 
 import java.util.Optional;
@@ -14,13 +14,13 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
 
     private final RectangleData data;
     private final Rectangle view;
-    private final ImageViewDecorator decorator;
+    private final Autoscale<?> autoscale;
     private final BooleanProperty editing = new SimpleBooleanProperty();
     private final MutablePoint labelLocationHint = new MutablePoint();
 
-    public RectangleView(RectangleData data, ImageViewDecorator decorator) {
+    public RectangleView(RectangleData data, Autoscale<?> autoscale) {
         this.data = data;
-        this.decorator = decorator;
+        this.autoscale = autoscale;
         this.view = new Rectangle();
         init();
     }
@@ -58,14 +58,14 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
     }
 
     public void updateData() {
-        var imageXY = decorator.parentToImage(new Point2D(view.getX(), view.getY()));
-        var imageWidth = view.getWidth() / decorator.getScaleX();
-        var imageHeight = view.getHeight() / decorator.getScaleY();
+        var imageXY = autoscale.parentToUnscaled(new Point2D(view.getX(), view.getY()));
+        var imageWidth = view.getWidth() / autoscale.getScaleX();
+        var imageHeight = view.getHeight() / autoscale.getScaleY();
         var opt = RectangleData.clip(imageXY.getX(),
                 imageXY.getY(),
                 imageWidth,
                 imageHeight,
-                decorator.getImageView().getImage());
+                autoscale);
         if (opt.isPresent()) {
             var r = opt.get();
             data.setX(r.getX());
@@ -86,9 +86,9 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
      * about view changes modifying the data
      */
     public void updateView() {
-        var layoutXY = decorator.imageToParent(new Point2D(data.getX(), data.getY()));
-        var layoutWidth = data.getWidth() * decorator.getScaleX();
-        var layoutHeight = data.getHeight() * decorator.getScaleY();
+        var layoutXY = autoscale.unscaledToParent(new Point2D(data.getX(), data.getY()));
+        var layoutWidth = data.getWidth() * autoscale.getScaleX();
+        var layoutHeight = data.getHeight() * autoscale.getScaleY();
         view.setX(layoutXY.getX());
         view.setY(layoutXY.getY());
         view.setWidth(layoutWidth);
@@ -121,8 +121,8 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
     }
 
     @Override
-    public ImageViewDecorator getImageViewDecorator() {
-        return decorator;
+    public Autoscale<?> getAutoscale() {
+        return autoscale;
     }
 
     @Override
@@ -130,24 +130,24 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
         return labelLocationHint;
     }
 
-    public static Optional<RectangleView> fromImageCoords(Double x, Double y, Double width, Double height, ImageViewDecorator decorator) {
-        return RectangleData.clip(x, y, width, height, decorator.getImageView().getImage())
-                .map(data -> new RectangleView(data, decorator));
+    public static Optional<RectangleView> fromImageCoords(Double x, Double y, Double width, Double height, Autoscale<?> autoscale) {
+        return RectangleData.clip(x, y, width, height, autoscale)
+                .map(data -> new RectangleView(data, autoscale));
     }
 
-    public static Optional<RectangleView> fromSceneCoords(Double x, Double y, Double width, Double height, ImageViewDecorator decorator) {
+    public static Optional<RectangleView> fromSceneCoords(Double x, Double y, Double width, Double height, Autoscale<?> autoscale) {
         var sceneXY = new Point2D(x, y);
-        var imageXY = decorator.sceneToImage(sceneXY);
-        var imageWidth = width / decorator.getScaleX();
-        var imageHeight = height / decorator.getScaleX();
-        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, decorator);
+        var imageXY = autoscale.sceneToUnscaled(sceneXY);
+        var imageWidth = width / autoscale.getScaleX();
+        var imageHeight = height / autoscale.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, autoscale);
     }
 
-    public static Optional<RectangleView> fromParentCoords(Double x, Double y, Double width, Double height, ImageViewDecorator decorator) {
+    public static Optional<RectangleView> fromParentCoords(Double x, Double y, Double width, Double height, Autoscale<?> autoscale) {
         var parentXY = new Point2D(x, y);
-        var imageXY = decorator.parentToImage(parentXY);
-        var imageWidth = width / decorator.getScaleX();
-        var imageHeight = height / decorator.getScaleX();
-        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, decorator);
+        var imageXY = autoscale.parentToUnscaled(parentXY);
+        var imageWidth = width / autoscale.getScaleX();
+        var imageHeight = height / autoscale.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, autoscale);
     }
 }

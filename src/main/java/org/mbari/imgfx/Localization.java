@@ -4,6 +4,7 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
@@ -12,32 +13,32 @@ import org.mbari.imgfx.roi.DataView;
 
 import java.util.UUID;
 
-public class Localization<C extends DataView<? extends Data, ? extends Shape>> {
+public class Localization<C extends DataView<? extends Data, ? extends Shape>, V extends Node> {
 
     private UUID uuid;
     private UUID imageUuid;
     private final C dataView;
     private final StringProperty label = new SimpleStringProperty();
-    private final ImagePaneController paneController;
+    private final AutoscalePaneController<V> paneController;
     private final Text labelView = new Text();
 
-    public Localization(C dataView, ImagePaneController paneController) {
+    public Localization(C dataView, AutoscalePaneController<V> paneController) {
         this(dataView, paneController, UUID.randomUUID(), null);
     }
 
-    public Localization(C dataView, ImagePaneController paneController, String labelText) {
+    public Localization(C dataView, AutoscalePaneController<V> paneController, String labelText) {
         this(dataView, paneController, UUID.randomUUID(), null, labelText);
     }
 
     public Localization(C dataView,
-                        ImagePaneController paneController,
+                        AutoscalePaneController<V> paneController,
                         UUID uuid,
                         UUID imageUuid) {
         this(dataView, paneController, uuid, imageUuid, null);
     }
 
     public Localization(C dataView,
-                        ImagePaneController paneController,
+                        AutoscalePaneController<V> paneController,
                         UUID uuid,
                         UUID imageUuid,
                         String labelText) {
@@ -83,7 +84,7 @@ public class Localization<C extends DataView<? extends Data, ? extends Shape>> {
         return dataView;
     }
 
-    public ImagePaneController getPaneController() {
+    public AutoscalePaneController<V> getPaneController() {
         return paneController;
     }
 

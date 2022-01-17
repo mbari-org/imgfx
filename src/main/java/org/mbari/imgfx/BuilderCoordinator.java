@@ -2,10 +2,10 @@ package org.mbari.imgfx;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Node;
 import javafx.scene.shape.Shape;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
-import org.mbari.imgfx.tools.Builder;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class BuilderCoordinator {
 
 //    private final EventBus eventBus;
-    private final List<Localization<? extends DataView<? extends Data, ? extends Shape>>> localizations = new CopyOnWriteArrayList<>();
+    private final List<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> localizations = new CopyOnWriteArrayList<>();
     private final List<Builder> builders = new CopyOnWriteArrayList<>();
     private final ObjectProperty<DataView<? extends Data, ? extends Shape>> currentlyEdited =
             new SimpleObjectProperty<>();
@@ -45,7 +45,7 @@ public class BuilderCoordinator {
         });
     }
 
-    public void addLocalization(Localization<? extends DataView<? extends Data, ? extends Shape>> loc) {
+    public void addLocalization(Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node> loc) {
         localizations.add(loc);
         loc.getDataView()
                 .editingProperty()
@@ -67,7 +67,7 @@ public class BuilderCoordinator {
                 });
     }
 
-    public void removeLocalization(Localization<? extends DataView<? extends Data, ? extends Shape>> loc) {
+    public void removeLocalization(Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node> loc) {
         localizations.remove(loc);
     }
 

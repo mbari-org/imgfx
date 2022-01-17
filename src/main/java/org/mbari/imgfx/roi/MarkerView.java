@@ -6,7 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polyline;
-import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
 import org.mbari.imgfx.etc.jfx.MutablePoint;
 
@@ -16,13 +16,13 @@ public class MarkerView implements DataView<CircleData, Polyline> {
 
     private final CircleData data;
     private final Polyline view;
-    private final ImageViewDecorator decorator;
+    private final Autoscale<?> autoscale;
     private final BooleanProperty editing = new SimpleBooleanProperty();
     private final MutablePoint labelLocationHint = new MutablePoint();
 
-    public MarkerView(CircleData data, ImageViewDecorator decorator) {
+    public MarkerView(CircleData data, Autoscale<?> autoscale) {
         this.data = data;
-        this.decorator = decorator;
+        this.autoscale = autoscale;
         this.view = new Polyline();
         init();
     }
@@ -77,12 +77,12 @@ public class MarkerView implements DataView<CircleData, Polyline> {
         var dx = upperRight.getX() - center.getX();
         var dy = center.getY() - upperRight.getY();
         var imageRadius = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-        var imageXY = decorator.parentToImage(center);
+        var imageXY = autoscale.parentToUnscaled(center);
 
         var opt = CircleData.clip(imageXY.getX(),
                 imageXY.getY(),
                 imageRadius,
-                decorator.getImageView().getImage());
+                autoscale);
         if (opt.isPresent()) {
             var c = opt.get();
             data.setCenterX(c.getCenterX());
@@ -98,8 +98,8 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     }
 
     public void updateView() {
-        var layoutXY = decorator.imageToParent(new Point2D(data.getCenterX(), data.getCenterY()));
-        var layoutRadius = data.getRadius() * decorator.getScaleX();
+        var layoutXY = autoscale.unscaledToParent(new Point2D(data.getCenterX(), data.getCenterY()));
+        var layoutRadius = data.getRadius() * autoscale.getScaleX();
         updatePolyline(layoutXY.getX(), layoutXY.getY(), layoutRadius);
     }
 
@@ -142,8 +142,8 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     }
 
     @Override
-    public ImageViewDecorator getImageViewDecorator() {
-        return decorator;
+    public Autoscale<?> getAutoscale() {
+        return autoscale;
     }
 
     @Override
@@ -151,22 +151,22 @@ public class MarkerView implements DataView<CircleData, Polyline> {
         return labelLocationHint;
     }
 
-    public static Optional<MarkerView> fromImageCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
-        return CircleData.clip(centerX, centerY, radius, decorator.getImageView().getImage())
-                .map(data -> new MarkerView(data, decorator));
+    public static Optional<MarkerView> fromImageCoords(Double centerX, Double centerY, Double radius, Autoscale<?> autoscale) {
+        return CircleData.clip(centerX, centerY, radius, autoscale)
+                .map(data -> new MarkerView(data, autoscale));
     }
 
-    public static Optional<MarkerView> fromSceneCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+    public static Optional<MarkerView> fromSceneCoords(Double centerX, Double centerY, Double radius, Autoscale<?> autoscale) {
         var sceneXY = new Point2D(centerX, centerY);
-        var imagePoint = decorator.sceneToImage(sceneXY);
-        var imageRadius = radius / decorator.getScaleX();
-        return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, decorator);
+        var imagePoint = autoscale.sceneToUnscaled(sceneXY);
+        var imageRadius = radius / autoscale.getScaleX();
+        return fromImageCoords(imagePoint.getX(), imagePoint.getY(), imageRadius, autoscale);
     }
 
-    public static Optional<MarkerView> fromParentCoords(Double centerX, Double centerY, Double radius, ImageViewDecorator decorator) {
+    public static Optional<MarkerView> fromParentCoords(Double centerX, Double centerY, Double radius, Autoscale<?> autoscale) {
         var parentXY = new Point2D(centerX, centerY);
-        var imageXY = decorator.parentToImage(parentXY);
-        var imageRadius = radius / decorator.getScaleX();
-        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, decorator);
+        var imageXY = autoscale.parentToUnscaled(parentXY);
+        var imageRadius = radius / autoscale.getScaleX();
+        return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, autoscale);
     }
 }

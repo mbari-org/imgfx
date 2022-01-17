@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.BoundingBox;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Line;
+import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.CohenSutherland;
 
 import java.util.Optional;
@@ -76,8 +77,8 @@ public class LineData implements Data {
         this.startY.set(startY);
     }
 
-    public static Optional<LineData> clip(double startX, double startY, double endX, double endY, Image image) {
-        var bounds = new BoundingBox(0, 0, image.getWidth(), image.getHeight());
+    public static Optional<LineData> clip(double startX, double startY, double endX, double endY, Autoscale<?> autoscale) {
+        var bounds = new BoundingBox(0, 0, autoscale.getUnscaledWidth(), autoscale.getUnscaledHeight());
         var line = new Line(startX, startY, endX, endY);
         return CohenSutherland.clip(line, bounds)
                 .map(clippedLine -> new LineData(clippedLine.getStartX(),

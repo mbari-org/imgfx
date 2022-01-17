@@ -2,7 +2,8 @@ package org.mbari.imgfx.tools;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.Builder;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.rx.events.NewMarkerEvent;
 import org.mbari.imgfx.etc.rx.EventBus;
@@ -24,7 +25,7 @@ public class MarkerBuilder implements Builder {
     private void init() {
         paneController.getPane().setOnMouseClicked(event -> {
             if (!disabled.get()) {
-                MarkerView.fromSceneCoords(event.getSceneX(), event.getSceneY(), radius, paneController.getImageViewDecorator())
+                MarkerView.fromSceneCoords(event.getSceneX(), event.getSceneY(), radius, paneController.getAutoscale())
                         .ifPresent(view -> {
                             // Set the radius in the image data so the circle scales correctly with
                             // image resize

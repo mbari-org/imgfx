@@ -5,7 +5,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.Builder;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.jfx.controls.SelectionRectangle;
 import org.mbari.imgfx.etc.rx.events.NewRectangleEvent;
@@ -50,7 +51,7 @@ public class RectangleBuilder implements Builder {
     private EventHandler<MouseEvent> buildOnCompleteHandler() {
         return (e) -> {
             if (!disabled.get()) {
-                var decorator = paneController.getImageViewDecorator();
+                var decorator = paneController.getAutoscale();
 
                 var r = selectionRectangle.getRectangle();
                 RectangleView.fromParentCoords(r.getX(), r.getY(), r.getWidth(), r.getHeight(), decorator)

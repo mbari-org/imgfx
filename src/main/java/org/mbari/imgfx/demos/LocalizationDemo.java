@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.roi.*;
 
@@ -27,7 +27,7 @@ public class LocalizationDemo extends Application {
 
         ImagePaneController controller = new ImagePaneController(imageView);
         var pane = controller.getPane();
-        var decorator = controller.getImageViewDecorator();
+        var decorator = controller.getAutoscale();
         var fill = new SimpleObjectProperty<>(Color.valueOf("#FF980090"));
 
         CircleView.fromImageCoords(100D, 100D, 6D, decorator)

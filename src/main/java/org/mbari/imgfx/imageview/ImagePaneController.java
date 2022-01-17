@@ -1,20 +1,21 @@
-package org.mbari.imgfx;
+package org.mbari.imgfx.imageview;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import org.mbari.imgfx.AutoscalePaneController;
 
-public class ImagePaneController {
+public class ImagePaneController implements AutoscalePaneController<ImageView> {
 
     private final Pane pane;
     private final ImageView imageView;
-    private final ImageViewDecorator imageViewDecorator;
+    private final ImageViewAutoscale imageViewDecorator;
 
     public ImagePaneController(ImageView imageView) {
         this.imageView = imageView;
-        this.imageViewDecorator = new ImageViewDecorator(imageView);
+        this.imageViewDecorator = new ImageViewAutoscale(imageView);
         this.pane = new Pane() {
             @Override
             protected void layoutChildren() {
@@ -42,11 +43,11 @@ public class ImagePaneController {
         return pane;
     }
 
-    public ImageView getImageView() {
+    public ImageView getView() {
         return imageView;
     }
 
-    public ImageViewDecorator getImageViewDecorator() {
+    public ImageViewAutoscale getAutoscale() {
         return imageViewDecorator;
     }
 

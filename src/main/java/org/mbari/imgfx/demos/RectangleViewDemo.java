@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.roi.RectangleViewEditor;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import org.mbari.imgfx.etc.jfx.controls.SelectionRectangle;
@@ -36,12 +36,12 @@ public class RectangleViewDemo extends Application {
         // gets added to the parent when you change the onCompleteController.
 
         EventHandler<MouseEvent> onCompleteHandler = (e) -> {
-            var decorator = paneController.getImageViewDecorator();
+            var decorator = paneController.getAutoscale();
 
             var r = selectionRectangle.getRectangle();
 
 
-            RectangleView.fromSceneCoords(r.getX(), r.getY(), r.getWidth(), r.getHeight(), paneController.getImageViewDecorator())
+            RectangleView.fromSceneCoords(r.getX(), r.getY(), r.getWidth(), r.getHeight(), paneController.getAutoscale())
                             .ifPresent(view -> {
                                 var shape = view.getView();
                                 shape.setFill(Paint.valueOf("#4FC3F730"));

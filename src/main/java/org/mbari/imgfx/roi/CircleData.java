@@ -3,6 +3,7 @@ package org.mbari.imgfx.roi;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
+import org.mbari.imgfx.Autoscale;
 
 import java.util.Optional;
 
@@ -58,8 +59,8 @@ public class CircleData implements Data {
         this.radius.set(radius);
     }
 
-    public static Optional<CircleData> clip(double centerX, double centerY, double radius, Image image) {
-        if (centerX > 0 && centerY > 0 && centerX < image.getWidth() && centerY < image.getHeight()) {
+    public static Optional<CircleData> clip(double centerX, double centerY, double radius, Autoscale<?> autoscale) {
+        if (centerX > 0 && centerY > 0 && centerX < autoscale.getUnscaledWidth() && centerY < autoscale.getUnscaledHeight()) {
             return Optional.of(new CircleData(centerX, centerY, radius));
         }
         return Optional.empty();

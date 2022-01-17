@@ -1,13 +1,12 @@
 package org.mbari.imgfx.demos;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.tools.RectangleBuilder;
 import org.mbari.imgfx.etc.rx.events.NewRectangleEvent;

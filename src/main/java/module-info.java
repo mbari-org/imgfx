@@ -1,5 +1,6 @@
 module imgfx {
   requires transitive javafx.controls;
+  requires transitive javafx.media;
 
   // Required to interact with ScenicView
   requires java.desktop;
@@ -15,4 +16,6 @@ module imgfx {
   exports org.mbari.imgfx.etc.jfx;
   exports org.mbari.imgfx.etc.rx.events;
   exports org.mbari.imgfx.etc.jfx.controls;
+  exports org.mbari.imgfx.mediaview;
+  exports org.mbari.imgfx.imageview;
 }

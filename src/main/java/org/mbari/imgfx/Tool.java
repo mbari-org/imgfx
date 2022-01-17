@@ -1,4 +1,4 @@
-package org.mbari.imgfx.tools;
+package org.mbari.imgfx;
 
 import javafx.beans.property.BooleanProperty;
 

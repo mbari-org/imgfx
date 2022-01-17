@@ -6,7 +6,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.Builder;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.rx.events.NewLineEvent;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
@@ -53,7 +54,7 @@ public class LineBuilder implements Builder {
     private void build(Line line) {
         // Prevent accidents for slow clickers
         if (JFXUtil.lineLength(line) > 2) {
-            LineView.fromParentCoords(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), paneController.getImageViewDecorator())
+            LineView.fromParentCoords(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), paneController.getAutoscale())
                     .ifPresent(view -> {
                         // TODO add editor
                         var loc = new Localization<>(view, paneController);

@@ -3,7 +3,7 @@ package org.mbari.imgfx.demos.simple;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import org.mbari.imgfx.BuilderCoordinator;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.tools.CircleBuilder;
 

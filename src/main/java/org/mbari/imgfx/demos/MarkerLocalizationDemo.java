@@ -2,7 +2,7 @@ package org.mbari.imgfx.demos;
 
 import javafx.scene.paint.Paint;
 import org.mbari.imgfx.BuilderCoordinator;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.rx.events.NewMarkerEvent;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import javafx.application.Application;

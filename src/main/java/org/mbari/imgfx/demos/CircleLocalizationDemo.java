@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.BuilderCoordinator;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.rx.events.NewCircleEvent;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;

@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
-import org.mbari.imgfx.ImageViewDecorator;
+import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
 import org.mbari.imgfx.etc.jfx.MutablePoint;
 
@@ -19,13 +19,13 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
 
     private final PolygonData data;
     private final Polygon view;
-    private final ImageViewDecorator decorator;
+    private final Autoscale<?> autoscale;
     private final BooleanProperty editing = new SimpleBooleanProperty();
     private final MutablePoint labelLocationHint = new MutablePoint();
 
-    public PolygonView(PolygonData data, ImageViewDecorator decorator) {
+    public PolygonView(PolygonData data, Autoscale<?> autoscale) {
         this.data = data;
-        this.decorator = decorator;
+        this.autoscale = autoscale;
         this.view = new Polygon();
         init();
     }
@@ -77,8 +77,8 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
     }
 
     @Override
-    public ImageViewDecorator getImageViewDecorator() {
-        return decorator;
+    public Autoscale<?> getAutoscale() {
+        return autoscale;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
     public void updateView() {
         var layoutPoints = data.getPoints()
                 .stream()
-                .map(decorator::imageToParent)
+                .map(autoscale::unscaledToParent)
                 .collect(Collectors.toList());
         var layoutArray = JFXUtil.pointsToArray(layoutPoints);
         view.getPoints().setAll(layoutArray);
@@ -111,9 +111,9 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
         var layoutArray = view.getPoints().toArray(Double[]::new);
         var layoutPoints = JFXUtil.arrayToPoints(layoutArray);
         var imagePoints = layoutPoints.stream()
-                .map(decorator::parentToImage)
+                .map(autoscale::parentToUnscaled)
                 .collect(Collectors.toList());
-        var opt = PolygonData.clip(imagePoints, decorator.getImageView().getImage());
+        var opt = PolygonData.clip(imagePoints, autoscale);
         if (opt.isPresent()) {
             var p = opt.get();
             data.getPoints().setAll(p.getPoints());
@@ -128,21 +128,21 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
         return labelLocationHint;
     }
 
-    public static Optional<PolygonView> fromImageCoords(List<Point2D> points, ImageViewDecorator decorator) {
-        return PolygonData.clip(points, decorator.getImageView().getImage())
+    public static Optional<PolygonView> fromImageCoords(List<Point2D> points, Autoscale<?> decorator) {
+        return PolygonData.clip(points, decorator)
                 .map(data -> new PolygonView(data, decorator));
     }
 
-    public static Optional<PolygonView> fromSceneCoords(Collection<Point2D> points, ImageViewDecorator decorator) {
+    public static Optional<PolygonView> fromSceneCoords(Collection<Point2D> points, Autoscale<?> decorator) {
         var imagePoints = points.stream()
-                .map(decorator::sceneToImage)
+                .map(decorator::sceneToUnscaled)
                 .collect(Collectors.toList());
         return fromImageCoords(imagePoints, decorator);
     }
 
-    public static Optional<PolygonView> fromParentCoords(Collection<Point2D> points, ImageViewDecorator decorator) {
+    public static Optional<PolygonView> fromParentCoords(Collection<Point2D> points, Autoscale<?> decorator) {
         var imagePoints = points.stream()
-                .map(decorator::parentToImage)
+                .map(decorator::parentToUnscaled)
                 .collect(Collectors.toList());
         return fromImageCoords(imagePoints, decorator);
     }

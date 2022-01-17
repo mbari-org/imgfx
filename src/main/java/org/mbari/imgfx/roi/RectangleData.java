@@ -3,6 +3,7 @@ package org.mbari.imgfx.roi;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
+import org.mbari.imgfx.Autoscale;
 
 import java.util.Optional;
 
@@ -81,12 +82,12 @@ public class RectangleData implements Data {
      * @param y in pixels
      * @param width in pixels
      * @param height in pixels
-     * @param image THe image
+     * @param autoscale THe Autoscaler for the view
      * @return A Optional of a rectangle that falls within the bounds of the image. Empty otherwise.
      */
-    public static Optional<RectangleData> clip(double x, double y, double width, double height, Image image) {
-        var w = image.getWidth();
-        var h = image.getHeight();
+    public static Optional<RectangleData> clip(double x, double y, double width, double height, Autoscale<?> autoscale) {
+        var w = autoscale.getUnscaledWidth();
+        var h = autoscale.getUnscaledHeight();
 
         if (x >= w || y >= h) {
             return Optional.empty();

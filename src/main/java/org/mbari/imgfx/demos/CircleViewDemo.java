@@ -1,7 +1,7 @@
 package org.mbari.imgfx.demos;
 
 import javafx.scene.paint.Color;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,7 +30,7 @@ public class CircleViewDemo extends Application {
 
         var scene = new Scene(pane, 640, 480);
         scene.setOnMouseClicked(event -> {
-            CircleView.fromSceneCoords(event.getSceneX(), event.getSceneY(), 6D, rip.getImageViewDecorator())
+            CircleView.fromSceneCoords(event.getSceneX(), event.getSceneY(), 6D, rip.getAutoscale())
                             .ifPresent(view -> {
                                 view.getData().setRadius(6D); // set circle radius in image coordinates
                                 var shape = view.getView();

@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
-import org.mbari.imgfx.ImagePaneController;
+import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.roi.*;
 
 import java.net.URL;
@@ -35,7 +35,7 @@ public class ChangeImageDemo extends Application {
 
         ImagePaneController controller = new ImagePaneController(imageView);
         pane = controller.getPane();
-        var decorator = controller.getImageViewDecorator();
+        var decorator = controller.getAutoscale();
 
 
         CircleView.fromImageCoords(100D, 100D, 6D, decorator)

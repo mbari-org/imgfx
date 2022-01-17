@@ -3,10 +3,10 @@ package org.mbari.imgfx.roi;
 public class EditingDecorator {
 
     public static void decorate(DataView<?, ?> dataView) {
-        var decorator = dataView.getImageViewDecorator();
+        var decorator = dataView.getAutoscale();
         var editingProperty = dataView.editingProperty();
         // Dont' edit while resizing. It mucks things up
-        decorator.getImageView()
+        decorator.getView()
                 .boundsInParentProperty()
                 .addListener((obs, oldv, newv) -> {
                     editingProperty.set(false);

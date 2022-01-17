@@ -6,6 +6,7 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
+import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
 import org.mbari.imgfx.etc.jfx.SutherlandHodgman;
 
@@ -31,8 +32,8 @@ public class PolygonData implements Data {
         return points;
     }
 
-    public static Optional<PolygonData> clip(List<Point2D> points, Image image) {
-        var bounds = new BoundingBox(0, 0, image.getWidth(), image.getHeight());
+    public static Optional<PolygonData> clip(List<Point2D> points, Autoscale<?> autoscale) {
+        var bounds = new BoundingBox(0, 0, autoscale.getUnscaledWidth(), autoscale.getUnscaledHeight());
         var boxed = JFXUtil.pointsToArray(points);
         var unboxed = Stream.of(boxed).mapToDouble(Double::doubleValue).toArray();
         var p = new Polygon(unboxed);
