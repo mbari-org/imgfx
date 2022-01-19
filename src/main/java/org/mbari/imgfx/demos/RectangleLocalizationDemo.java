@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.tools.RectangleBuilder;
-import org.mbari.imgfx.etc.rx.events.NewRectangleEvent;
+import org.mbari.imgfx.etc.rx.events.AddRectangleEvent;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 
@@ -38,13 +38,14 @@ public class RectangleLocalizationDemo extends Application {
         builderCoordinator.setCurrentBuilder(rp);
 
         eventBus.toObserverable()
-                .ofType(NewRectangleEvent.class)
+                .ofType(AddRectangleEvent.class)
                 .subscribe(event -> {
                     var loc = event.localization();
                     loc.setLabel(LocalTime.now().toString());
                     loc.getDataView()
                             .getView()
                             .setFill(Paint.valueOf("#4FC3F730"));
+                    loc.setVisible(true);
                     builderCoordinator.addLocalization(loc);
                 });
 

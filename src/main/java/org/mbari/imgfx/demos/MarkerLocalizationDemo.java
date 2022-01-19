@@ -3,7 +3,7 @@ package org.mbari.imgfx.demos;
 import javafx.scene.paint.Paint;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.etc.rx.events.NewMarkerEvent;
+import org.mbari.imgfx.etc.rx.events.AddMarkerEvent;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -38,13 +38,14 @@ public class MarkerLocalizationDemo extends Application {
         builder.setDisabled(false);
 
         eventBus.toObserverable()
-                .ofType(NewMarkerEvent.class)
+                .ofType(AddMarkerEvent.class)
                 .subscribe(event -> {
                     var loc = event.localization();
                     loc.setLabel(LocalTime.now().toString());
                     var shape = loc.getDataView().getView();
                     shape.setStroke(Paint.valueOf("#FF9800"));
                     shape.setStrokeWidth(3);
+                    loc.setVisible(true);
                     builderCoordinator.addLocalization(loc);
                 });
 

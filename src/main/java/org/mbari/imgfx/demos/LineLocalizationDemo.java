@@ -8,7 +8,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.etc.rx.events.NewLineEvent;
+import org.mbari.imgfx.etc.rx.events.AddLineEvent;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.tools.LineBuilder;
@@ -38,13 +38,14 @@ public class LineLocalizationDemo extends Application {
         builderCoordinator.setCurrentBuilder(builder);
 
         eventBus.toObserverable()
-                .ofType(NewLineEvent.class)
+                .ofType(AddLineEvent.class)
                 .subscribe(event -> {
                     var loc = event.localization();
                     loc.setLabel(LocalTime.now().toString());
                     var shape = loc.getDataView().getView();
                     shape.setStroke(Paint.valueOf("#4FC3F7"));
                     shape.setStrokeWidth(3);
+                    loc.setVisible(true);
                     builderCoordinator.addLocalization(loc);
                 });
 

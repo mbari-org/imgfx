@@ -8,7 +8,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.etc.rx.events.NewCircleEvent;
+import org.mbari.imgfx.etc.rx.events.AddCircleEvent;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.tools.CircleBuilder;
@@ -38,12 +38,13 @@ public class CircleLocalizationDemo extends Application {
         builder.setDisabled(false);
 
         eventBus.toObserverable()
-                .ofType(NewCircleEvent.class)
+                .ofType(AddCircleEvent.class)
                 .subscribe(event -> {
                     var loc = event.localization();
                     loc.setLabel(LocalTime.now().toString());
                     var shape = loc.getDataView().getView();
                     shape.setFill(Paint.valueOf("#FF980090"));
+                    loc.setVisible(true);
                     builderCoordinator.addLocalization(loc);
                 });
 

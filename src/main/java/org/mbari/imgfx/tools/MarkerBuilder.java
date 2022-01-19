@@ -2,21 +2,22 @@ package org.mbari.imgfx.tools;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.etc.rx.events.NewMarkerEvent;
+import org.mbari.imgfx.etc.rx.events.AddMarkerEvent;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.roi.MarkerView;
 
 public class MarkerBuilder implements Builder {
 
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
-    private final ImagePaneController paneController;
+    private final AutoscalePaneController<?> paneController;
     private final EventBus eventBus;
     private double radius = 6D;
 
-    public MarkerBuilder(ImagePaneController paneController, EventBus eventBus) {
+    public MarkerBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
         this.paneController = paneController;
         this.eventBus = eventBus;
         init();
@@ -31,7 +32,7 @@ public class MarkerBuilder implements Builder {
                             // image resize
                             view.getData().setRadius(radius);
                             var loc = new Localization<>(view, paneController);
-                            eventBus.publish(new NewMarkerEvent(loc));
+                            eventBus.publish(new AddMarkerEvent(loc));
                         });
             }
         });

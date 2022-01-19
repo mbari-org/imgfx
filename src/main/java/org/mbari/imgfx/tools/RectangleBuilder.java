@@ -5,11 +5,12 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.jfx.controls.SelectionRectangle;
-import org.mbari.imgfx.etc.rx.events.NewRectangleEvent;
+import org.mbari.imgfx.etc.rx.events.AddRectangleEvent;
 import org.mbari.imgfx.roi.RectangleView;
 import org.mbari.imgfx.roi.RectangleViewEditor;
 import org.mbari.imgfx.etc.rx.EventBus;
@@ -20,12 +21,12 @@ public class RectangleBuilder implements Builder {
      Selection rectanble
      */
     private final SelectionRectangle selectionRectangle = new SelectionRectangle();
-    private final ImagePaneController paneController;
+    private final AutoscalePaneController<?> paneController;
     private final EventBus eventBus;
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
     private final EventHandler<MouseEvent> onCompleteHandler;
 
-    public RectangleBuilder(ImagePaneController paneController, EventBus eventBus) {
+    public RectangleBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
         this.paneController = paneController;
         this.eventBus = eventBus;
         this.onCompleteHandler = buildOnCompleteHandler();
@@ -59,7 +60,7 @@ public class RectangleBuilder implements Builder {
                             if (view.getData().getHeight() > 2 && view.getData().getWidth() > 2) {
                                 addEditor(view);
                                 var loc = new Localization<>(view, paneController);
-                                eventBus.publish(new NewRectangleEvent(loc));
+                                eventBus.publish(new AddRectangleEvent(loc));
                             }
                         });
             }

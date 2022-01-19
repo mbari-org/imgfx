@@ -11,7 +11,7 @@ import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
-import org.mbari.imgfx.etc.rx.events.NewLocalizationEvent;
+import org.mbari.imgfx.etc.rx.events.AddLocalizationEvent;
 
 import java.time.LocalTime;
 
@@ -36,7 +36,7 @@ public class App extends Application {
         var eventBus = new EventBus();
         var builderCoordinator = new BuilderCoordinator();
         eventBus.toObserverable()
-                .ofType(NewLocalizationEvent.class)
+                .ofType(AddLocalizationEvent.class)
                 .subscribe(event -> {
                     var loc = event.localization();
                     loc.setLabel(LocalTime.now().toString());
@@ -48,7 +48,7 @@ public class App extends Application {
 
 
         borderPane.setCenter(pane);
-        borderPane.setLeft(new Tools(controller, eventBus, builderCoordinator).getRoot());
+        borderPane.setLeft(new ToolsPaneController(controller, eventBus).getRoot());
         var scene = new Scene(borderPane, 640, 480);
 //        scene.widthProperty()
 //                .addListener((obs, oldv, newv) -> pane.setPrefWidth(newv.doubleValue()));
@@ -58,6 +58,7 @@ public class App extends Application {
         stage.show();
 
     }
+
 
     public static void main(String[] args) {
         launch(args);

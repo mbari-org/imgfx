@@ -11,12 +11,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
 import org.mbari.imgfx.etc.rx.EventBus;
-import org.mbari.imgfx.etc.rx.events.NewPolygonEvent;
+import org.mbari.imgfx.etc.rx.events.AddPolygonEvent;
 import org.mbari.imgfx.roi.PolygonView;
 import org.mbari.imgfx.roi.ViewEditor;
 
@@ -26,7 +27,7 @@ import java.util.List;
 public class PolygonBuilder implements Builder {
 
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
-    private final ImagePaneController paneController;
+    private final AutoscalePaneController<?> paneController;
     private final EventBus eventBus;
     private final List<Double> selectedPoints = new ArrayList<>();
     private final Polygon polygon = new Polygon();
@@ -69,7 +70,7 @@ public class PolygonBuilder implements Builder {
 
 
 
-    public PolygonBuilder(ImagePaneController paneController, EventBus eventBus) {
+    public PolygonBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
         this.paneController = paneController;
         this.eventBus = eventBus;
         init();
@@ -163,7 +164,7 @@ public class PolygonBuilder implements Builder {
                     .ifPresent(view -> {
                         // TODO add editor
                         var loc = new Localization<>(view, paneController);
-                        eventBus.publish(new NewPolygonEvent(loc));
+                        eventBus.publish(new AddPolygonEvent(loc));
                     });
         }
     }

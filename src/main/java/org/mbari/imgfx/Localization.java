@@ -1,6 +1,8 @@
 package org.mbari.imgfx;
 
 import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;
@@ -13,39 +15,41 @@ import org.mbari.imgfx.roi.DataView;
 
 import java.util.UUID;
 
+/**
+ * This is a localized and rendered annotation.
+ * @param <C>
+ * @param <V>
+ */
 public class Localization<C extends DataView<? extends Data, ? extends Shape>, V extends Node> {
 
     private UUID uuid;
-    private UUID imageUuid;
     private final C dataView;
     private final StringProperty label = new SimpleStringProperty();
     private final AutoscalePaneController<V> paneController;
     private final Text labelView = new Text();
+    private BooleanProperty visible = new SimpleBooleanProperty();
 
     public Localization(C dataView, AutoscalePaneController<V> paneController) {
-        this(dataView, paneController, UUID.randomUUID(), null);
+        this(dataView, paneController, UUID.randomUUID());
     }
 
     public Localization(C dataView, AutoscalePaneController<V> paneController, String labelText) {
-        this(dataView, paneController, UUID.randomUUID(), null, labelText);
+        this(dataView, paneController, UUID.randomUUID(), labelText);
+    }
+
+    public Localization(C dataView,
+                        AutoscalePaneController<V> paneController,
+                        UUID uuid) {
+        this(dataView, paneController, uuid, null);
     }
 
     public Localization(C dataView,
                         AutoscalePaneController<V> paneController,
                         UUID uuid,
-                        UUID imageUuid) {
-        this(dataView, paneController, uuid, imageUuid, null);
-    }
-
-    public Localization(C dataView,
-                        AutoscalePaneController<V> paneController,
-                        UUID uuid,
-                        UUID imageUuid,
                         String labelText) {
         this.dataView = dataView;
         this.paneController = paneController;
         this.uuid = uuid;
-        this.imageUuid = imageUuid;
         label.set(labelText);
         init();
 
@@ -58,7 +62,6 @@ public class Localization<C extends DataView<? extends Data, ? extends Shape>, V
         labelView.layoutXProperty().bind(labelLocationHint.xProperty());
         labelView.layoutYProperty().bind(labelLocationHint.yProperty());
         labelView.textProperty().bind(label);
-        paneController.getPane().getChildren().addAll(dataView.getView(), labelView);
 
         var colorBinding = new ObjectBinding<Color>() {
             {
@@ -76,6 +79,15 @@ public class Localization<C extends DataView<? extends Data, ? extends Shape>, V
         };
 
         labelView.strokeProperty().bind(colorBinding);
+
+        visible.addListener((obs, oldv, newv) -> {
+            if (newv) {
+                paneController.getPane().getChildren().addAll(dataView.getView(), labelView);
+            }
+            else {
+                paneController.getPane().getChildren().removeAll(dataView.getView(), labelView);
+            }
+        });
 
     }
 
@@ -108,11 +120,15 @@ public class Localization<C extends DataView<? extends Data, ? extends Shape>, V
         this.uuid = uuid;
     }
 
-    public UUID getImageUuid() {
-        return imageUuid;
+    public boolean isVisible() {
+        return visible.get();
     }
 
-    public void setImageUuid(UUID imageUuid) {
-        this.imageUuid = imageUuid;
+    public BooleanProperty visibleProperty() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible.set(visible);
     }
 }

@@ -6,7 +6,7 @@ import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
 
-public interface NewLocalizationEvent<T extends DataView<? extends Data, ? extends Shape>, V extends Node> extends Event {
 
-    Localization<T, V> localization();
+
+public record RemoveLocalizationEvent(Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node> localization) {
 }

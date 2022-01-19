@@ -11,7 +11,7 @@ import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
-import org.mbari.imgfx.etc.rx.events.NewPolygonEvent;
+import org.mbari.imgfx.etc.rx.events.AddPolygonEvent;
 import org.mbari.imgfx.tools.PolygonBuilder;
 
 import java.time.LocalTime;
@@ -40,12 +40,13 @@ public class PolygonLocalizationDemo extends Application {
         builderCoordinator.setCurrentBuilder(builder);
 
         eventBus.toObserverable()
-                .ofType(NewPolygonEvent.class)
+                .ofType(AddPolygonEvent.class)
                 .subscribe(event -> {
                     var loc = event.localization();
                     loc.setLabel(LocalTime.now().toString());
                     var shape = loc.getDataView().getView();
                     shape.setFill(Paint.valueOf("#4FC3F780"));
+                    loc.setVisible(true);
                     builderCoordinator.addLocalization(loc);
                 });
 

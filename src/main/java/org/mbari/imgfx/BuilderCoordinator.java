@@ -71,6 +71,10 @@ public class BuilderCoordinator {
         localizations.remove(loc);
     }
 
+    public void clearLocalizations() {
+        localizations.clear();
+    }
+
     public void addBuilder(Builder builder) {
         builders.add(builder);
     }

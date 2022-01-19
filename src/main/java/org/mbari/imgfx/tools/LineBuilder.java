@@ -6,10 +6,11 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
+import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.etc.rx.events.NewLineEvent;
+import org.mbari.imgfx.etc.rx.events.AddLineEvent;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.roi.LineView;
@@ -18,7 +19,7 @@ import org.mbari.imgfx.roi.LineView;
 public class LineBuilder implements Builder {
 
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
-    private final ImagePaneController paneController;
+    private final AutoscalePaneController<?> paneController;
     private final EventBus eventBus;
     private final Line line = new Line();
     private boolean isBuilding = false;
@@ -31,7 +32,7 @@ public class LineBuilder implements Builder {
     };
 
 
-    public LineBuilder(ImagePaneController paneController, EventBus eventBus) {
+    public LineBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
         this.paneController = paneController;
         this.eventBus = eventBus;
         init();
@@ -58,7 +59,7 @@ public class LineBuilder implements Builder {
                     .ifPresent(view -> {
                         // TODO add editor
                         var loc = new Localization<>(view, paneController);
-                        eventBus.publish(new NewLineEvent(loc));
+                        eventBus.publish(new AddLineEvent(loc));
                     });
         }
     }
