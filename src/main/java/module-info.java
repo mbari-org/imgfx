@@ -6,10 +6,17 @@ module imgfx {
   requires java.desktop;
   requires java.instrument;
   requires java.rmi;
+
+  // 3rd party module
   requires io.reactivex.rxjava3;
+  requires transitive org.kordamp.ikonli.material2;
+  requires org.kordamp.ikonli.core;
+  requires org.kordamp.ikonli.javafx;
+  requires java.prefs;
 
   exports org.mbari.imgfx;
   exports org.mbari.imgfx.demos;
+  exports org.mbari.imgfx.demos.simple;
   exports org.mbari.imgfx.tools;
   exports org.mbari.imgfx.roi;
   exports org.mbari.imgfx.etc.rx;
@@ -18,4 +25,5 @@ module imgfx {
   exports org.mbari.imgfx.etc.jfx.controls;
   exports org.mbari.imgfx.mediaview;
   exports org.mbari.imgfx.imageview;
+  exports org.mbari.imgfx.util;
 }

@@ -24,11 +24,13 @@ public class ImageViewAutoscale extends Autoscale<ImageView> {
 
   @Override
   public Double getUnscaledWidth() {
-    return view.getImage().getWidth();
+    var image = view.getImage();
+    return image == null ? 0 : image.getWidth();
   }
 
   @Override
   public Double getUnscaledHeight() {
-    return  view.getImage().getHeight();
+    var image = view.getImage();
+    return image == null ? 0 : image.getHeight();
   }
 }

@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.MutablePoint;
@@ -80,6 +81,11 @@ public class CircleView implements DataView<CircleData, Circle> {
         view.setRadius(layoutRadius);
         view.setCenterX(layoutXY.getX());
         view.setCenterY(layoutXY.getY());
+    }
+
+    @Override
+    public void setColor(Color color) {
+        getView().setFill(color);
     }
 
     @Override

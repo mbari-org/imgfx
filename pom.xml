@@ -32,6 +32,16 @@
             <artifactId>rxjava</artifactId>
             <version>${rxjava.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-material2-pack</artifactId>
+            <version>12.3.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

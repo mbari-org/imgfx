@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
@@ -121,6 +122,11 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
         else {
             data.getPoints().clear();
         }
+    }
+
+    @Override
+    public void setColor(Color color) {
+        getView().setFill(color);
     }
 
     @Override

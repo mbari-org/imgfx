@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.MutablePoint;
@@ -81,6 +82,12 @@ public class LineView implements DataView<LineData, Line> {
         labelLocationHint.xProperty().bind(xBinding);
         labelLocationHint.yProperty().bind(yBinding);
         updateView();
+    }
+
+    @Override
+    public void setColor(Color color) {
+        var opaque = Color.color(color.getRed(), color.getGreen(), color.getBlue());
+        getView().setStroke(opaque);
     }
 
     @Override

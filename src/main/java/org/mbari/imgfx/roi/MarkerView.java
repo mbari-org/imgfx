@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
@@ -103,6 +104,11 @@ public class MarkerView implements DataView<CircleData, Polyline> {
         updatePolyline(layoutXY.getX(), layoutXY.getY(), layoutRadius);
     }
 
+    @Override
+    public void setColor(Color color) {
+        var opaque = Color.color(color.getRed(), color.getGreen(), color.getBlue());
+        getView().setStroke(opaque);
+    }
 
     private void updatePolyline(double x, double y, double radius) {
         var r = Math.cos(45 * Math.PI / 180) * radius;

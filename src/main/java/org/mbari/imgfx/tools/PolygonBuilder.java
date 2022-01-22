@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
+import org.mbari.imgfx.ColoredBuilder;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.jfx.JFXUtil;
@@ -24,7 +25,7 @@ import org.mbari.imgfx.roi.ViewEditor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PolygonBuilder implements Builder {
+public class PolygonBuilder implements ColoredBuilder {
 
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
     private final AutoscalePaneController<?> paneController;

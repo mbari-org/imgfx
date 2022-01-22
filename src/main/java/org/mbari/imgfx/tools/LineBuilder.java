@@ -1,13 +1,17 @@
 package org.mbari.imgfx.tools;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
+import org.mbari.imgfx.ColoredBuilder;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.rx.events.AddLineEvent;
@@ -16,7 +20,7 @@ import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.roi.LineView;
 
 
-public class LineBuilder implements Builder {
+public class LineBuilder implements ColoredBuilder {
 
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
     private final AutoscalePaneController<?> paneController;
@@ -30,6 +34,7 @@ public class LineBuilder implements Builder {
             line.setEndY(event.getY());
         }
     };
+    private final ObjectProperty<Color> editColor = new SimpleObjectProperty<>();
 
 
     public LineBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
@@ -50,6 +55,8 @@ public class LineBuilder implements Builder {
                 paneController.getPane().getChildren().add(line);
             }
         });
+        line.strokeProperty().bind(editColor);
+        line.setStrokeWidth(2);
     }
 
     private void build(Line line) {
@@ -102,5 +109,18 @@ public class LineBuilder implements Builder {
         };
     }
 
+    @Override
+    public Color getEditColor() {
+        return editColor.get();
+    }
 
+    @Override
+    public ObjectProperty<Color> editColorProperty() {
+        return editColor;
+    }
+
+    @Override
+    public void setEditColor(Color editColor) {
+        this.editColor.set(editColor);
+    }
 }

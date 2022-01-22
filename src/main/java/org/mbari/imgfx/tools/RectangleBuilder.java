@@ -1,12 +1,16 @@
 package org.mbari.imgfx.tools;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
+import org.mbari.imgfx.ColoredBuilder;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.Localization;
 import org.mbari.imgfx.etc.jfx.controls.SelectionRectangle;
@@ -15,7 +19,7 @@ import org.mbari.imgfx.roi.RectangleView;
 import org.mbari.imgfx.roi.RectangleViewEditor;
 import org.mbari.imgfx.etc.rx.EventBus;
 
-public class RectangleBuilder implements Builder {
+public class RectangleBuilder implements ColoredBuilder {
 
     /*
      Selection rectanble
@@ -25,6 +29,7 @@ public class RectangleBuilder implements Builder {
     private final EventBus eventBus;
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
     private final EventHandler<MouseEvent> onCompleteHandler;
+    private final ObjectProperty<Color> editColor = new SimpleObjectProperty<>();
 
     public RectangleBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
         this.paneController = paneController;
@@ -46,6 +51,10 @@ public class RectangleBuilder implements Builder {
                         .getChildren()
                         .add(selectionRectangle.getRectangle());
             }
+        });
+
+        editColor.addListener((obs, oldv, newv) -> {
+            selectionRectangle.getRectangle().setFill(newv);
         });
     }
 
@@ -69,7 +78,8 @@ public class RectangleBuilder implements Builder {
     }
 
     private void addEditor(RectangleView dataView) {
-        new RectangleViewEditor(dataView, paneController.getPane());
+        var editor =  new RectangleViewEditor(dataView, paneController.getPane());
+        editor.editColorProperty().bind(editColor);
     }
 
     public boolean isDisabled() {
@@ -86,5 +96,20 @@ public class RectangleBuilder implements Builder {
 
     Rectangle getView() {
         return selectionRectangle.getRectangle();
+    }
+
+    @Override
+    public Color getEditColor() {
+        return editColor.get();
+    }
+
+    @Override
+    public ObjectProperty<Color> editColorProperty() {
+        return editColor;
+    }
+
+    @Override
+    public void setEditColor(Color editColor) {
+        this.editColor.set(editColor);
     }
 }

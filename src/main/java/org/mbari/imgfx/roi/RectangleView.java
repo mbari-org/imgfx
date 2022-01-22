@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.Autoscale;
 import org.mbari.imgfx.etc.jfx.MutablePoint;
@@ -128,6 +129,11 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
     @Override
     public MutablePoint getLabelLocationHint() {
         return labelLocationHint;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        getView().setFill(color);
     }
 
     public static Optional<RectangleView> fromImageCoords(Double x, Double y, Double width, Double height, Autoscale<?> autoscale) {
