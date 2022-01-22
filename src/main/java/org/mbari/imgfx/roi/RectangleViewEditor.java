@@ -60,8 +60,11 @@ public class RectangleViewEditor implements ViewEditor {
         dragSource = (Rectangle) evt.getSource();
         origMouseX = evt.getSceneX();
         origMouseY = evt.getSceneY();
-        origX = ((Rectangle) evt.getSource()).getX();
-        origY = ((Rectangle) evt.getSource()).getY();
+
+        var rect = (Rectangle) evt.getSource();
+        var point = rect.localToScene(rect.getX(), rect.getY());
+        origX = point.getX();
+        origY = point.getY();
     };
 
     private EventHandler<MouseEvent> mouseDraggedHandler = evt -> {
@@ -72,8 +75,11 @@ public class RectangleViewEditor implements ViewEditor {
         double dy = evt.getSceneY() - origMouseY;
         double newX = origX + dx;
         double newY = origY + dy;
-        ((Rectangle) evt.getSource()).setX(newX);
-        ((Rectangle) evt.getSource()).setY(newY);
+        var rect = (Rectangle) evt.getSource();
+        var point = rect.sceneToLocal(newX, newY);
+
+        rect.setX(point.getX());
+        rect.setY(point.getY());
     };
 
     // If a user clicks outside the editor, turn off the editor
@@ -124,10 +130,7 @@ public class RectangleViewEditor implements ViewEditor {
 
             // Change look while editing. Store pre-edit look
             lastShapeColors = ShapeColors.fromShape(rectangle);
-//            lastColor = rectangle.getFill();
-//            lastStrokeWidth = rectangle.getStrokeWidth();
-//            lastStroke = rectangle.getStroke();
-//            lastStrokeType = rectangle.getStrokeType();
+
 
             var c = editColor.get();
             var darkerEditColor = Color.color(c.getRed(), c.getGreen(), c.getBlue(), 0.8).darker();
