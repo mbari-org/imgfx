@@ -84,7 +84,8 @@ public class RectangleViewEditor implements ViewEditor {
 
     // If a user clicks outside the editor, turn off the editor
     private EventHandler<MouseEvent> checkEditHandler = event -> {
-        var clickPoint = new Point2D(event.getX(), event.getY());
+        var sceneClickPoint = new Point2D(event.getSceneX(), event.getSceneY());
+        var clickPoint = getNodes().get(0).sceneToLocal(sceneClickPoint);
         var doingEdits = getNodes()
                 .stream()
                 .anyMatch(n -> n.contains(clickPoint));
