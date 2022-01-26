@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.rx.events.AddCircleEvent;
-import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
+import org.mbari.imgfx.etc.javafx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
-import org.mbari.imgfx.tools.CircleBuilder;
+import org.mbari.imgfx.roi.CircleBuilder;
 
 import java.time.LocalTime;
 

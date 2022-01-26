@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.shape.Shape;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
+import org.mbari.imgfx.roi.Localization;
 
 import java.util.ArrayList;
 import java.util.List;

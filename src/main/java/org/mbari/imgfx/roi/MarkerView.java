@@ -8,8 +8,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import org.mbari.imgfx.Autoscale;
-import org.mbari.imgfx.etc.jfx.JFXUtil;
-import org.mbari.imgfx.etc.jfx.MutablePoint;
+import org.mbari.imgfx.etc.javafx.JFXUtil;
+import org.mbari.imgfx.etc.javafx.MutablePoint;
 
 import java.util.Optional;
 

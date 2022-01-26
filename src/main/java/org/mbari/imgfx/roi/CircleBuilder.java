@@ -1,23 +1,20 @@
-package org.mbari.imgfx.tools;
+package org.mbari.imgfx.roi;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.Builder;
-import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.etc.rx.events.AddMarkerEvent;
+import org.mbari.imgfx.etc.rx.events.AddCircleEvent;
 import org.mbari.imgfx.etc.rx.EventBus;
-import org.mbari.imgfx.roi.MarkerView;
 
-public class MarkerBuilder implements Builder {
+public class CircleBuilder implements Builder<CircleView> {
 
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
     private final AutoscalePaneController<?> paneController;
     private final EventBus eventBus;
     private double radius = 6D;
 
-    public MarkerBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
+    public CircleBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
         this.paneController = paneController;
         this.eventBus = eventBus;
         init();
@@ -26,13 +23,13 @@ public class MarkerBuilder implements Builder {
     private void init() {
         paneController.getPane().setOnMouseClicked(event -> {
             if (!disabled.get()) {
-                MarkerView.fromSceneCoords(event.getSceneX(), event.getSceneY(), radius, paneController.getAutoscale())
+                CircleView.fromSceneCoords(event.getSceneX(), event.getSceneY(), radius, paneController.getAutoscale())
                         .ifPresent(view -> {
                             // Set the radius in the image data so the circle scales correctly with
                             // image resize
                             view.getData().setRadius(radius);
                             var loc = new Localization<>(view, paneController);
-                            eventBus.publish(new AddMarkerEvent(loc));
+                            eventBus.publish(new AddCircleEvent(loc));
                         });
             }
         });
@@ -60,5 +57,10 @@ public class MarkerBuilder implements Builder {
     @Override
     public void setDisabled(boolean disabled) {
         this.disabled.set(disabled);
+    }
+
+    @Override
+    public Class<CircleView> getBuiltType() {
+        return CircleView.class;
     }
 }

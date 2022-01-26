@@ -10,8 +10,8 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.roi.RectangleViewEditor;
-import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
-import org.mbari.imgfx.etc.jfx.controls.SelectionRectangle;
+import org.mbari.imgfx.etc.javafx.controls.CrossHairs;
+import org.mbari.imgfx.etc.javafx.controls.SelectionRectangle;
 import org.mbari.imgfx.roi.RectangleView;
 
 public class RectangleViewDemo extends Application {

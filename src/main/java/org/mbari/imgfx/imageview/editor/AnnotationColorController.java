@@ -1,15 +1,10 @@
-package org.mbari.imgfx.demos.simple;
+package org.mbari.imgfx.imageview.editor;
 
-import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import org.mbari.imgfx.roi.Data;
-import org.mbari.imgfx.roi.DataView;
 
-import java.util.List;
-import java.util.Map;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
 

@@ -16,14 +16,13 @@ module imgfx {
 
   exports org.mbari.imgfx;
   exports org.mbari.imgfx.demos;
-  exports org.mbari.imgfx.demos.simple;
-  exports org.mbari.imgfx.tools;
   exports org.mbari.imgfx.roi;
   exports org.mbari.imgfx.etc.rx;
-  exports org.mbari.imgfx.etc.jfx;
+  exports org.mbari.imgfx.etc.javafx;
   exports org.mbari.imgfx.etc.rx.events;
-  exports org.mbari.imgfx.etc.jfx.controls;
+  exports org.mbari.imgfx.etc.javafx.controls;
   exports org.mbari.imgfx.mediaview;
   exports org.mbari.imgfx.imageview;
   exports org.mbari.imgfx.util;
+  exports org.mbari.imgfx.imageview.editor;
 }

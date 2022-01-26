@@ -1,4 +1,4 @@
-package org.mbari.imgfx;
+package org.mbari.imgfx.roi;
 
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.BooleanProperty;
@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import org.mbari.imgfx.AutoscalePaneController;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
 

@@ -1,16 +1,21 @@
-package org.mbari.imgfx.demos.simple;
+package org.mbari.imgfx.imageview.editor;
 
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.mbari.imgfx.*;
 import org.mbari.imgfx.etc.rx.events.AddLocalizationEvent;
 import org.mbari.imgfx.etc.rx.events.RemoveLocalizationEvent;
 import org.mbari.imgfx.etc.rx.EventBus;
-import org.mbari.imgfx.tools.*;
+import org.mbari.imgfx.roi.LineBuilder;
+import org.mbari.imgfx.roi.MarkerBuilder;
+import org.mbari.imgfx.roi.PolygonBuilder;
+import org.mbari.imgfx.roi.RectangleBuilder;
 
 public class ToolsPaneController {
 
@@ -69,6 +74,11 @@ public class ToolsPaneController {
     }
 
     private void addBuilderToogle(Text icon, Builder builder) {
+        var hbox = new HBox();
+        var checkbox = new CheckBox();
+        checkbox.selectedProperty().addListener((obs, oldv, newv) -> {
+
+        });
         var button = new ToggleButton();
         button.setGraphic(icon);
         button.setOnAction(actionEvent -> {

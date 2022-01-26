@@ -9,10 +9,10 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
+import org.mbari.imgfx.etc.javafx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.etc.rx.events.AddPolygonEvent;
-import org.mbari.imgfx.tools.PolygonBuilder;
+import org.mbari.imgfx.roi.PolygonBuilder;
 
 import java.time.LocalTime;
 

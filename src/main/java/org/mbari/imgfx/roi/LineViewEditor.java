@@ -14,7 +14,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import org.mbari.imgfx.etc.jfx.ShapeColors;
+import org.mbari.imgfx.etc.javafx.ShapeColors;
 
 import java.util.Collections;
 import java.util.List;

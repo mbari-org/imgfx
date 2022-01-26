@@ -4,11 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
 import org.mbari.imgfx.Autoscale;
-import org.mbari.imgfx.etc.jfx.JFXUtil;
-import org.mbari.imgfx.etc.jfx.SutherlandHodgman;
+import org.mbari.imgfx.etc.javafx.JFXUtil;
+import org.mbari.imgfx.etc.javafx.SutherlandHodgman;
 
 import java.util.Collection;
 import java.util.List;

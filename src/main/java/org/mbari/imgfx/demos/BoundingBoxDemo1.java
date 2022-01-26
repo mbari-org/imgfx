@@ -1,6 +1,6 @@
 package org.mbari.imgfx.demos;
 
-import org.mbari.imgfx.etc.jfx.controls.BoundingBox;
+import org.mbari.imgfx.etc.javafx.controls.BoundingBox;
 import javafx.application.Application;
 
 import javafx.scene.Scene;

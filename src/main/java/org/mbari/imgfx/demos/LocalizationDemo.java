@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.Localization;
+import org.mbari.imgfx.roi.Localization;
 import org.mbari.imgfx.roi.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.mbari.imgfx.tools;
+package org.mbari.imgfx.roi;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -9,17 +9,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.mbari.imgfx.AutoscalePaneController;
-import org.mbari.imgfx.Builder;
 import org.mbari.imgfx.ColoredBuilder;
-import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.etc.jfx.controls.SelectionRectangle;
+import org.mbari.imgfx.etc.javafx.controls.SelectionRectangle;
 import org.mbari.imgfx.etc.rx.events.AddRectangleEvent;
-import org.mbari.imgfx.roi.RectangleView;
-import org.mbari.imgfx.roi.RectangleViewEditor;
 import org.mbari.imgfx.etc.rx.EventBus;
 
-public class RectangleBuilder implements ColoredBuilder {
+public class RectangleBuilder implements ColoredBuilder<RectangleView> {
 
     /*
      Selection rectanble
@@ -111,5 +106,10 @@ public class RectangleBuilder implements ColoredBuilder {
     @Override
     public void setEditColor(Color editColor) {
         this.editColor.set(editColor);
+    }
+
+    @Override
+    public Class<RectangleView> getBuiltType() {
+        return RectangleView.class;
     }
 }

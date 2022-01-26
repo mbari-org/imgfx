@@ -1,4 +1,4 @@
-package org.mbari.imgfx.tools;
+package org.mbari.imgfx.roi;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -12,20 +12,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.mbari.imgfx.AutoscalePaneController;
-import org.mbari.imgfx.Builder;
 import org.mbari.imgfx.ColoredBuilder;
-import org.mbari.imgfx.imageview.ImagePaneController;
-import org.mbari.imgfx.Localization;
-import org.mbari.imgfx.etc.jfx.JFXUtil;
+import org.mbari.imgfx.etc.javafx.JFXUtil;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.etc.rx.events.AddPolygonEvent;
-import org.mbari.imgfx.roi.PolygonView;
-import org.mbari.imgfx.roi.ViewEditor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PolygonBuilder implements ColoredBuilder {
+public class PolygonBuilder implements ColoredBuilder<PolygonView> {
 
     private final BooleanProperty disabled = new SimpleBooleanProperty(true);
     private final AutoscalePaneController<?> paneController;
@@ -193,5 +188,10 @@ public class PolygonBuilder implements ColoredBuilder {
 
     public void setEditColor(Color editColor) {
         this.editColor.set(editColor);
+    }
+
+    @Override
+    public Class<PolygonView> getBuiltType() {
+        return PolygonView.class;
     }
 }

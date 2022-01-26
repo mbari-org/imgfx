@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import org.mbari.imgfx.etc.jfx.ShapeColors;
+import org.mbari.imgfx.etc.javafx.ShapeColors;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,9 +1,9 @@
-package org.mbari.imgfx.demos.simple;
+package org.mbari.imgfx.imageview.editor;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import org.mbari.imgfx.AutoscalePaneController;
-import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
+import org.mbari.imgfx.etc.javafx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.etc.rx.events.AddLocalizationEvent;
 import org.mbari.imgfx.imageview.ImagePaneController;

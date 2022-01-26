@@ -4,14 +4,14 @@ import javafx.scene.paint.Paint;
 import org.mbari.imgfx.BuilderCoordinator;
 import org.mbari.imgfx.imageview.ImagePaneController;
 import org.mbari.imgfx.etc.rx.events.AddMarkerEvent;
-import org.mbari.imgfx.etc.jfx.controls.CrossHairs;
+import org.mbari.imgfx.etc.javafx.controls.CrossHairs;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.mbari.imgfx.etc.rx.EventBus;
-import org.mbari.imgfx.tools.MarkerBuilder;
+import org.mbari.imgfx.roi.MarkerBuilder;
 
 import java.time.LocalTime;
 

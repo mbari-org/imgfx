@@ -4,7 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import org.mbari.imgfx.Autoscale;
-import org.mbari.imgfx.etc.jfx.MutablePoint;
+import org.mbari.imgfx.etc.javafx.MutablePoint;
 
 public interface DataView<A extends Data, B extends Shape> {
 
