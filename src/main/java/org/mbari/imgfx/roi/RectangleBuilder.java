@@ -34,6 +34,7 @@ public class RectangleBuilder implements ColoredBuilder<RectangleView> {
     }
 
     private void init() {
+        selectionRectangle.setColor(editColor.get());
         selectionRectangle.setOnCompleteHandler(onCompleteHandler);
         disabledProperty().addListener((obs, oldv, newv) -> {
             if (newv) {
@@ -49,7 +50,7 @@ public class RectangleBuilder implements ColoredBuilder<RectangleView> {
         });
 
         editColor.addListener((obs, oldv, newv) -> {
-            selectionRectangle.getRectangle().setFill(newv);
+            selectionRectangle.setColor(newv);
         });
     }
 
@@ -112,4 +113,5 @@ public class RectangleBuilder implements ColoredBuilder<RectangleView> {
     public Class<RectangleView> getBuiltType() {
         return RectangleView.class;
     }
+
 }

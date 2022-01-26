@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -32,7 +33,6 @@ public class LineBuilder implements ColoredBuilder<LineView> {
     };
     private final ObjectProperty<Color> editColor = new SimpleObjectProperty<>();
 
-
     public LineBuilder(AutoscalePaneController<?> paneController, EventBus eventBus) {
         this.paneController = paneController;
         this.eventBus = eventBus;
@@ -53,6 +53,25 @@ public class LineBuilder implements ColoredBuilder<LineView> {
         });
         line.strokeProperty().bind(editColor);
         line.setStrokeWidth(2);
+
+        var pane = paneController.getPane();
+        final EventHandler<KeyEvent> keyEvent = (event) -> {
+            // Stop if any key is pressed
+            if (!isDisabled() && isBuilding) {
+                isBuilding = false;
+                line.setVisible(false);
+            }
+        };
+        pane.sceneProperty().addListener((obs, oldv, newv) -> {
+            if (oldv != null) {
+                oldv.removeEventHandler(KeyEvent.KEY_TYPED, keyEvent);
+            }
+            if (newv != null) {
+                newv.addEventHandler(KeyEvent.KEY_TYPED, keyEvent);
+            }
+        });
+
+
     }
 
     private void build(Line line) {

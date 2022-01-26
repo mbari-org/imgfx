@@ -12,4 +12,5 @@ public interface AutoscalePaneController<T extends Node> {
     Pane getPane();
     T getView();
     Autoscale<T> getAutoscale();
+
 }

@@ -10,6 +10,7 @@ module imgfx {
   // 3rd party module
   requires io.reactivex.rxjava3;
   requires transitive org.kordamp.ikonli.material2;
+  requires transitive org.kordamp.ikonli.bootstrapicons;
   requires org.kordamp.ikonli.core;
   requires org.kordamp.ikonli.javafx;
   requires java.prefs;

@@ -22,8 +22,7 @@ public class Localizations {
     private ObservableList<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> localizations = FXCollections.observableArrayList();
     private ObservableList<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> selectedLocalizations = FXCollections.observableArrayList();
     private ObjectProperty<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> editedLocalization = new SimpleObjectProperty<>();
-    private ObservableMap<Class<? extends DataView<? extends Data, ? extends Node>>, Boolean> visibleDataViewTypes =
-            FXCollections.observableHashMap();
+    private ObservableMap<Object, Boolean> visibleDataViewTypes =  FXCollections.observableHashMap();
 
     public Localizations(EventBus eventBus) {
         init(eventBus);
@@ -44,7 +43,7 @@ public class Localizations {
             }
         });
 
-        visibleDataViewTypes.addListener((MapChangeListener<? super Class<? extends DataView<? extends Data,? extends Node>>, ? super Boolean>) c -> {
+        visibleDataViewTypes.addListener((MapChangeListener<Object, ? super Boolean>) c -> {
             updateVisibility();
         });
 
@@ -122,12 +121,12 @@ public class Localizations {
         this.editedLocalization.set(editedLocalization);
     }
 
-    public ObservableMap<Class<? extends DataView<? extends Data, ? extends Node>>, Boolean> getVisibleDataViewTypes() {
+    public ObservableMap<Object, Boolean> getVisibleDataViewTypes() {
         return visibleDataViewTypes;
     }
 
-    public void setVisibility(Class<DataView<? extends Data, ? extends Node>> dataViewType, Boolean visible) {
-        visibleDataViewTypes.put(dataViewType, visible);
+    public void setVisibility(Object dataViewTypeKey, Boolean visible) {
+        visibleDataViewTypes.put(dataViewTypeKey, visible);
     }
 
     private void updateVisibility() {

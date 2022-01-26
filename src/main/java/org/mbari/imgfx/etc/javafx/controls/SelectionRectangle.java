@@ -21,6 +21,7 @@ public class SelectionRectangle {
   private double startX;
   private double startY;
   private final ObjectProperty<EventHandler<MouseEvent>> onCompleteHandler = new SimpleObjectProperty<>();
+  private Color color = (Color) rectangle.getFill();
 
   private final EventHandler<MouseEvent> pressedEvent = (event) -> {
     startX = event.getX();
@@ -29,7 +30,7 @@ public class SelectionRectangle {
     rectangle.setY(startY);
     rectangle.setWidth(0);
     rectangle.setHeight(0);
-    rectangle.setFill(Paint.valueOf("#00FF0040"));
+    rectangle.setFill(color);
   };
 
   private final EventHandler<MouseEvent> dragEvent = (event) -> {
@@ -104,5 +105,13 @@ public class SelectionRectangle {
   public void setDragStart(Point2D dragStart) {
     startX = dragStart.getX();
     startY = dragStart.getY();
+  }
+
+  public Color getColor() {
+    return color;
+  }
+
+  public void setColor(Color color) {
+    this.color = color;
   }
 }

@@ -53,4 +53,5 @@ public class MediaPaneController implements AutoscalePaneController<MediaView> {
     public MediaViewAutoscale getAutoscale() {
         return mediaViewDecorator;
     }
+
 }
