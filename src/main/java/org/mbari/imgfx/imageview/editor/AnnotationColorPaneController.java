@@ -14,7 +14,7 @@ import org.mbari.imgfx.roi.Localization;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
 
-public class AnnotationColorController {
+public class AnnotationColorPaneController {
     private final GridPane pane = new GridPane();
     private final AnnotationColors annotationColors = new AnnotationColors();
     private final Localizations localizations;
@@ -23,12 +23,14 @@ public class AnnotationColorController {
     private final String EDITED_KEY = "editedColor";
     private final String DEFAULT_KEY = "defaultColor";
 
-    public AnnotationColorController(Localizations localizations) {
+    public AnnotationColorPaneController(Localizations localizations) {
         this.localizations = localizations;
         init();
     }
 
     private void init() {
+
+        pane.getStyleClass().add("annotation-color-pane");
 
         annotationColors.editedColorProperty().addListener((obs, oldv, newv) -> {
             var editedAnno = localizations.getEditedLocalization();

@@ -50,14 +50,14 @@ public class ToolsPaneController {
         annotationColors.selectedColorProperty()
                         .addListener((obs, oldv, newv) -> selectionRectangle.setColor(newv));
 
-        pane.setHgap(5);
-        pane.setVgap(5);
+        pane.getStyleClass().add("tools-pane");
 
-        var vizLabel = new Label("Visible");
+        var vizLabel = new Label("Show");
         var buildLabel = new Label("Create");
 
         var row = 0;
         var selectionToggle = new ToggleButton();
+        selectionToggle.getStyleClass().add("glyph-icon");
         selectionToggle.setGraphic(Icons.HIGHLIGHT_ALT.standardSize());
         selectionToggle.selectedProperty()
                         .addListener((obs, oldv, newv) -> {
@@ -80,6 +80,7 @@ public class ToolsPaneController {
         row++;
 
         var deleteButton = new Button();
+        deleteButton.getStyleClass().add("glyph-icon");
         localizations.getSelectedLocalizations()
                 .addListener((ListChangeListener<? super Localization<? extends DataView<? extends Data,? extends Node>,? extends Node>>) c -> {
             deleteButton.setDisable(localizations.getSelectedLocalizations().isEmpty());
@@ -88,6 +89,7 @@ public class ToolsPaneController {
         deleteButton.setOnAction(actionEvent -> {
             var selected = new ArrayList<>(localizations.getSelectedLocalizations());
             var alert = new Alert((Alert.AlertType.CONFIRMATION));
+            alert.getDialogPane().getStylesheets().add("imgfx.css");
             alert.setTitle("Delete");
             alert.setHeaderText("Delete Localizations");
             alert.setContentText("Are you sure you want to delete " + selected.size() + " localizations?");
@@ -157,6 +159,7 @@ public class ToolsPaneController {
         checkbox.setSelected(true);
         pane.add(checkbox, 0, row);
 
+        icon.getStyleClass().add("glyph-icon");
         var button = new ToggleButton();
         button.setGraphic(icon);
         button.setOnAction(actionEvent -> {
@@ -179,6 +182,7 @@ public class ToolsPaneController {
                 .filter(loc -> inSelection(rect, loc.getDataView().getView()))
                 .collect(Collectors.toList());
         localizations.setSelectedLocalizations(selected);
+
     }
 
     private boolean inSelection(Rectangle selection , Node node) {

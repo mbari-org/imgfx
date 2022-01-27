@@ -2,6 +2,7 @@ package org.mbari.imgfx.imageview.editor;
 
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -11,6 +12,9 @@ import javafx.scene.layout.HBox;
 import org.mbari.imgfx.etc.javafx.controls.FilteredComboBoxDecorator;
 import org.mbari.imgfx.etc.rx.events.AddLocalizationEvent;
 import org.mbari.imgfx.etc.rx.events.UpdatedLocalizationsEvent;
+import org.mbari.imgfx.roi.Data;
+import org.mbari.imgfx.roi.DataView;
+import org.mbari.imgfx.roi.Localization;
 
 import java.util.ArrayList;
 
@@ -26,7 +30,9 @@ public class ConceptPaneController {
 
     private void init() {
         pane = new HBox();
+        pane.getStyleClass().add("concept-pane");
         conceptComboBox = new ComboBox<>();
+        conceptComboBox.getStyleClass().add("concept-combo-box");
         new FilteredComboBoxDecorator<>(conceptComboBox,
                 FilteredComboBoxDecorator.STARTSWITH_IGNORE_SPACES);
         conceptComboBox.setEditable(false);
@@ -41,8 +47,9 @@ public class ConceptPaneController {
                 }
             }
         });
-        conceptComboBox.setTooltip(new Tooltip("Press Enter to apply the selected term"));
-
+        var tooltip = new Tooltip();
+        tooltip.getStyleClass().add("tooltip-combobox");
+        conceptComboBox.setTooltip(tooltip);
 
         pane.getChildren().add(conceptComboBox);
 
@@ -54,6 +61,18 @@ public class ConceptPaneController {
                     conceptComboBox.setItems(concepts);
                 });
 
+        this.paneController
+                .getLocalizations()
+                .getSelectedLocalizations()
+                .addListener((ListChangeListener<? super Localization<? extends DataView<? extends Data,? extends Node>,? extends Node>>) c -> {
+                    Platform.runLater(() -> {
+                        conceptComboBox.requestFocus();
+                        conceptComboBox.getEditor().selectAll();
+                        conceptComboBox.getEditor().requestFocus();
+                    });
+                });
+
+
         paneController.getEventBus()
                 .toObserverable()
                 .ofType(AddLocalizationEvent.class)
@@ -63,10 +82,11 @@ public class ConceptPaneController {
                     if (selectedConcept != null) {
                         loc.setLabel(selectedConcept);
                     }
-                    Platform.runLater(() -> {
-                        conceptComboBox.getEditor().selectAll();
-                        conceptComboBox.getEditor().requestFocus();
-                    });
+//                    Platform.runLater(() -> {
+//                        conceptComboBox.requestFocus();
+//                        conceptComboBox.getEditor().selectAll();
+//                        conceptComboBox.getEditor().requestFocus();
+//                    });
                 });
 
     }

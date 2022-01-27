@@ -21,7 +21,7 @@ public class AnnotationPaneController {
     private BorderPane pane;
     private AutoscalePaneController<ImageView> autoscalePaneController;
     private ToolsPaneController toolsPaneController;
-    private AnnotationColorController annotationColorController;
+    private AnnotationColorPaneController annotationColorPaneController;
     private ConceptPaneController conceptPaneController;
     private CrossHairs crossHairs;
     private final EventBus eventBus;
@@ -38,12 +38,13 @@ public class AnnotationPaneController {
 
 
     private void init() {
-        annotationColorController = new AnnotationColorController(localizations);
+
+        annotationColorPaneController = new AnnotationColorPaneController(localizations);
         crossHairs = new CrossHairs();
         autoscalePaneController = new ImagePaneController(new ImageView());
         toolsPaneController = new ToolsPaneController(autoscalePaneController,
                 eventBus,
-                annotationColorController.getAnnotationColors(),
+                annotationColorPaneController.getAnnotationColors(),
                 localizations);
         conceptPaneController = new ConceptPaneController(this);
 
@@ -51,6 +52,8 @@ public class AnnotationPaneController {
         autoscalePane.getChildren().addAll(crossHairs.getNodes());
         pane = new BorderPane(autoscalePaneController.getPane());
         pane.setBottom(conceptPaneController.getPane());
+        pane.getStylesheets()
+                .addAll("imgfx.css");
 
         var leftPane = new VBox();
         leftPane.setSpacing(5);
@@ -59,7 +62,7 @@ public class AnnotationPaneController {
         centerWrapper0.setAlignment(Pos.CENTER);
         leftPane.getChildren().add(centerWrapper0);
 
-        var centerWrapper1 = new HBox(annotationColorController.getPane());
+        var centerWrapper1 = new HBox(annotationColorPaneController.getPane());
         centerWrapper1.setAlignment(Pos.CENTER);
         leftPane.getChildren().add(centerWrapper1);
 
