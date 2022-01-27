@@ -5,10 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.mbari.imgfx.etc.rx.EventBus;
+import org.mbari.imgfx.etc.rx.events.Event;
 
 import java.util.List;
 
 public class App extends Application {
+
+    private static final System.Logger log = System.getLogger(App.class.getSimpleName());
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -22,6 +25,11 @@ public class App extends Application {
         paneController.getAutoscalePaneController()
                 .getView()
                 .setImage(image);
+
+        paneController.getEventBus()
+                .toObserverable()
+                .ofType(Event.class)
+                .subscribe(event -> log.log(System.Logger.Level.INFO, event));
 
         var scene = new Scene(paneController.getPane(), 640, 480);
         stage.setScene(scene);
