@@ -1,11 +1,9 @@
 package org.mbari.imgfx.imageview.editor;
 
 
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -18,6 +16,7 @@ import org.mbari.imgfx.etc.rx.events.RemoveLocalizationEvent;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.roi.*;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class ToolsPaneController {
@@ -79,6 +78,28 @@ public class ToolsPaneController {
         selectionToggle.setToggleGroup(toggleGroup);
         pane.add(selectionToggle, 1, row);
         row++;
+
+        var deleteButton = new Button();
+        localizations.getSelectedLocalizations()
+                .addListener((ListChangeListener<? super Localization<? extends DataView<? extends Data,? extends Node>,? extends Node>>) c -> {
+            deleteButton.setDisable(localizations.getSelectedLocalizations().isEmpty());
+        } );
+        deleteButton.setGraphic(Icons.DELETE.standardSize());
+        deleteButton.setOnAction(actionEvent -> {
+            var selected = new ArrayList<>(localizations.getSelectedLocalizations());
+            var alert = new Alert((Alert.AlertType.CONFIRMATION));
+            alert.setTitle("Delete");
+            alert.setHeaderText("Delete Localizations");
+            alert.setContentText("Are you sure you want to delete " + selected.size() + " localizations?");
+            var result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                selected.forEach(loc -> eventBus.publish(new RemoveLocalizationEvent(loc)));
+            }
+        });
+        pane.add(deleteButton, 1, row);
+        row++;
+
+
 
         pane.add(vizLabel, 0, row);
         pane.add(buildLabel, 1, row);

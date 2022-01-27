@@ -28,6 +28,7 @@ public class LineView implements DataView<LineData, Line> {
     }
 
     private void init() {
+        view.setStrokeWidth(3);
 
         EditingDecorator.decorate(this);
 

@@ -18,6 +18,7 @@ public enum Icons {
     CHECK_BOX_OUTLINE_BLANK(Material2OutlinedAL.CHECK_BOX_OUTLINE_BLANK), // square
     CLOSE(Material2OutlinedAL.CLOSE), // an X
     CROP_LANDSCAPE(Material2OutlinedAL.CROP_LANDSCAPE), // horizontal rectangle
+    DELETE(Material2OutlinedAL.DELETE), // trash can
     HEXAGON(BootstrapIcons.HEXAGON),
     HIGHLIGHT_ALT(Material2OutlinedAL.HIGHLIGHT_ALT), // dash rectangle w small arrow at lower right. Good for select
     LINEAR_SCALE(Material2OutlinedAL.LINEAR_SCALE), // line with 3 dots on it.

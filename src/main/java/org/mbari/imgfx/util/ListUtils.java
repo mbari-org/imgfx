@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ListUtil {
+public class ListUtils {
 
-    private ListUtil() {}
+    private ListUtils() {}
 
     public static <T> Set<T> intersection(List<T> a, List<T> b) {
         return a.stream()

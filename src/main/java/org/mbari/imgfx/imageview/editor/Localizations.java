@@ -12,7 +12,7 @@ import org.mbari.imgfx.roi.Localization;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.roi.Data;
 import org.mbari.imgfx.roi.DataView;
-import org.mbari.imgfx.util.ListUtil;
+import org.mbari.imgfx.util.ListUtils;
 
 import java.util.List;
 
@@ -105,7 +105,7 @@ public class Localizations {
 
     public void setSelectedLocalizations(List<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> selectedLocalizations) {
         // Get intersection with current annotations.
-        var existingAnnotations = ListUtil.intersection(localizations, selectedLocalizations);
+        var existingAnnotations = ListUtils.intersection(localizations, selectedLocalizations);
         this.selectedLocalizations.setAll(existingAnnotations);
     }
 

@@ -29,6 +29,7 @@ public class MarkerView implements DataView<CircleData, Polyline> {
     }
 
     private void init() {
+        view.setStrokeWidth(3);
 
 //        view.setFill(Color.TRANSPARENT);
 
