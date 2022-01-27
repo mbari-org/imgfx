@@ -7,6 +7,11 @@ import javafx.stage.Stage;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.etc.rx.events.Event;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class App extends Application {
@@ -17,7 +22,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         var eventBus = new EventBus();
         var paneController = new AnnotationPaneController(eventBus);
-        var concepts = List.of("Apple", "Banana", "Nanomia", "Nanomia bijuga");
+        var concepts = loadDefaultConcepts();
         paneController.setConcepts(concepts);
 
         var imageUrl = getClass().getResource("/earth.jpg");
@@ -35,6 +40,18 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    private List<String> loadDefaultConcepts() {
+        var url = getClass().getResource("/default-concepts.txt");
+        System.out.println(url);
+        try {
+            return Files.readAllLines(Path.of(url.toURI()),
+                    StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of("Apple", "Banana", "Nanomia", "Nanomia bijuga");
+        }
     }
 
 
