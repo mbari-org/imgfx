@@ -1,4 +1,4 @@
-module imgfx {
+module org.mbari.imgfx {
   requires transitive javafx.controls;
   requires transitive javafx.media;
 
