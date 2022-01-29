@@ -2,11 +2,15 @@ package org.mbari.imgfx.imageview.editor;
 
 
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import org.mbari.imgfx.*;
@@ -21,6 +25,9 @@ import java.util.stream.Collectors;
 
 public class ToolsPaneController {
 
+    // TODO add color sliders to adjust image brightness
+    // SEE https://www.tutorialspoint.com/javafx/color_adjust_effect.htm
+
     GridPane pane;
     private final AutoscalePaneController<ImageView> paneController;
     private final EventBus eventBus;
@@ -29,6 +36,7 @@ public class ToolsPaneController {
     private final AnnotationColors annotationColors;
     private final Localizations localizations;
     private final SelectionRectangle selectionRectangle;
+    private final ColorAdjust colorAdjust;
 
     public ToolsPaneController(AutoscalePaneController<ImageView> paneController,
                                EventBus eventBus,
@@ -41,6 +49,8 @@ public class ToolsPaneController {
         this.localizations = localizations;
         this.builderCoordinator = new BuilderCoordinator();
         this.selectionRectangle = new SelectionRectangle(this::handleSelection);
+        this.colorAdjust = new ColorAdjust();
+        paneController.getView().setEffect(colorAdjust);
         init();
     }
 
@@ -125,6 +135,34 @@ public class ToolsPaneController {
         addBuilderToogle(Icons.HEXAGON.standardSize(),
                 new PolygonBuilder(paneController, eventBus), row);
         row++;
+
+
+        var contrastSlider = new Slider(-1, 1, 0);
+        contrastSlider.setOrientation(Orientation.VERTICAL);
+        contrastSlider.setTooltip(new Tooltip("Contrast"));
+        colorAdjust.contrastProperty().bind(contrastSlider.valueProperty());
+
+
+        var brightSlider = new Slider(-1, 1, 0);
+        brightSlider.setOrientation(Orientation.VERTICAL);
+        brightSlider.setTooltip(new Tooltip("Brightness"));
+        colorAdjust.brightnessProperty().bind(brightSlider.valueProperty());
+
+        var hueSlider = new Slider(-1, 1, 0);
+        hueSlider.setOrientation(Orientation.VERTICAL);
+        hueSlider.setTooltip(new Tooltip("Hue"));
+        colorAdjust.hueProperty().bind(hueSlider.valueProperty());
+
+        var saturationSlider = new Slider(-1, 1, 0);
+        saturationSlider.setOrientation(Orientation.VERTICAL);
+        saturationSlider.setTooltip(new Tooltip("Saturation"));
+        colorAdjust.saturationProperty().bind(saturationSlider.valueProperty());
+
+        var hbox = new HBox(contrastSlider, brightSlider, hueSlider, saturationSlider);
+        hbox.setAlignment(Pos.CENTER);
+        pane.add(hbox, 0, row, 2, 1);
+        row++;
+
 
 
         eventBus.toObserverable()
