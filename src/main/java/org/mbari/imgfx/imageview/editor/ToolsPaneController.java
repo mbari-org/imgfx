@@ -142,12 +142,6 @@ public class ToolsPaneController {
         contrastSlider.setTooltip(new Tooltip("Contrast"));
         colorAdjust.contrastProperty().bind(contrastSlider.valueProperty());
 
-
-        var brightSlider = new Slider(-1, 1, 0);
-        brightSlider.setOrientation(Orientation.VERTICAL);
-        brightSlider.setTooltip(new Tooltip("Brightness"));
-        colorAdjust.brightnessProperty().bind(brightSlider.valueProperty());
-
         var hueSlider = new Slider(-1, 1, 0);
         hueSlider.setOrientation(Orientation.VERTICAL);
         hueSlider.setTooltip(new Tooltip("Hue"));
@@ -158,7 +152,13 @@ public class ToolsPaneController {
         saturationSlider.setTooltip(new Tooltip("Saturation"));
         colorAdjust.saturationProperty().bind(saturationSlider.valueProperty());
 
-        var hbox = new HBox(contrastSlider, brightSlider, hueSlider, saturationSlider);
+        // In HSV, brightness is the V
+        var brightSlider = new Slider(-1, 1, 0);
+        brightSlider.setOrientation(Orientation.VERTICAL);
+        brightSlider.setTooltip(new Tooltip("Brightness"));
+        colorAdjust.brightnessProperty().bind(brightSlider.valueProperty());
+
+        var hbox = new HBox(contrastSlider, hueSlider, saturationSlider, brightSlider);
         hbox.setAlignment(Pos.CENTER);
         pane.add(hbox, 0, row, 2, 1);
         row++;
