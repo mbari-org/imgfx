@@ -37,6 +37,7 @@ public class ToolsPaneController {
     private final Localizations localizations;
     private final SelectionRectangle selectionRectangle;
     private final ColorAdjust colorAdjust;
+    private static final String lableStyle = "tools-pane-label";
 
     public ToolsPaneController(AutoscalePaneController<ImageView> paneController,
                                EventBus eventBus,
@@ -63,7 +64,9 @@ public class ToolsPaneController {
         pane.getStyleClass().add("tools-pane");
 
         var vizLabel = new Label("Show");
+        vizLabel.getStyleClass().add(lableStyle);
         var buildLabel = new Label("Create");
+        buildLabel.getStyleClass().add(lableStyle);
 
         var row = 0;
         var selectionToggle = new ToggleButton();
@@ -111,14 +114,10 @@ public class ToolsPaneController {
         pane.add(deleteButton, 1, row);
         row++;
 
-
-
         pane.add(vizLabel, 0, row);
         pane.add(buildLabel, 1, row);
         row++;
 
-
-        var mb = new MarkerBuilder(paneController, eventBus);
 
         addBuilderToogle(Icons.CLOSE.standardSize(),
                 new MarkerBuilder(paneController, eventBus), row);
@@ -136,6 +135,10 @@ public class ToolsPaneController {
                 new PolygonBuilder(paneController, eventBus), row);
         row++;
 
+        var colorAdjustLabel = new Label("Color Adjust");
+        colorAdjustLabel.getStyleClass().add(lableStyle);
+        pane.add(colorAdjustLabel, 0, row, 2, 1);
+        row++;
 
         var contrastSlider = new Slider(-1, 1, 0);
         contrastSlider.setOrientation(Orientation.VERTICAL);

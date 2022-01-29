@@ -163,6 +163,10 @@
     -fx-alignment: center;
 }
 
+.tools-pane-label {
+    -fx-label-padding: 10px 0px 0px 0px;
+}
+
 .tooltip-combobox {
     -fx-background-color: -default-compliment-color-light;
     -fx-font-size: 20pt;
