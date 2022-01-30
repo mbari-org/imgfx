@@ -3,6 +3,7 @@ package org.mbari.imgfx.imageview.editor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -89,6 +90,14 @@ public class AnnotationPaneController {
         return autoscalePaneController;
     }
 
+    public void resetUsingImage(Image image) {
+        localizations.getLocalizations()
+                .forEach(loc -> loc.setVisible(false));
+        localizations.getSelectedLocalizations().clear();
+        localizations.setEditedLocalization(null);
+        localizations.getLocalizations().clear();
+        autoscalePaneController.getView().setImage(image);
+    }
 
     public BorderPane getPane() {
         return pane;

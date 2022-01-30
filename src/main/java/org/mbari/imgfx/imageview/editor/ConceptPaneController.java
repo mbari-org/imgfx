@@ -82,11 +82,6 @@ public class ConceptPaneController {
                     if (selectedConcept != null) {
                         loc.setLabel(selectedConcept);
                     }
-//                    Platform.runLater(() -> {
-//                        conceptComboBox.requestFocus();
-//                        conceptComboBox.getEditor().selectAll();
-//                        conceptComboBox.getEditor().requestFocus();
-//                    });
                 });
 
     }
