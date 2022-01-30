@@ -159,6 +159,9 @@ public class ToolsPaneController {
         var brightSlider = new Slider(-1, 1, 0);
         brightSlider.setOrientation(Orientation.VERTICAL);
         brightSlider.setTooltip(new Tooltip("Brightness"));
+        brightSlider.setShowTickMarks(true);
+        brightSlider.setShowTickLabels(true);
+        brightSlider.setMajorTickUnit(1D);
         colorAdjust.brightnessProperty().bind(brightSlider.valueProperty());
 
         var hbox = new HBox(contrastSlider, hueSlider, saturationSlider, brightSlider);
