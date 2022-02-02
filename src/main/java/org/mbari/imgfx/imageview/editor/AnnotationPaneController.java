@@ -120,6 +120,13 @@ public class AnnotationPaneController {
         this.concepts.setAll(concepts);
     }
 
+    public void setSelectedConcept(String concept) {
+        if (this.concepts.contains(concept)) {
+            conceptPaneController.getConceptComboBox()
+                .getSelectionModel().select(concept);
+        }
+    }
+
     public EventBus getEventBus() {
         return eventBus;
     }
@@ -127,4 +134,6 @@ public class AnnotationPaneController {
     public AnnotationColors getAnnotationColors() {
         return annotationColorPaneController.getAnnotationColors();
     }
+
+    
 }

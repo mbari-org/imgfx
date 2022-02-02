@@ -89,4 +89,8 @@ public class ConceptPaneController {
     public HBox getPane() {
         return pane;
     }
+
+    public ComboBox<String> getConceptComboBox() {
+        return conceptComboBox;
+    }
 }
