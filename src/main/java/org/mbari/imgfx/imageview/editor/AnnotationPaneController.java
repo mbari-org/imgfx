@@ -13,7 +13,8 @@ import org.mbari.imgfx.etc.javafx.controls.CrossHairs;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.etc.rx.events.AddLocalizationEvent;
 import org.mbari.imgfx.imageview.ImagePaneController;
-
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class AnnotationPaneController {
     private final EventBus eventBus;
     private final Localizations localizations;
     private ObservableList<String> concepts = FXCollections.observableArrayList();
+    private static final Logger log = System.getLogger(AutoscalePaneController.class.getName());
 
 
 
@@ -78,8 +80,6 @@ public class AnnotationPaneController {
                 .subscribe(event -> {
                     localizations.setSelectedLocalizations(Collections.emptyList());
                     var loc = event.localization();
-//                    loc.setLabel(LocalTime.now().toString());
-                    // loc.getDataView().setColor(annotationColorController.getAnnotationColors().getDefaultColor());
                     loc.setVisible(true);
                     localizations.setSelectedLocalizations(List.of(loc));
                 });
@@ -91,6 +91,7 @@ public class AnnotationPaneController {
     }
 
     public void resetUsingImage(Image image) {
+        log.log(Level.DEBUG, () -> String.format("resetUsingImage(%s)", image.getUrl()));
         localizations.getLocalizations()
                 .forEach(loc -> loc.setVisible(false));
         localizations.getSelectedLocalizations().clear();
@@ -121,5 +122,9 @@ public class AnnotationPaneController {
 
     public EventBus getEventBus() {
         return eventBus;
+    }
+
+    public AnnotationColors getAnnotationColors() {
+        return annotationColorPaneController.getAnnotationColors();
     }
 }
