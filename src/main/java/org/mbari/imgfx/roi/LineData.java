@@ -85,4 +85,12 @@ public class LineData implements Data {
                         clippedLine.getEndX(),
                         clippedLine.getEndY()));
     }
+
+    @Override
+    public String toString() {
+        return "LineData[endX=" + endX.get() + ", endY=" + endY.get() 
+                + ", startX=" + startX.get() + ", startY=" + startY.get() + "]";
+    }
+
+    
 }

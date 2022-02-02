@@ -79,7 +79,7 @@ public class AnnotationPaneController {
                     localizations.setSelectedLocalizations(Collections.emptyList());
                     var loc = event.localization();
 //                    loc.setLabel(LocalTime.now().toString());
-//                    loc.getDataView().setColor(annotationColorController.getAnnotationColors().getDefaultColor());
+                    // loc.getDataView().setColor(annotationColorController.getAnnotationColors().getDefaultColor());
                     loc.setVisible(true);
                     localizations.setSelectedLocalizations(List.of(loc));
                 });

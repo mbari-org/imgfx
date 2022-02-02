@@ -42,4 +42,11 @@ public class PolygonData implements Data {
                             return new PolygonData(clippedPoints);
                         });
     }
+
+    @Override
+    public String toString() {
+        return "PolygonData[points=(" + points.size() + " points)]";
+    }
+
+    
 }

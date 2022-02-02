@@ -132,4 +132,12 @@ public class Localization<C extends DataView<? extends Data, ? extends Shape>, V
     public void setVisible(boolean visible) {
         this.visible.set(visible);
     }
+
+    @Override
+    public String toString() {
+        return "Localization[uuid=" + uuid + ", dataView=" + dataView 
+                + ", label=" + label + ", visible=" + visible + "]";
+    }
+
+    
 }

@@ -180,4 +180,11 @@ public class LineView implements DataView<LineData, Line> {
         var imageEnd = autoscale.parentToUnscaled(sceneEnd);
         return fromImageCoords(imageStart.getX(), imageStart.getY(), imageEnd.getX(), imageEnd.getY(), autoscale);
     }
+
+    @Override
+    public String toString() {
+        return "LineView[data=" + data + ", editing=" + editing.get() + "]";
+    }
+
+    
 }

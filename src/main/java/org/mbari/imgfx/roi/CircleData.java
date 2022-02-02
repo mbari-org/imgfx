@@ -2,7 +2,6 @@ package org.mbari.imgfx.roi;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.image.Image;
 import org.mbari.imgfx.Autoscale;
 
 import java.util.Optional;
@@ -65,5 +64,13 @@ public class CircleData implements Data {
         }
         return Optional.empty();
     }
+
+    @Override
+    public String toString() {
+        return "CircleData[centerX=" + centerX.get() + ", centerY=" + centerY.get() + ", radius=" + radius.get()
+                + "]";
+    }
+
+    
 
 }

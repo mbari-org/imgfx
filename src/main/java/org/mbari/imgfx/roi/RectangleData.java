@@ -111,4 +111,12 @@ public class RectangleData implements Data {
         var data = new RectangleData(xx, yy, ww, hh);
         return Optional.of(data);
     }
+
+    @Override
+    public String toString() {
+        return "RectangleData[x=" + x.get() + ", y=" + y.get() 
+                + ", width=" + width.get() + ", height=" + height.get() + "]";
+    }
+
+    
 }

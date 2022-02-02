@@ -176,4 +176,11 @@ public class MarkerView implements DataView<CircleData, Polyline> {
         var imageRadius = radius / autoscale.getScaleX();
         return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, autoscale);
     }
+
+    @Override
+    public String toString() {
+        return "MarkerView[data=" + data + ", editing=" + editing.get() + "]";
+    }
+
+    
 }

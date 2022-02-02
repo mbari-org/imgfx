@@ -156,4 +156,11 @@ public class RectangleView implements DataView<RectangleData, Rectangle> {
         var imageHeight = height / autoscale.getScaleX();
         return fromImageCoords(imageXY.getX(), imageXY.getY(), imageWidth, imageHeight, autoscale);
     }
+
+    @Override
+    public String toString() {
+        return "RectangleView[data=" + data + ", editing=" + editing.get() + "]";
+    }
+
+    
 }

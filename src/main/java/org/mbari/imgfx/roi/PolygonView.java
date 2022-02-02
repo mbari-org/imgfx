@@ -152,4 +152,12 @@ public class PolygonView implements DataView<PolygonData, Polygon> {
                 .collect(Collectors.toList());
         return fromImageCoords(imagePoints, decorator);
     }
+
+    @Override
+    public String toString() {
+        return "PolygonView[data=" + data + ", editing=" + editing.get() + "]";
+    }
+
+    
 }
+

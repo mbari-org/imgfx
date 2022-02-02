@@ -142,4 +142,11 @@ public class CircleView implements DataView<CircleData, Circle> {
         return fromImageCoords(imageXY.getX(), imageXY.getY(), imageRadius, autoscale);
     }
 
+    @Override
+    public String toString() {
+        return "CircleView[data=" + data + ", editing=" + editing.get() + "]";
+    }
+
+    
+
 }
