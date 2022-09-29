@@ -25,7 +25,7 @@ public class App extends Application {
         var concepts = loadDefaultConcepts();
         paneController.setConcepts(concepts);
 
-        var imageUrl = getClass().getResource("/earth.jpg");
+        var imageUrl = getClass().getResource("/20220828T160015Z--2efffc23-efd3-4fe7-af45-ce2076bb33ca.png");
         var image = new Image(imageUrl.toExternalForm());
         paneController.getAutoscalePaneController()
                 .getView()
