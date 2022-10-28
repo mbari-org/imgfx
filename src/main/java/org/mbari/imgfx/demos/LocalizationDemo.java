@@ -33,7 +33,8 @@ public class LocalizationDemo extends Application {
         CircleView.fromImageCoords(100D, 100D, 6D, decorator)
                 .ifPresent(view -> {
                     view.getView().fillProperty().bind(fill);
-                    new Localization<>(view, controller, "Circle");
+                    var loc = new Localization<>(view, controller, "Circle");
+                    loc.setVisible(true);
                 });
 
         LineView.fromImageCoords(10D, 250D, 400D, -10D, decorator)
@@ -41,14 +42,16 @@ public class LocalizationDemo extends Application {
                     view.getView().fillProperty().bind(fill);
                     view.getView().strokeProperty().bind(fill);
                     view.getView().setStrokeWidth(3);
-                    new Localization<>(view, controller, "Line");
+                    var loc = new Localization<>(view, controller, "Line");
+                    loc.setVisible(true);
                 });
 
         MarkerView.fromImageCoords(400D, 100D, 6D, decorator)
                 .ifPresent(view -> {
                     view.getView().strokeProperty().bind(fill);
                     view.getView().setStrokeWidth(3);
-                    new Localization<>(view, controller, "Marker");
+                    var loc = new Localization<>(view, controller, "Marker");
+                    loc.setVisible(true);
                 });
 
         PolygonView.fromImageCoords(List.of(
@@ -61,13 +64,15 @@ public class LocalizationDemo extends Application {
                 ), decorator)
                 .ifPresent(view -> {
                     view.getView().fillProperty().bind(fill);
-                    new Localization<>(view, controller, "Polygon");
+                    var loc = new Localization<>(view, controller, "Polygon");
+                    loc.setVisible(true);
                 });
 
         RectangleView.fromImageCoords(200D, 200D, 100D, 50D, decorator)
                 .ifPresent(view -> {
                     view.getView().fillProperty().bind(fill);
-                    new Localization<>(view, controller, "Rectangle");
+                    var loc = new Localization<>(view, controller, "Rectangle");
+                    loc.setVisible(true);
                 });
 
 
