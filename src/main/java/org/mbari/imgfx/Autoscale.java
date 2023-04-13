@@ -6,6 +6,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 
+/**
+ * Base class used to automatically rescale nodes based on changes to their parent node's size.
+ * @param <T> The type of Node that the autoscale watches for size changes
+ */
 public abstract class Autoscale<T extends Node> {
 
     protected final T view;
