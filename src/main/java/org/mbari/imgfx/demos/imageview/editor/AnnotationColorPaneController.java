@@ -1,4 +1,4 @@
-package org.mbari.imgfx.imageview.editor;
+package org.mbari.imgfx.demos.imageview.editor;
 
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;

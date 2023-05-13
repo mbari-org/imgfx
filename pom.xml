@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mbari</groupId>
     <artifactId>imgfx</artifactId>
-    <version>0.0.13</version>
+    <version>0.0.14</version>
 
     <name>imgfx</name>
     <description>JavaFX Image annotation controls</description>
@@ -75,7 +75,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.mbari.imgfx.imageview.editor.App</mainClass>
+                            <mainClass>org.mbari.imgfx.demos.imageview.editor.App</mainClass>
                         </configuration>
                     </execution>
                 </executions>

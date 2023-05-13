@@ -1,4 +1,4 @@
-package org.mbari.imgfx.imageview.editor;
+package org.mbari.imgfx.demos.imageview.editor;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

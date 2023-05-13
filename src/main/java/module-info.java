@@ -25,5 +25,5 @@ module org.mbari.imgfx {
   exports org.mbari.imgfx.mediaview;
   exports org.mbari.imgfx.imageview;
   exports org.mbari.imgfx.util;
-  exports org.mbari.imgfx.imageview.editor;
+  exports org.mbari.imgfx.demos.imageview.editor;
 }

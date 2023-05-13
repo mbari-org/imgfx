@@ -9,4 +9,11 @@ import org.mbari.imgfx.roi.DataView;
 public interface AddLocalizationEvent<T extends DataView<? extends Data, ? extends Shape>, V extends Node> extends Event {
 
     Localization<T, V> localization();
+
+    /**
+     *
+     * @return true if a new created localization. False if
+     * the localization was loaded from a data store.
+     */
+    boolean isNew();
 }

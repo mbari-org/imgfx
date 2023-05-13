@@ -1,4 +1,4 @@
-package org.mbari.imgfx.imageview.editor;
+package org.mbari.imgfx.demos.imageview.editor;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -7,11 +7,9 @@ import javafx.stage.Stage;
 import org.mbari.imgfx.etc.rx.EventBus;
 import org.mbari.imgfx.etc.rx.events.Event;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class App extends Application {
