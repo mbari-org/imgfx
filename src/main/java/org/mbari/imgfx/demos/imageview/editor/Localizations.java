@@ -7,6 +7,7 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.Node;
+import javafx.scene.shape.Shape;
 import org.mbari.imgfx.etc.rx.events.*;
 import org.mbari.imgfx.roi.Localization;
 import org.mbari.imgfx.etc.rx.EventBus;
@@ -19,9 +20,9 @@ import java.util.List;
 
 public class Localizations {
 
-    private ObservableList<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> localizations = FXCollections.observableArrayList();
-    private ObservableList<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> selectedLocalizations = FXCollections.observableArrayList();
-    private ObjectProperty<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> editedLocalization = new SimpleObjectProperty<>();
+    private ObservableList<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> localizations = FXCollections.observableArrayList();
+    private ObservableList<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> selectedLocalizations = FXCollections.observableArrayList();
+    private ObjectProperty<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> editedLocalization = new SimpleObjectProperty<>();
     private ObservableMap<Object, Boolean> visibleDataViewTypes =  FXCollections.observableHashMap();
 
     public Localizations(EventBus eventBus) {
@@ -91,33 +92,33 @@ public class Localizations {
                 .subscribe(hide -> setVisibility(hide.dataViewType(), false));
     }
 
-    public ObservableList<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> getLocalizations() {
+    public ObservableList<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> getLocalizations() {
         return localizations;
     }
 
-    public void setLocalizations(List<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> localizations) {
+    public void setLocalizations(List<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> localizations) {
         this.localizations.setAll(localizations);
     }
 
-    public ObservableList<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> getSelectedLocalizations() {
+    public ObservableList<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> getSelectedLocalizations() {
         return selectedLocalizations;
     }
 
-    public void setSelectedLocalizations(List<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> selectedLocalizations) {
+    public void setSelectedLocalizations(List<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> selectedLocalizations) {
         // Get intersection with current annotations.
         var existingAnnotations = ListUtils.intersection(localizations, selectedLocalizations);
         this.selectedLocalizations.setAll(existingAnnotations);
     }
 
-    public Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node> getEditedLocalization() {
+    public Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node> getEditedLocalization() {
         return editedLocalization.get();
     }
 
-    public ObjectProperty<Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node>> editedLocalizationProperty() {
+    public ObjectProperty<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> editedLocalizationProperty() {
         return editedLocalization;
     }
 
-    public void setEditedLocalization(Localization<? extends DataView<? extends Data, ? extends Node>, ? extends Node> editedLocalization) {
+    public void setEditedLocalization(Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node> editedLocalization) {
         this.editedLocalization.set(editedLocalization);
     }
 

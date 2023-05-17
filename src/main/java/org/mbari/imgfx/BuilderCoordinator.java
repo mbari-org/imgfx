@@ -16,10 +16,10 @@ public class BuilderCoordinator {
 
 //    private final EventBus eventBus;
     private final List<Localization<? extends DataView<? extends Data, ? extends Shape>, ? extends Node>> localizations = new CopyOnWriteArrayList<>();
-    private final List<Builder> builders = new CopyOnWriteArrayList<>();
+    private final List<Builder<?>> builders = new CopyOnWriteArrayList<>();
     private final ObjectProperty<DataView<? extends Data, ? extends Shape>> currentlyEdited =
             new SimpleObjectProperty<>();
-    private final ObjectProperty<Builder> currentBuilder = new SimpleObjectProperty<>();
+    private final ObjectProperty<Builder<?>> currentBuilder = new SimpleObjectProperty<>();
     private static final System.Logger log = System.getLogger(BuilderCoordinator.class.getName());
 
 
@@ -97,15 +97,15 @@ public class BuilderCoordinator {
         builders.add(builder);
     }
 
-    public Builder getCurrentBuilder() {
+    public Builder<?> getCurrentBuilder() {
         return currentBuilder.get();
     }
 
-    public ObjectProperty<Builder> currentBuilderProperty() {
+    public ObjectProperty<Builder<?>> currentBuilderProperty() {
         return currentBuilder;
     }
 
-    public void setCurrentBuilder(Builder currentBuilder) {
+    public void setCurrentBuilder(Builder<?> currentBuilder) {
         this.currentBuilder.set(currentBuilder);
     }
 
