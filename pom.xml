@@ -1,22 +1,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.mbari</groupId>
+    <groupId>org.mbari.imgfx</groupId>
     <artifactId>imgfx</artifactId>
-    <version>0.0.15</version>
+    <version>0.0.16</version>
 
     <name>imgfx</name>
     <description>JavaFX Image annotation controls</description>
-    <url></url>
+    <url>https://github.com/mbari-org/imgfx</url>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Brian Schlining</name>
+            <email>brian@mbari.org</email>
+            <organization>MBARI</organization>
+            <organizationUrl>https://www.mbari.org</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:mbari-org/imgfx.git</connection>
+        <developerConnection>scm:git:ssh://github.com:mbari-org/imgfx.git</developerConnection>
+        <url>https://github.com/mbari-org/imgfx/tree/main</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <ikonli.version>12.3.1</ikonli.version>
-        <javafx.version>20</javafx.version>
-        <rxjava.version>3.1.6</rxjava.version>
-        <slf4j.version>2.0.7</slf4j.version>
+        <javafx.version>23-ea+22</javafx.version>
+        <rxjava.version>3.1.8</rxjava.version>
     </properties>
     <dependencies>
         <dependency>
@@ -28,11 +47,6 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
             <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>io.reactivex.rxjava3</groupId>
@@ -57,13 +71,86 @@
     </dependencies>
     <build>
         <plugins>
+            <!-- Filter resources using UTF-8 -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <!-- Default configuration for all reports -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            <!-- Specific configuration for the aggregate report -->
+                            <!-- ... -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Use Java 8.0 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <release>17</release>
+<!--                    <source>${java.version}</source>-->
+<!--                    <target>${java.version}</target>-->
+                    <release>${java.version}</release>
                 </configuration>
+            </plugin>
+            <!-- Create source and javadoc jars when deploying -->
+            <plugin>
+                <!--                <groupId>org.apache.maven.plugins</groupId>-->
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -91,20 +178,38 @@
                 <version>3.1.2</version>
               </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+            </extension>
+        </extensions>
     </build>
     <reporting>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.3.1</version>
-            <configuration>
-              
-            </configuration>
-          </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <configuration>
+                    <tags>
+                        <tag>TODO</tag>
+                        <tag>RxINC</tag>
+                        <tag>@todo</tag>
+                        <tag>FIXME</tag>
+                        <tag>XXX</tag>
+                    </tags>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
         </plugins>
-        
-      </reporting>
+    </reporting>
     <repositories>
 
         <repository>
@@ -118,9 +223,27 @@
     
     </repositories>
     <distributionManagement>
+        <!-- <repository>
+            <id>bintray</id>
+        <url>https://api.bintray.com/maven/org-mbari/maven/vcr4j/;publish=1</url>
+        </repository> -->
+        <!--        <repository>-->
+        <!--            <id>github</id>-->
+        <!--            <url>https://maven.pkg.github.com/mbari-org/maven</url>-->
+        <!--        </repository>-->
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-          <id>github</id>
-          <url>https://maven.pkg.github.com/mbari-org/maven</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-      </distributionManagement>
+    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--          <id>github</id>-->
+<!--          <url>https://maven.pkg.github.com/mbari-org/maven</url>-->
+<!--        </repository>-->
+<!--      </distributionManagement>-->
 </project>
