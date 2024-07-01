@@ -161,7 +161,7 @@ public class FilteredComboBoxDecorator<T>  {
     /**
      *
      * @version        $version$, 2017.06.28 at 01:56:24 PDT
-     * @author         Brian Schlining <brian@mbari.org>
+     * @author         Brian Schlining
      */
     public interface AutoCompleteComparator<T> {
         boolean matches(String typedText, T objectToCompare);

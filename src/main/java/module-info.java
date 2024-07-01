@@ -6,6 +6,7 @@ module org.mbari.imgfx {
   requires java.desktop;
   requires java.instrument;
   requires java.rmi;
+  requires java.prefs;
 
   // 3rd party module
   requires io.reactivex.rxjava3;
@@ -13,7 +14,7 @@ module org.mbari.imgfx {
   requires transitive org.kordamp.ikonli.bootstrapicons;
   requires org.kordamp.ikonli.core;
   requires org.kordamp.ikonli.javafx;
-  requires java.prefs;
+
 
   exports org.mbari.imgfx;
   exports org.mbari.imgfx.demos;
