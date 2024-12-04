@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mbari.imgfx</groupId>
     <artifactId>imgfx</artifactId>
-    <version>0.0.16</version>
+    <version>0.0.17</version>
 
-    <name>imgfx</name>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>JavaFX Image annotation controls</description>
     <url>https://github.com/mbari-org/imgfx</url>
     <licenses>
@@ -30,12 +31,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>21</java.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
         <ikonli.version>12.3.1</ikonli.version>
-        <javafx.version>23-ea+22</javafx.version>
-        <rxjava.version>3.1.8</rxjava.version>
+        <javafx.version>23.0.1</javafx.version>
+        <rxjava.version>3.1.10</rxjava.version>
     </properties>
     <dependencies>
         <dependency>
@@ -70,27 +69,120 @@
         </dependency>
     </dependencies>
     <build>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be
+            moved to
+      parent pom) -->
+            <plugins>
+                <!-- clean lifecycle, see
+        https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+                <!-- default lifecycle, jar packaging: see
+                https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <!-- site lifecycle, see
+        https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.12.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.6.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.11.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.2.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.6.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>0.0.8</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
-            <!-- Filter resources using UTF-8 -->
+
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running -->
+                        <!-- Usage: mvn clean javafx:run -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>org.mbari.imgfx.demos.imageview.editor.App</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <extensions>true</extensions>
                 <configuration>
-                    <encoding>UTF-8</encoding>
+                    <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>
+
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.1</version>
                 <configuration>
                     <useReleaseProfile>false</useReleaseProfile>
                     <releaseProfiles>release</releaseProfiles>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.1</version>
                 <configuration>
                     <!-- Default configuration for all reports -->
                 </configuration>
@@ -109,25 +201,12 @@
                         <phase>site</phase>
                         <configuration>
                             <!-- Specific configuration for the aggregate report -->
-                            <!-- ... -->
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- Use Java 8.0 -->
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-<!--                    <source>${java.version}</source>-->
-<!--                    <target>${java.version}</target>-->
-                    <release>${java.version}</release>
-                </configuration>
-            </plugin>
-            <!-- Create source and javadoc jars when deploying -->
-            <plugin>
-                <!--                <groupId>org.apache.maven.plugins</groupId>-->
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
@@ -138,10 +217,10 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -152,98 +231,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <executions>
-                    <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>org.mbari.imgfx.demos.imageview.editor.App</mainClass>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.10.0</version>
-              </plugin>
-              <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.1.2</version>
-              </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav</artifactId>
-            </extension>
-        </extensions>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>taglist-maven-plugin</artifactId>
-                <configuration>
-                    <tags>
-                        <tag>TODO</tag>
-                        <tag>RxINC</tag>
-                        <tag>@todo</tag>
-                        <tag>FIXME</tag>
-                        <tag>XXX</tag>
-                    </tags>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </reporting>
-    <repositories>
-
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>github</id>
-            <name>github</name>
-            <url>https://maven.pkg.github.com/mbari-org/maven</url>
-        </repository>
-    
-    </repositories>
-    <distributionManagement>
-        <!-- <repository>
-            <id>bintray</id>
-        <url>https://api.bintray.com/maven/org-mbari/maven/vcr4j/;publish=1</url>
-        </repository> -->
-        <!--        <repository>-->
-        <!--            <id>github</id>-->
-        <!--            <url>https://maven.pkg.github.com/mbari-org/maven</url>-->
-        <!--        </repository>-->
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--          <id>github</id>-->
-<!--          <url>https://maven.pkg.github.com/mbari-org/maven</url>-->
-<!--        </repository>-->
-<!--      </distributionManagement>-->
 </project>
