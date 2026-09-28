@@ -47,7 +47,7 @@ public class PolygonBuilder implements ColoredBuilder<PolygonView> {
     private Double currentX;
     private Double currentY;
     private boolean isBuilding = false;
-    private EventHandler<MouseEvent> clickedEvent = (event) -> {
+    private final EventHandler<MouseEvent> clickedEvent = (event) -> {
         if (!isDisabled()) {
             if (!isBuilding) {
                 startPolygon(event.getX(), event.getY());

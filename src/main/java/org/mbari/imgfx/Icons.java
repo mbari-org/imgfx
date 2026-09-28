@@ -43,7 +43,7 @@ public enum Icons {
     SLASH(BootstrapIcons.SLASH),
     TRIP_ORIGIN(Material2MZ.TRIP_ORIGIN); // bolder circle
 
-    private Ikon ikon;
+    private final Ikon ikon;
 
     Icons(Ikon ikon) {
         this.ikon = ikon;

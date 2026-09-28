@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mbari.imgfx</groupId>
     <artifactId>imgfx</artifactId>
-    <version>0.0.17</version>
+    <version>0.0.18</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>JavaFX Image annotation controls</description>
@@ -52,10 +52,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>21</maven.compiler.release>
-        <ikonli.version>12.3.1</ikonli.version>
-        <javafx.version>23.0.1</javafx.version>
-        <rxjava.version>3.1.10</rxjava.version>
+        <maven.compiler.release>27</maven.compiler.release>
+        <ikonli.version>12.4.0</ikonli.version>
+        <javafx.version>27</javafx.version>
+        <rxjava.version>3.1.12</rxjava.version>
     </properties>
     <dependencies>
         <dependency>

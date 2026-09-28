@@ -15,6 +15,7 @@
  */
 package org.mbari.imgfx.util;
 
+import java.net.URI;
 import java.net.URL;
 import java.util.Optional;
 
@@ -56,7 +57,7 @@ public class StringUtils {
 
     public static Optional<URL> asUrl(final String s) {
         try {
-            return Optional.of(new URL(s));
+            return Optional.of(URI.create(s).toURL());
         }
         catch (Exception e) {
             return Optional.empty();

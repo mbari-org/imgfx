@@ -44,7 +44,7 @@ public class CircleBuilder implements Builder<CircleView> {
                             // image resize
                             view.getData().setRadius(radius);
                             var loc = new Localization<>(view, paneController);
-                            eventBus.publish(new AddCircleEvent(loc));
+                            eventBus.publish(new AddCircleEvent<>(loc));
                         });
             }
         });
