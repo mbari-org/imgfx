@@ -18,6 +18,7 @@ package org.mbari.imgfx.roi;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;
@@ -26,8 +27,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import org.mbari.imgfx.AutoscalePaneController;
-import org.mbari.imgfx.roi.Data;
-import org.mbari.imgfx.roi.DataView;
 
 import java.util.UUID;
 
@@ -44,6 +43,11 @@ public class Localization<C extends DataView<? extends Data, ? extends Shape>, V
     private final AutoscalePaneController<V> paneController;
     private final Text labelView = new Text();
     private final BooleanProperty visible = new SimpleBooleanProperty();
+
+    /**
+     * A reference to an external object associated with this localization.
+     */
+    private SimpleObjectProperty<Object> reference = new SimpleObjectProperty<>();
 
     public Localization(C dataView, AutoscalePaneController<V> paneController) {
         this(dataView, paneController, UUID.randomUUID());
@@ -146,6 +150,18 @@ public class Localization<C extends DataView<? extends Data, ? extends Shape>, V
 
     public void setVisible(boolean visible) {
         this.visible.set(visible);
+    }
+
+    public SimpleObjectProperty<Object> referenceProperty() {
+        return reference;
+    }
+
+    public Object getReference() {
+        return reference.get();
+    }
+
+    public void setReference(Object reference) {
+        this.reference.set(reference);
     }
 
     @Override

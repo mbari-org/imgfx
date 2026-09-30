@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mbari.imgfx</groupId>
     <artifactId>imgfx</artifactId>
-    <version>0.0.19</version>
+    <version>0.0.20</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>JavaFX Image annotation controls</description>
